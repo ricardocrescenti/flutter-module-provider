@@ -1,5 +1,3 @@
-import 'package:useful_classes/useful_classes.dart';
-
 import '../module_provider.dart';
 
 /// Class for manage instances in module
@@ -9,7 +7,7 @@ class InjectManager<T extends Disposable> extends Disposable {
 
   List<T> _instances = [];
 
-  T getInstance<P extends T>(Module module, List<dynamic> args, List<Inject<T>> constructors) {
+  T getInstance<P extends T>(Module module, List<dynamic> args, List<Inject<T>> constructors, {T Function() nullInstance}) {
     T instance;
 
     _instances.forEach((item) {
@@ -18,7 +16,7 @@ class InjectManager<T extends Disposable> extends Disposable {
       }
     });
 
-    if (instance == null) {
+    if (instance == null && constructors != null && constructors.length > 0) {
       Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args)); 
       if (inject != null) {
         instance = inject.constructor(module, args);
@@ -31,6 +29,10 @@ class InjectManager<T extends Disposable> extends Disposable {
           _instances.add(instance);
         }
       }
+    }
+
+    if (instance == null && nullInstance != null) {
+      instance = nullInstance();
     }
 
     if (instance == null) {

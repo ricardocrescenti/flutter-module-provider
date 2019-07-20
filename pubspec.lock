@@ -75,12 +75,12 @@ packages:
     source: hosted
     version: "2.0.3"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.21.0"
+    version: "0.22.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -135,13 +135,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  useful_classes:
-    dependency: "direct main"
-    description:
-      path: "D:\\Projetos\\CrescentiApps\\Flutter-Packages\\flutter-useful-classes"
-      relative: false
-    source: path
-    version: "0.0.3"
   vector_math:
     dependency: transitive
     description:

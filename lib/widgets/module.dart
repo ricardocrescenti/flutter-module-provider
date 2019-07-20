@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:useful_classes/useful_classes.dart';
-
-import '../classes/inject_manager.dart';
-import '../module_provider.dart';
+import 'package:module_provider/classes/inject_manager.dart';
+import 'package:module_provider/module_provider.dart';
 
 /// Widget for implement modules in your app
 abstract class Module extends StatefulWidget with Disposable {
@@ -10,11 +8,13 @@ abstract class Module extends StatefulWidget with Disposable {
 
   final InjectManager<Service> _servicessInstances = InjectManager<Service>();
   List<Inject<Service>> get services => []; 
-  T service<T extends Service>({dynamic arg}) => _servicessInstances.getInstance<T>(this, arg, services);
+  T service<T extends Service>({dynamic arg}) => _servicessInstances.getInstance<T>(this, arg, services, 
+    nullInstance: (parentModule != null ? () => parentModule.service<T>(): null));
 
   final InjectManager<Module> _modulesInstances = InjectManager<Module>();
   List<Inject<Module>> get modules => [];
-  T module<T extends Module>({dynamic arg}) => _modulesInstances.getInstance<T>(this, arg, modules);
+  T module<T extends Module>({dynamic arg}) => _modulesInstances.getInstance<T>(this, arg, modules, 
+    nullInstance: (parentModule != null ? () => parentModule.module<T>(): null));
 
   final InjectManager<Component> _componentsInstances = InjectManager<Component>();
   List<Inject<Component>> get components => [];

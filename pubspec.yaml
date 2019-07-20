@@ -1,8 +1,8 @@
 name: module_provider
 description: A new Flutter package project.
-version: 0.0.2
-author: Ricardo Crescenti
-homepage:
+version: 0.0.1
+author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
+homepage: https://github.com/ricardocrescenti
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,9 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
-  useful_classes: 
-    path: 'D:\Projetos\CrescentiApps\Flutter-Packages\flutter-useful-classes'
+  rxdart: ^0.22.0
 
 dev_dependencies:
   flutter_test:
