@@ -1,4 +1,4 @@
-import 'package:module_provider/module_provider.dart';
+import 'package:useful_classes/useful_classes.dart';
 
 /// Class for create components controllers
 abstract class Controller with Disposable {

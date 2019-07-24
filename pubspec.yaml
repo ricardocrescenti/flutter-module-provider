@@ -1,6 +1,6 @@
 name: module_provider
-description: A new Flutter package project.
-version: 0.0.1
+description: Package to facilitate the creation of applications in modules structure
+version: 0.0.3
 author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
 homepage: https://github.com/ricardocrescenti
 
@@ -10,11 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.22.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  useful_classes: 0.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

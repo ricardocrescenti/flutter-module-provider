@@ -1,3 +1,5 @@
+import 'package:useful_classes/useful_classes.dart';
+
 import '../module_provider.dart';
 
 /// Class for create services providers in module
