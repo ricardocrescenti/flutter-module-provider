@@ -19,7 +19,7 @@ class InjectManager<T extends Disposable> extends Disposable {
     });
 
     if (instance == null && constructors != null && constructors.length > 0) {
-      Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args)); 
+      Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args), orElse: () => null); 
       if (inject != null) {
         instance = inject.constructor(module, args);
         print('++++++++++ Created instance $instance from $module.');

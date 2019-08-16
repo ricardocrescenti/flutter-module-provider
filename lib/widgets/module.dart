@@ -10,16 +10,17 @@ abstract class Module extends StatefulWidget with Disposable {
   final InjectManager<Service> _servicessInstances = InjectManager<Service>();
   List<Inject<Service>> get services => []; 
   T service<T extends Service>({dynamic arg}) => _servicessInstances.getInstance<T>(this, arg, services, 
-    nullInstance: (parentModule != null ? () => parentModule.service<T>(): null));
+    nullInstance: (parentModule != null ? () => parentModule.service<T>(arg: arg): null));
 
   final InjectManager<Module> _modulesInstances = InjectManager<Module>();
   List<Inject<Module>> get modules => [];
   T module<T extends Module>({dynamic arg}) => _modulesInstances.getInstance<T>(this, arg, modules, 
-    nullInstance: (parentModule != null ? () => parentModule.module<T>(): null));
+    nullInstance: (parentModule != null ? () => parentModule.module<T>(arg: arg): null));
 
   final InjectManager<Component> _componentsInstances = InjectManager<Component>(standalone: false);
   List<Inject<Component>> get components => [];
-  T component<T extends Component>({dynamic arg}) => _componentsInstances.getInstance<T>(this, arg, components);
+  T component<T extends Component>({dynamic arg}) => _componentsInstances.getInstance<T>(this, arg, components,
+    nullInstance: (parentModule != null ? () => parentModule.component<T>(arg: arg): null));
 
   Widget build(BuildContext context);
 

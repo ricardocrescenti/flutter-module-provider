@@ -1,6 +1,6 @@
 name: module_provider
 description: Package to facilitate the creation of applications in modules structure
-version: 0.0.3
+version: 0.0.4
 author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
 homepage: https://github.com/ricardocrescenti
 
