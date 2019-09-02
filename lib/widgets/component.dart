@@ -40,7 +40,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     if (controller != null) {
       controller.dispose();
     }
-    print('dispose $this.');
+    widget.dispose();
     super.dispose();
   }
 }
