@@ -22,24 +22,18 @@ abstract class Module extends StatefulWidget with Disposable {
   T component<T extends Component>({dynamic arg}) => _componentsInstances.getInstance<T>(this, arg, components,
     nullInstance: (parentModule != null ? () => parentModule.component<T>(arg: arg): null));
 
-  Widget build(BuildContext context);
+  Module(this.parentModule);
 
-  Module(this.parentModule) {
-    print('>>>>>>>>>> $this.constructor StatefulWidget (parent: $parentModule)');
-  }
+  Widget build(BuildContext context);
 
   @override
   State<StatefulWidget> createState() {
-    print('>>>>>>>>>> Module $this Registred');
-
     _modules.putIfAbsent(this.runtimeType, () => this);
-
     return _Module();
   }
 
   @override
   dispose() {
-    print('>>>>>>>>>> $this.dispose');
     _componentsInstances.dispose();
     _modulesInstances.dispose();
     _servicessInstances..dispose();
@@ -65,15 +59,10 @@ abstract class Module extends StatefulWidget with Disposable {
 class _Module extends State<Module> {
   Widget createdWidget;
 
-  _Module() {
-    print('>>>>>>>>>> $widget.constructor State');
-  }
-
   @override
   Widget build(BuildContext context) {
     if (createdWidget == null) {
       createdWidget = widget.build(context);
-      print('>>>>>>>>>> $widget.build created widget');
     }
     return createdWidget;
   }

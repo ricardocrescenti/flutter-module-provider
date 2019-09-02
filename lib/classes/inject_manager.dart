@@ -22,10 +22,8 @@ class InjectManager<T extends Disposable> extends Disposable {
       Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args), orElse: () => null); 
       if (inject != null) {
         instance = inject.constructor(module, args);
-        print('++++++++++ Created instance $instance from $module.');
         if (standalone) {
           instance.onDispose.listen((_) {
-            print('---------- Removing instance $instance from $module.');
             _instances.remove(instance);
           });
           _instances.add(instance);

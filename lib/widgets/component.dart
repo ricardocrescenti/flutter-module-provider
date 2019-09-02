@@ -13,12 +13,6 @@ abstract class Component<T extends Controller> extends StatefulWidget with Dispo
 
   @override
   State<StatefulWidget> createState() => _ComponentWidget<T>();
-
-  @override
-  dispose() {
-    print('>>>>>>>>>> $this.dispose (widget)');
-    super.dispose();
-  }
 }
 
 class _ComponentWidget<T extends Controller> extends State<Component> {
@@ -38,13 +32,15 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     if (controller == null && initController != null) {
       controller = initController(module);
     }
-
     return widget.build(context, controller);
   }
 
   @override
   void dispose() {
-    print('>>>>>>>>>> $this.dispose (state)');
+    if (controller != null) {
+      controller.dispose();
+    }
+    print('dispose $this.');
     super.dispose();
   }
 }
