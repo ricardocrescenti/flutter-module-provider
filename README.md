@@ -23,7 +23,7 @@ import 'app_module.dart';
 
 void main() {
 	runApp(MaterialApp(
-		title: 'Saloon',
+		title: 'Module Provider',
 		theme: ThemeData(primarySwatch: Colors.blue,),
 		home: AppModule()
 	));
@@ -54,9 +54,7 @@ class AppModule extends Module {
 		Inject((m, arg) => SplashScreenPage(m)),
 	];
 
-	AppModule() : super(null) {
-		service<AuthService>();
-	}
+	AppModule() : super(null);
 
 	@override
   	Widget build(BuildContext context) => component<MainPage>();
