@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Added dependency of [userfil_classes](https://pub.dev/packages/useful_classes)
+
+## 0.0.4
+
+* Added stream subscription control in controller, fixed bugs and made other improvements

@@ -60,3 +60,45 @@ class AppModule extends Module {
   	Widget build(BuildContext context) => component<MainPage>();
 }
 ```
+
+# State Storage Classes
+
+## ValueModel
+
+Simple class to notify listeners when value is changed, you can modify value setting property 'value' or calling method 'updateValue'.
+
+```dart
+final ValueModel<String> description = ValueModel<String>(initialValue: 'Initial Description');
+description.value = 'Another Description';
+description.updateValue('Another Description');
+```
+
+## ValuesModel
+
+Controlling multiple "ValueModel"
+
+```dart
+final ValuesModel packageInfo = ValuesModel({
+    'name': ValueModel<String>(null),
+    'version': ValueModel<String>(null),
+});
+packageInfo.updateValues({
+    'name': 'useful_classes',
+    'version': '0.0.1'
+});
+```
+
+## ValueConsumer
+
+Simple class to make easy to consume and receive changes notification from ValueNotifier
+
+```dart
+final ValueModel<String> description = ValueModel<String>(null);
+description.value = 'Another Description';
+
+ValueConsumer<String>(
+    value: description,
+    builder: (context, value) => Text(value)
+);
+```
+
