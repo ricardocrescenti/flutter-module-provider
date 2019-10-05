@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "0.22.2"
   scoped_model:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: scoped_model
       url: "https://pub.dartlang.org"
