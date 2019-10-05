@@ -13,3 +13,7 @@
 ## 0.0.4
 
 * Added stream subscription control in controller, fixed bugs and made other improvements
+
+## 0.0.5
+
+* Added ValueProvider, ValuesProvider, ListProvider, ValueConsumer and ListConsumer
