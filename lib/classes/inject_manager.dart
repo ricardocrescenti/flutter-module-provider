@@ -1,8 +1,8 @@
-import 'package:module_provider/classes/disposable.dart';
+import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Class for manage instances in module
-class InjectManager<T extends Disposable> extends Disposable {
+class InjectManager<T extends OnDispose> {
   final bool standalone;
   InjectManager({this.standalone = true});
 
@@ -41,12 +41,11 @@ class InjectManager<T extends Disposable> extends Disposable {
     return instance;
   }
 
-  @override
-  dispose() {
+  dispose(Function (T instance) instanceDispose) {
     _instances.forEach((instance) {
-      instance.dispose();
+      instanceDispose(instance);
+      instance.notifyDispose();
     });
     _instances.clear();
-    super.dispose();
   }
 }

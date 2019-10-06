@@ -1,16 +1,15 @@
-import 'package:module_provider/classes/disposable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 /// Class for create services providers in module
-abstract class Service extends Model with Disposable {
+abstract class Service extends ChangeNotifier with OnDispose {
   final Module module;
-
   Service(this.module);
 
   @override
-  dispose() {
+  void dispose() {
+    notifyDispose();
     super.dispose();
   }
-
 }

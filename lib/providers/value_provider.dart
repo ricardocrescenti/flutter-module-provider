@@ -1,6 +1,6 @@
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/foundation.dart';
 
-class ValueProvider<T> extends Model {
+class ValueProvider<T> extends ChangeNotifier {
   T _value;
 
   T get value => _value;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:module_provider/classes/disposable.dart';
+import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Widget for implement components in your app module
-abstract class Component<T extends Controller> extends StatefulWidget with Disposable {
+abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
   final Module module;
   Component(this.module);
 
@@ -40,7 +40,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     if (controller != null) {
       controller.dispose();
     }
-    widget.dispose();
+    widget.notifyDispose();
     super.dispose();
   }
 }

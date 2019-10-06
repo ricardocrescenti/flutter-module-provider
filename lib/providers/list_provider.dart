@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:module_provider/classes/disposable.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/material.dart';
 
-class ListProvider<T> extends Model with Disposable {
+class ListProvider<T> extends ChangeNotifier {
   List<T> _items = [];
   List<T> get items => _items;
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:module_provider/classes/disposable.dart';
+import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/inject_manager.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Widget for implement modules in your app
-abstract class Module extends StatefulWidget with Disposable {
+abstract class Module extends StatefulWidget with OnDispose {
   final Module parentModule;
 
   final InjectManager<Service> _servicessInstances = InjectManager<Service>();
@@ -32,13 +32,11 @@ abstract class Module extends StatefulWidget with Disposable {
     return _Module();
   }
 
-  @override
   dispose() {
-    _componentsInstances.dispose();
-    _modulesInstances.dispose();
-    _servicessInstances..dispose();
+    _modulesInstances.dispose((module) => module.dispose());
+    _servicessInstances..dispose((service) => service.dispose());
     _unregisterModule();
-    super.dispose();
+    notifyDispose();
   }
 
   _unregisterModule() {
