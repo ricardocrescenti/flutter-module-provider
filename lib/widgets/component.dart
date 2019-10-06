@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:module_provider/classes/disposable.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:useful_classes/useful_classes.dart';
 
 /// Widget for implement components in your app module
 abstract class Component<T extends Controller> extends StatefulWidget with Disposable {

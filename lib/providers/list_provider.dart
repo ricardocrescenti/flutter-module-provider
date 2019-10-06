@@ -1,12 +1,14 @@
+import 'dart:async';
+
+import 'package:module_provider/classes/disposable.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:useful_classes/useful_classes.dart';
 
 class ListProvider<T> extends Model with Disposable {
   List<T> _items = [];
   List<T> get items => _items;
 
-  ValueBloc<List<T>> onInsert = ValueBloc<List<T>>();
-  ValueBloc<List<T>> onRemove = ValueBloc<List<T>>();  
+  StreamController<List<T>> onInsert = StreamController<List<T>>();
+  StreamController<List<T>> onRemove = StreamController<List<T>>();  
 
   ListProvider({List<T> initialItems}) {
     if (initialItems != null) {
@@ -20,7 +22,7 @@ class ListProvider<T> extends Model with Disposable {
     if (items.length > 0) {
       _items.addAll(items);
 
-      onInsert.updateValue(items);
+      onInsert.add(items);
       notifyListeners();
     }
   }
@@ -28,7 +30,7 @@ class ListProvider<T> extends Model with Disposable {
     if (items.length > 0) {
       _items.insertAll(index, items);
 
-      onInsert.updateValue(items);
+      onInsert.add(items);
       notifyListeners();
     }
   }
@@ -50,7 +52,7 @@ class ListProvider<T> extends Model with Disposable {
     if (_items.contains(item)) {
       _items.remove(item);
 
-      onRemove.updateValue([item]);
+      onRemove.add([item]);
       notifyListeners();
     }
   }
@@ -64,8 +66,8 @@ class ListProvider<T> extends Model with Disposable {
 
   @override
   dispose() {
-    onInsert.dispose();
-    onRemove.dispose();
+    onInsert.close();
+    onRemove.close();
     return super.dispose();
   }
 }

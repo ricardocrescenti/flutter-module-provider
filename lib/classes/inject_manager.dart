@@ -1,6 +1,5 @@
-import 'package:useful_classes/useful_classes.dart';
-
-import '../module_provider.dart';
+import 'package:module_provider/classes/disposable.dart';
+import 'package:module_provider/module_provider.dart';
 
 /// Class for manage instances in module
 class InjectManager<T extends Disposable> extends Disposable {

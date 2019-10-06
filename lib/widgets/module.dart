@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:module_provider/classes/disposable.dart';
 import 'package:module_provider/classes/inject_manager.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:useful_classes/useful_classes.dart';
 
 /// Widget for implement modules in your app
 abstract class Module extends StatefulWidget with Disposable {

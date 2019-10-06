@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:useful_classes/useful_classes.dart';
-
-import '../module_provider.dart';
+import 'package:module_provider/classes/disposable.dart';
+import 'package:module_provider/module_provider.dart';
 
 /// Class for create components controllers
 abstract class Controller with Disposable {
