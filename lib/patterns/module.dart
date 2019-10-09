@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/inject_manager.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:module_provider/patterns/inherited_module.dart';
 
 /// Widget for implement modules in your app
 abstract class Module extends StatefulWidget with OnDispose {
@@ -29,9 +30,10 @@ abstract class Module extends StatefulWidget with OnDispose {
   @override
   State<StatefulWidget> createState() {
     _modules.putIfAbsent(this.runtimeType, () => this);
-    return _Module();
+    return _ModuleState();
   }
 
+  @mustCallSuper
   dispose() {
     _modulesInstances.dispose((module) => module.dispose());
     _servicessInstances..dispose((service) => service.dispose());
@@ -54,15 +56,14 @@ abstract class Module extends StatefulWidget with OnDispose {
   }
 }
 
-class _Module extends State<Module> {
+class _ModuleState extends State<Module> {
   Widget createdWidget;
 
   @override
   Widget build(BuildContext context) {
-    if (createdWidget == null) {
-      createdWidget = widget.build(context);
-    }
-    return createdWidget;
+    return InheritedModule(
+      module: this.widget,
+      child: widget.build(context),);
   }
 
   @override

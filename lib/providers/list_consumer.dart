@@ -5,7 +5,8 @@ import 'list_provider.dart';
 
 class ListConsumer<T> extends Consumer<ListProvider<T>> {
   final ListProvider<T> list;
-  final Widget Function(BuildContext context, ListProvider<T> list) builder;
+  final Widget Function(BuildContext context, Module module, ListProvider<T> list) builder;
+  
   ListConsumer({
     Key key, 
     @required this.list, 

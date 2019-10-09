@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:module_provider/patterns/inherited_module.dart';
 
 /// Widget for implement components in your app module
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
-  final Module module;
-  Component(this.module);
+  initController(Module module) => null;
 
-  T Function(Module module) get initController => null;
-
-  Widget build(BuildContext context, T controller);
+  Widget build(BuildContext context, Module module, T controller);
 
   @override
   State<StatefulWidget> createState() => _ComponentWidget<T>();
+
+  @mustCallSuper
+  dispose() {
+    notifyDispose();
+  }
 }
 
 class _ComponentWidget<T extends Controller> extends State<Component> {
   Module module;
-  T Function(Module module) initController;
   T controller;
 
   @override
-  void initState() {
-    this.module = widget.module;
-    this.initController = widget.initController;
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    this.module = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule).module;
+    if (controller == null) {
+      controller = widget.initController(module);
+    }
   }
   
   @override
   Widget build(BuildContext context) {
-    if (controller == null && initController != null) {
-      controller = initController(module);
-    }
-    return widget.build(context, controller);
+    return widget.build(context, module, controller);
   }
 
   @override
@@ -40,7 +42,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     if (controller != null) {
       controller.dispose();
     }
-    widget.notifyDispose();
+    widget.dispose();
     super.dispose();
   }
 }

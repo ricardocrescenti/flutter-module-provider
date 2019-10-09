@@ -9,7 +9,7 @@ abstract class Service extends ChangeNotifier with OnDispose {
 
   @override
   void dispose() {
-    notifyDispose();
     super.dispose();
+    notifyDispose();
   }
 }
