@@ -19,15 +19,10 @@ import 'package:module_provider/module_provider.dart';
 On main.dart, i will informed that the 'AppModule' is my root module, so the component returned from 'build' function inside the module will be showed.
 
 ```dart
-import 'app_module.dart';
+import 'package:flutter/material.dart';
+import 'package:app_module.dart';
 
-void main() {
-	runApp(MaterialApp(
-		title: 'Module Provider',
-		theme: ThemeData(primarySwatch: Colors.blue,),
-		home: AppModule()
-	));
-}
+void main() => runApp(AppModule());
 ```
 
 app_module.dart
@@ -39,7 +34,7 @@ class AppModule extends Module {
 	@override
 	List<Inject<Service>> get services => [
 		Inject((m, arg) => AppService(m)),
-		Inject((m, arg) => AuthService(m, this.service<AppService>())),
+		Inject((m, arg) => AuthService(m)),
 	];
 
 	@override
@@ -50,11 +45,9 @@ class AppModule extends Module {
 
 	@override
 	List<Inject<Component>> get components => [
-		Inject((m, arg) => MainPage(m)),
-		Inject((m, arg) => SplashScreenPage(m)),
+		Inject((m, arg) => MainPage()),
+		Inject((m, arg) => SplashScreenPage()),
 	];
-
-	AppModule() : super(null);
 
 	@override
   	Widget build(BuildContext context) => component<MainPage>();
@@ -63,29 +56,44 @@ class AppModule extends Module {
 
 # State Storage Classes
 
-## ValueModel
+## ValueProvider and ValueConsumer
 
 Simple class to notify listeners when value is changed, you can modify value setting property 'value' or calling method 'updateValue'.
 
 ```dart
-final ValueModel<String> description = ValueModel<String>(initialValue: 'Initial Description');
+final ValueProvider<String> description = ValueProvider(initialValue: 'Initial Description');
 description.value = 'Another Description';
 description.updateValue('Another Description');
+
+ValueConsumer<String>(
+    value: description,
+    builder: (context, value) => Text(value)
+);
 ```
 
-## ValuesModel
+## ValuesProvider and ValuesConsumer
 
 Controlling multiple "ValueModel"
 
 ```dart
 final ValuesModel packageInfo = ValuesModel({
-    'name': ValueModel<String>(null),
-    'version': ValueModel<String>(null),
+    'name': '',
+    'version': '',
 });
 packageInfo.updateValues({
     'name': 'useful_classes',
     'version': '0.0.1'
 });
+
+ValueConsumer<String>(
+    value: description,
+    builder: (context, values) => Column() {
+		childs: Widget[] {
+			Text(values.values['name']),
+			Text(value.vallues['version'])
+		} 
+	}
+);
 ```
 
 ## ValueConsumer
@@ -96,9 +104,16 @@ Simple class to make easy to consume and receive changes notification from Value
 final ValueModel<String> description = ValueModel<String>(null);
 description.value = 'Another Description';
 
-ValueConsumer<String>(
-    value: description,
-    builder: (context, value) => Text(value)
+
+```
+
+## ServiceConsumer
+
+Simple class to make easy to consume and receive changes notification from ValueNotifier
+
+```dart
+ValueConsumer<AppService>(
+    builder: (context, module, service) => Text(service.app_name)
 );
 ```
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/on_dispose.dart';
+import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
 import 'package:module_provider/patterns/inherited_module.dart';
 
@@ -23,6 +24,13 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
   T controller;
 
   @override
+  void initState() {
+    super.initState();
+
+    Utilities.log('Component ${widget.runtimeType} initialized');
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     
@@ -44,5 +52,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     }
     widget.dispose();
     super.dispose();
+    
+    Utilities.log('Component ${this} disposed');
   }
 }
