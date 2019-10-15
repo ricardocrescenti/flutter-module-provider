@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
+import 'package:module_provider/classes/utilities.dart';
 
 class ValuesProvider extends ChangeNotifier {
   final Map<String, dynamic> _values;
@@ -22,13 +23,19 @@ class ValuesProvider extends ChangeNotifier {
     
     notifyListeners();
   }
-  updateValue(String fieldName, dynamic newValue, {bool canNotifyListeners}) {
+  updateValue(String fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
     if (!values.containsKey(fieldName)) {
       throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
     }
 
-    _values[fieldName].value = newValue;
+    if (_values[fieldName] == newValue) {
+      return;
+    }
+
+    _values[fieldName] = newValue;
     _isChanged = true;
+
+    Utilities.log('Field $fieldName changed to $newValue');
 
     if (canNotifyListeners) {
       notifyListeners();
