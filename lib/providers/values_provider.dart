@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:module_provider/classes/utilities.dart';
+import 'package:module_provider/module_provider.dart';
 
 class ValuesProvider extends ChangeNotifier {
   final Map<String, dynamic> _values;
@@ -28,11 +29,21 @@ class ValuesProvider extends ChangeNotifier {
       throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
     }
 
-    if (_values[fieldName] == newValue) {
+    dynamic currentValue = _values[fieldName];
+    if (currentValue is ValueProvider) {
+      currentValue = currentValue.value;
+    }
+
+    if (currentValue == newValue) {
       return;
     }
 
-    _values[fieldName] = newValue;
+    if (_values[fieldName] is ValueProvider) {
+      _values[fieldName].value = newValue;
+    } else {
+      _values[fieldName] = newValue;
+    }
+    
     _isChanged = true;
 
     Utilities.log('Field $fieldName changed to $newValue');
@@ -44,7 +55,9 @@ class ValuesProvider extends ChangeNotifier {
 
   _createUnmodifiableValues() {
     if (_isChanged) {
-      _unmodifiableValues = UnmodifiableMapView<String, dynamic>(_values);
+      _unmodifiableValues = UnmodifiableMapView<String, dynamic>(_values.map((key, value) {
+        return MapEntry(key, (value is ValueProvider ? value.value : value));
+      }));
       _isChanged = false;
     }
     return _unmodifiableValues;
