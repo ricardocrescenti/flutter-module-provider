@@ -13,21 +13,19 @@ class ValuesProvider extends ChangeNotifier {
 
   ValuesProvider(this._values);
 
-  updateValues(Map<String, dynamic> newValues) {
+  setValues(Map<String, dynamic> newValues) {
     if (newValues == null) {
       throw Exception('The map containing new values cannot be null');
     }
     
     newValues.forEach((key, value) {
-      updateValue(key, value, canNotifyListeners: false);
+      setValue(key, value, canNotifyListeners: false);
     });
     
     notifyListeners();
   }
-  updateValue(String fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
-    if (!values.containsKey(fieldName)) {
-      throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
-    }
+  setValue(String fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
+    _validadeIfFieldExists(fieldName);
 
     dynamic currentValue = _values[fieldName];
     if (currentValue is ValueProvider) {
@@ -50,6 +48,33 @@ class ValuesProvider extends ChangeNotifier {
 
     if (canNotifyListeners) {
       notifyListeners();
+    }
+  }
+
+  getValue(String fieldName) {
+    _validadeIfFieldExists(fieldName);
+
+    dynamic currentValue = _values[fieldName];
+    if (currentValue is ValueProvider) {
+      return currentValue.value;
+    } else {
+      throw currentValue;
+    }
+  }
+  getValueProvider(String fieldName) {
+    _validadeIfFieldExists(fieldName);
+
+    dynamic currentValue = _values[fieldName];
+    if (currentValue is ValueProvider) {
+      return currentValue;
+    } else {
+      throw Exception('Field $fieldName is not of type ValueProvider.');
+    }
+  }
+
+  _validadeIfFieldExists(String fieldName) {
+    if (!values.containsKey(fieldName)) {
+      throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
     }
   }
 

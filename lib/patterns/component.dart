@@ -6,7 +6,7 @@ import 'package:module_provider/patterns/inherited_module.dart';
 
 /// Widget for implement components in your app module
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
-  initController(Module module) => null;
+  initController(BuildContext context, Module module) => null;
 
   Widget build(BuildContext context, Module module, T controller);
 
@@ -26,7 +26,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
   @override
   void initState() {
     super.initState();
-
+    
     Utilities.log('Component ${widget.runtimeType} initialized');
   }
 
@@ -36,7 +36,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     
     this.module = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule).module;
     if (controller == null) {
-      controller = widget.initController(module);
+      controller = widget.initController(context, module);
     }
   }
   
