@@ -58,7 +58,7 @@ class ValuesProvider extends ChangeNotifier {
     if (currentValue is ValueProvider) {
       return currentValue.value;
     } else {
-      throw currentValue;
+      return currentValue;
     }
   }
   getValueProvider(String fieldName) {

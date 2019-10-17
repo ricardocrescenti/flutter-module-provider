@@ -15,9 +15,9 @@ class ListProvider<T> extends ChangeNotifier {
     }
   }
 
-  insertItem(T item) => insertItems([item]);
-  insertItemAt(int index, T item) => insertItemsAt(index, [item]);
-  insertItems(List<T> items) {
+  addItem(T item) => addItems([item]);
+  addItemAt(int index, T item) => addItemsAt(index, [item]);
+  addItems(List<T> items) {
     if (items.length > 0) {
       _items.addAll(items);
 
@@ -25,7 +25,7 @@ class ListProvider<T> extends ChangeNotifier {
       notifyListeners();
     }
   }
-  insertItemsAt(int index, List<T> items) {
+  addItemsAt(int index, List<T> items) {
     if (items.length > 0) {
       _items.insertAll(index, items);
 
@@ -43,7 +43,7 @@ class ListProvider<T> extends ChangeNotifier {
     }
   }
   replaceItemAt(int index, T newItem) {
-    _items.replaceRange(index, index, [newItem]);
+    _items[index] = newItem;
     notifyListeners();
   }
 
