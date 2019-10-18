@@ -4,13 +4,13 @@ class ValueProvider<T> extends ChangeNotifier {
   T _value;
 
   T get value => _value;
-  set value(T newValue) => updateValue(newValue);
+  set value(T newValue) => setValue(newValue);
 
   ValueProvider({T initialValue}) {
     value = initialValue;
   }
 
-  updateValue(T newValue) {
+  setValue(T newValue) {
     if (_value != newValue) {
       _value = newValue;
       notifyListeners();
