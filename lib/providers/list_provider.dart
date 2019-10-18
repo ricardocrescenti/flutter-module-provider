@@ -18,7 +18,7 @@ class ListProvider<T> extends ChangeNotifier {
   addItem(T item) => addItems([item]);
   addItemAt(int index, T item) => addItemsAt(index, [item]);
   addItems(List<T> items) {
-    if (items.length > 0) {
+    if (items.isNotEmpty) {
       _items.addAll(items);
 
       onInsert.add(items);
@@ -26,7 +26,7 @@ class ListProvider<T> extends ChangeNotifier {
     }
   }
   addItemsAt(int index, List<T> items) {
-    if (items.length > 0) {
+    if (items.isNotEmpty) {
       _items.insertAll(index, items);
 
       onInsert.add(items);
@@ -57,7 +57,7 @@ class ListProvider<T> extends ChangeNotifier {
   }
 
   clear() {
-    if (items.length > 0) {
+    if (items.isNotEmpty) {
       items.clear();
       notifyListeners();
     }

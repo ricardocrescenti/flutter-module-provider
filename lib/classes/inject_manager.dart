@@ -17,7 +17,7 @@ class InjectManager<T extends OnDispose> {
       }
     });
 
-    if (instance == null && constructors != null && constructors.length > 0) {
+    if (instance == null && constructors != null && constructors.isNotEmpty) {
       Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args), orElse: () => null); 
       if (inject != null) {
         instance = inject.constructor(module, args);
