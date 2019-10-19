@@ -1,8 +1,8 @@
 name: module_provider
 description: Package to facilitate the creation of applications in modules structure
-version: 0.0.5
+version: 1.0.0
 author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
-homepage: https://github.com/ricardocrescenti
+homepage: https://github.com/ricardocrescenti/flutter-module-provider
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

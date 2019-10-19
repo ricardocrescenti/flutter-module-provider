@@ -1,19 +1,3 @@
-## 0.0.1
+## 1.0.0
 
 * Initial version.
-
-## 0.0.2
-
-* Removed ValueBloc and ValuesBloc from this Package, and added in package [userfil_classes](https://pub.dev/packages/useful_classes)
-
-## 0.0.3
-
-* Added dependency of [userfil_classes](https://pub.dev/packages/useful_classes)
-
-## 0.0.4
-
-* Added stream subscription control in controller, fixed bugs and made other improvements
-
-## 0.0.5
-
-* Added ValueProvider, ValuesProvider, ListProvider, ValueConsumer and ListConsumer
