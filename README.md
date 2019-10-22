@@ -14,7 +14,7 @@ import 'package:module_provider/module_provider.dart';
 
 **Controller:** The controller are utilized inside a components, for maintain the logical separated from component.
 
-# Simple exemple to use Module Provider
+# Exemple to use Module Provider
 
 On main.dart, i will informed that the 'AppModule' is my root module, how much the module is create, the structure of widgets informed in build method of the module is returned. 
 
@@ -31,21 +31,21 @@ app_module.dart
 import 'package:flutter/material.dart';
 
 class AppModule extends Module {
-	@override
-	List<Inject<Service>> get services => [
-		Inject((m, arg) => AppService(m)),
-		Inject((m, arg) => DataService(m)),
-	];
+  @override
+  List<Inject<Service>> get services => [
+    Inject((m, arg) => AppService(m)),
+    Inject((m, arg) => DataService(m)),
+  ];
 
-	@override
-	List<Inject<Component>> get components => [
-		Inject((m, arg) => HomeComponent()),
-		Inject((m, arg) => TaskListComponent()),
-		Inject((m, arg) => AddEditTaskComponent()),
-	];
+  @override
+  List<Inject<Component>> get components => [
+    Inject((m, arg) => HomeComponent()),
+    Inject((m, arg) => TaskListComponent()),
+    Inject((m, arg) => AddEditTaskComponent()),
+  ];
 
-	@override
-  	Widget build(BuildContext context) => component<HomeComponent>();
+  @override
+  Widget build(BuildContext context) => component<HomeComponent>();
 }
 ```
 
@@ -70,8 +70,8 @@ Example to consume this value. In this case, when changing the description value
 
 ```dart
 ValueConsumer<String>(
-    value: description,
-    builder: (context, value) => Text(value)
+  provider: description,
+  builder: (context, value) => Text(value)
 );
 ```
 
@@ -83,8 +83,8 @@ In the bellow example , is declared 'packageInfo' with the values 'name' os type
 
 ```dart
 ValuesProvider packageInfo = ValuesProvider({
-    'name': 'package_name',
-    'version': ValueProvider<String>(initialValue: ''),
+  'name': 'package_name',
+  'version': ValueProvider<String>(initialValue: ''),
 });
 ```
 
@@ -92,22 +92,22 @@ To update the values on ValuesProvider use 'setValues' method passing a Map<Stri
 
 ```dart
 packageInfo.setValues({
-    'name': 'module_provider',
-    'version': '1.0.0'
+  'name': 'module_provider',
+  'version': '1.0.0'
 });
 ```
 
 Example for consume all values of the ValuesProvider.
 
 ```dart
-ValueConsumer<String>(
-    value: packageInfo,
-    builder: (context, values) => Column() {
-		childs: Widget[] {
-			Text(values.getValue('name'),
-			Text(values.getValue('version'))
-		}
-	}
+ValuesConsumer(
+  provider: packageInfo,
+  builder: (context, values) => Column() {
+    childs: Widget[] {
+      Text(values['name']),
+      Text(values['version'])
+    }
+  }
 );
 ```
 
@@ -115,7 +115,7 @@ Example for consume a ValueProvider in the ValuesProvider.
 
 ```dart
 ValueConsumer<String>(
-    value: packageInfo.getValueProvider('version'),
+    provider: packageInfo.getValueProvider('version'),
     builder: (context, value) => Text(value)
 );
 ```
@@ -128,7 +128,7 @@ For example, you have a 'darkMode' property of type bool in the 'Service', and o
 
 ```dart
 ServiceConsumer<AppService>(
-      builder: (context, module, service) {
+      builder: (context, service) {
 
         return MaterialApp(
           title: 'Task List',

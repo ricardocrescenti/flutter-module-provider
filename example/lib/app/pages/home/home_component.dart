@@ -28,10 +28,10 @@ class HomeComponent extends Component<HomeController> {
           children: <Widget>[
             Text('You have pushed the button this many times:',),
             ValueConsumer<int>(
-              value: controller.counter,
-              builder: (context, module, value) {
+              provider: controller.counter,
+              builder: (context, value) {
                 return Text(
-                  '${value.value}',
+                  '${value}',
                   style: Theme.of(context).textTheme.display1,
                 );
               }

@@ -11,4 +11,5 @@ export 'providers/list_provider.dart';
 export 'providers/service_consumer.dart';
 export 'providers/value_consumer.dart';
 export 'providers/value_provider.dart';
+export 'providers/values_consumer.dart';
 export 'providers/values_provider.dart';

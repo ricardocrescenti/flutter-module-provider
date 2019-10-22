@@ -19,7 +19,7 @@ class AppModule extends Module {
   @override
   Widget build(BuildContext context) {
     return ServiceConsumer<AppService>(
-      builder: (context, module, service) {
+      builder: (context, service) {
 
         return MaterialApp(
           title: 'Counter',
