@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+* Updated README.md with another examples and descriptions
+
 ## 1.1.0
 
 * Removed Module parameter from the ValueConsumer and ServiceConsumer.

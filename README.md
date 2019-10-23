@@ -14,9 +14,11 @@ import 'package:module_provider/module_provider.dart';
 
 **Controller:** The controller are utilized inside a components, for maintain the logical separated from component.
 
-# Exemple to use Module Provider
+---
 
-On main.dart, i will informed that the 'AppModule' is my root module, how much the module is create, the structure of widgets informed in build method of the module is returned. 
+## **Module**
+
+On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the structure of widgets informed in `build` method of the module is returned. 
 
 ```dart
 import 'package:flutter/material.dart';
@@ -49,9 +51,57 @@ class AppModule extends Module {
 }
 ```
 
+## **Service**
+
+In `app_service.dart`, I created the `AppService` and declarate `darkMode` property of the type `bool` ho define if aplication will builder is dark mode or not.
+
+```dart
+class AppService extends Service {
+  bool _darkMode = false;
+  bool get darkMode => _darkMode;
+
+  AppService(Module module) : super(module);
+
+  changeDarkMode() {
+    _darkMode = !_darkMode;
+    notifyListeners();
+  }
+}
+```
+
+When `changeDarkMode()` is called, the property `darkMode` is changed, and `notifyListeners()` is called for notify all consumers.
+
+## **Component**
+
+```dart
+class HomeComponent extends Component<HomeController> {
+  @override
+  initController(BuildContext context, Module module) => HomeController(module);
+
+  @override
+  Widget build(BuildContext context, Module module, HomeController controller) { 
+    /// return Scaffold(....
+  }
+}
+```
+
+## **Controller**
+
+```dart
+class HomeController extends Controller {
+  final ValueProvider<int> counter = ValueProvider(initialValue: 0);
+
+  HomeController(Module module) : super(module);
+
+  increment() {
+    counter.value++;
+  }
+}
+```
+
 # State Management Classes
 
-## ValueProvider
+## **ValueProvider / ValueConsumer**
 
 Simple class to notify listeners when value is changed.
 
@@ -75,7 +125,7 @@ ValueConsumer<String>(
 );
 ```
 
-## ValuesProvider
+## **ValuesProvider / ValuesConsumer**
 
 Controlling multiple values and ValueProvider.
 
@@ -120,7 +170,7 @@ ValueConsumer<String>(
 );
 ```
 
-## ServiceConsumer
+## **ServiceConsumer**
 
 The 'ServiceConsumer' is used for consume an specfically service declared in the 'Module', and receive notifications when state of service is changed. 
 
