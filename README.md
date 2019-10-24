@@ -1,24 +1,20 @@
 # module_provider
 
-Package to facilitate creation applications in modules structure pattern.
+This package facilitates the creation of applications in the module structure, with service injection, components and state management.
 
 ```dart
 import 'package:module_provider/module_provider.dart';
 ```
 
-**Module:** The module contain the basic structure with services, submodules and components, keeping the instances of services and submodules. When module is dispose, all services are disposed also.
-
-**Service:** The service provide functions and properties to components, submodules and other services, he is created and maintained in memory until module be disposed.
-
-**Component:** Componentes are a pages or widgets extended from StatefulWidget, but with a simple class, don't needing create a StatefullWidget and State class.
-
-**Controller:** The controller are utilized inside a components, for maintain the logical separated from component.
+Below I will explain how `Module`,` Service`, `Component` and` Controller` are used, and then we will explain how to use the state management classes with` ValueProvider`, `ValuesProvider` and` ServiceConsumer` and also how to consume these values, ​​and be notified whenever there are any changes to these values.
 
 ---
 
 ## **Module**
 
-On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the structure of widgets informed in `build` method of the module is returned. 
+The module contains the basic structure with services, submodules, and components, keeping services instances. When the module is disposed, all services are also disposed.
+
+On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the widget informed in `build` method  is returned.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -27,7 +23,7 @@ import 'package:app_module.dart';
 void main() => runApp(AppModule());
 ```
 
-app_module.dart
+In `app_module.dart`, I created my module structure, with` Services` and `Components`, and in the` build` method, `HomeComponent` is returned for display on the screen.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -53,7 +49,9 @@ class AppModule extends Module {
 
 ## **Service**
 
-In `app_service.dart`, I created the `AppService` and declarate `darkMode` property of the type `bool` ho define if aplication will builder is dark mode or not.
+The `Service` provide functions and properties to components, submodules and other services, he is created and maintained in memory until module be disposed.
+
+In `app_service.dart`, I created the `AppService` and declared the `darkMode` property of type` bool` that defines whether the app will be built in dark mode or not.
 
 ```dart
 class AppService extends Service {
@@ -69,9 +67,11 @@ class AppService extends Service {
 }
 ```
 
-When `changeDarkMode()` is called, the property `darkMode` is changed, and `notifyListeners()` is called for notify all consumers.
+When `changeDarkMode()` is called, the `darkMode` property is changed and `notifyListeners()` is called to notify all consumers.
 
 ## **Component**
+
+The `Components` are extended `StatefulWidget` widgets, but simpler, it is not necessary to create a` StatefulWidget` and `State` class, and usually have an associated` Controller` to maintain the state of the component.
 
 ```dart
 class HomeComponent extends Component<HomeController> {
@@ -86,6 +86,8 @@ class HomeComponent extends Component<HomeController> {
 ```
 
 ## **Controller**
+
+The `Controller` is used and created within a` Component` to keep the logic and state separate from the component, leaving `Component` solely responsible for the layout.
 
 ```dart
 class HomeController extends Controller {
