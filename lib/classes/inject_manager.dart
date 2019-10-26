@@ -1,13 +1,18 @@
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
 
-/// Class for manage instances in module
+/// Class for building and maintaining instances of the objects, will only be
+/// kept in memory if the [standalone] property is true.
 class InjectManager<T extends OnDispose> {
+  /// Indicates whether instances will be kept in memory
   final bool standalone;
+
+  /// Lists of instances kept in memory
+  final List<T> _instances = [];
+  
   InjectManager({this.standalone = true});
 
-  List<T> _instances = [];
-
+  /// Get the instance of an object, if it is not instantiated, the object will be created and returned to its instance.
   T getInstance<P extends T>(Module module, dynamic args, List<Inject<T>> constructors, {T Function() nullInstance}) {
     T instance;
 
@@ -41,6 +46,7 @@ class InjectManager<T extends OnDispose> {
     return instance;
   }
 
+  /// Dispose all instances
   dispose(Function (T instance) instanceDispose) {
     _instances.forEach((instance) {
       instanceDispose(instance);

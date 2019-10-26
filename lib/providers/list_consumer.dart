@@ -3,8 +3,38 @@ import 'package:module_provider/module_provider.dart';
 
 import 'list_provider.dart';
 
+/// Class to consume a `ListProvider`.
+/// 
+/// {@tool sample}
+/// 
+/// In the example below, a `ListProvider<String>` will be consumed, and when
+/// adding or removing an item in the list, the `builder()` method is called, and
+/// the layout will be updated.
+/// 
+/// ```dart
+/// ListProvider<String> movies = ListProvider<String>();
+/// movies.addItem('Start Wars');
+/// movies.addItem('Terminator');
+/// movies.addItem('Total Recall');
+/// 
+/// /// example for consume list os movies
+/// ListConsumer<String>(
+///   list: movies,
+///   builder: (context, list) {
+///     return ListView.separated(
+///       itemCount: list.length,
+///       itemBuilder: (context, index) => Text(list[index]),
+///       separatorBuilder: (context, index) => Container(),
+///     );
+///   }
+/// );
+/// ```
+/// {@end-tool}
 class ListConsumer<T> extends Consumer<ListProvider<T>, List<T>> {
+  /// `ListProvider` instance that will provide the list.
   final ListProvider<T> list;
+
+  /// Funtion to build the user interface represented by this consumer.
   final Widget Function(BuildContext context, List<T> list) builder;
   
   ListConsumer({

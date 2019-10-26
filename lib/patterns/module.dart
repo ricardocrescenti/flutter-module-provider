@@ -8,23 +8,108 @@ import 'package:module_provider/module_provider.dart';
 
 Map<Type, ModuleState> _modules = {};
 
-/// Widget for implement modules in your app
+/// The `Module` contains the basic structure with services, submodules, and 
+/// components, keeping services instances. When the module is disposed, all
+/// services are also disposed.
+/// 
+/// {@tool sample}
+/// 
+/// In the example below, I created the module structure, with `Services` and
+/// `Components`, and in the `build` method, `HomeComponent` is returned for 
+/// display on the screen.
+/// 
+/// ```dart
+/// import 'package:flutter/material.dart';
+/// 
+/// class AppModule extends Module {
+///   @override
+///   List<Inject<Service>> get services => [
+///     Inject((m, arg) => AppService(m)),
+///     Inject((m, arg) => DataService(m)),
+///   ];
+/// 
+///   @override
+///   List<Inject<Component>> get components => [
+///     Inject((m, arg) => HomeComponent()),
+///     Inject((m, arg) => TaskListComponent()),
+///     Inject((m, arg) => AddEditTaskComponent()),
+///   ];
+/// 
+///   @override
+///   Widget build(BuildContext context) => component<HomeComponent>();
+/// }
+/// ```
+/// {@end-tool}
 abstract class Module extends StatefulWidget with OnDispose {
 
+  /// List of `Service` that your module will provide for all objects that are
+  /// built on this module or the widgets tree. He is created and maintained 
+  /// in memory until module be disposed.
+  /// 
+  /// {@tool sample}
+  /// 
+  /// ```dart
+  /// @override
+  /// List<Inject<Service>> get services => [
+  ///   Inject((m, arg) => AppService(m)),
+  ///   Inject((m, arg) => DataService(m)),
+  /// ];
+  /// ```
   List<Inject<Service>> get services => [];
+
+  /// Load the requested `Service`, if the service is not available in the
+  /// current module, an attempt will be made to load this service from the
+  /// parent module.
   T service<T extends Service>({dynamic arg}) => _getService<T>(arg);
 
+  /// List of `Module` that can be loaded into your module, should be used
+  /// when you need to load another module structure with a service and
+  /// component structure.
+  /// 
+  /// {@tool sample}
+  /// 
+  /// ```dart
+  /// @override
+  /// List<Inject<Module>> get modules => [
+  ///   Inject((m, arg) => RegistrarionModule(m)),
+  ///   Inject((m, arg) => PaymentModule(m)),
+  /// ];
+  /// ```
   List<Inject<Module>> get modules => [];
+
+  /// Load the requested `Module`, if the module is not available in the
+  /// current module, an attempt will be made to load this module from the
+  /// parent module.
   T module<T extends Module>({dynamic arg}) => _getModule<T>(arg);
 
+  /// List of `Component` that your module will provide for all objects that are
+  /// built on this module or the widgets tree.
+  /// 
+  /// {@tool sample}
+  /// 
+  /// ```dart
+  /// @override
+  /// List<Inject<Component>> get services => [
+  ///   Inject((m, arg) => HomeComponent(m)),
+  ///   Inject((m, arg) => AddEditTaskComponent(m)),
+  ///   Inject((m, arg) => ListTaskComponent(m)),
+  /// ];
+  /// ```
   List<Inject<Component>> get components => [];
+
+  /// Load the requested `Component`, if the component is not available in the
+  /// current module, an attempt will be made to load this component from the
+  /// parent module.
   T component<T extends Component>({dynamic arg}) => _getComponent<T>(arg);
 
+  /// Build the user interface represented by this module.
   Widget build(BuildContext context);
 
   @override
   State<StatefulWidget> createState() => ModuleState();
 
+  /// Called when this object is permanently removed from the tree. All services 
+  /// loaded in memory will be disposed.
   @mustCallSuper
   dispose() {
     notifyDispose();
@@ -55,10 +140,11 @@ abstract class Module extends StatefulWidget with OnDispose {
   }
 }
 
+/// Class to maintain `Module` state
 class ModuleState extends State<Module> {
   Module parentModule;
   final InjectManager<Service> _servicesInstances = InjectManager<Service>();
-  final InjectManager<Module> _modulesInstances = InjectManager<Module>();
+  final InjectManager<Module> _modulesInstances = InjectManager<Module>(standalone: false);
   final InjectManager<Component> _componentsInstances = InjectManager<Component>(standalone: false);
 
   @override

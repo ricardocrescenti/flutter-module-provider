@@ -12,7 +12,7 @@ Below I will explain how `Module`,` Service`, `Component` and` Controller` are u
 
 ## **Module**
 
-The module contains the basic structure with services, submodules, and components, keeping services instances. When the module is disposed, all services are also disposed.
+The `Module` contains the basic structure with services, submodules, and components, keeping services instances. When the module is disposed, all services are also disposed.
 
 On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the widget informed in `build` method  is returned.
 
@@ -58,11 +58,17 @@ class AppService extends Service {
   bool _darkMode = false;
   bool get darkMode => _darkMode;
 
+  final ValueProvider<int> counter = ValueProvider(initialValue: 0);
+
   AppService(Module module) : super(module);
 
   changeDarkMode() {
     _darkMode = !_darkMode;
     notifyListeners();
+  }
+
+  incrementCounter() {
+    counter.value++;
   }
 }
 ```
@@ -71,7 +77,7 @@ When `changeDarkMode()` is called, the `darkMode` property is changed and `notif
 
 ## **Component**
 
-The `Components` are extended `StatefulWidget` widgets, but simpler, it is not necessary to create a` StatefulWidget` and `State` class, and usually have an associated` Controller` to maintain the state of the component.
+The `Components` are extended `StatefulWidget` widgets, but simpler, it is not necessary to create a` StatefulWidget` and `State` class, and usually have an associated `Controller` to maintain the state of the component.
 
 ```dart
 class HomeComponent extends Component<HomeController> {
@@ -87,7 +93,7 @@ class HomeComponent extends Component<HomeController> {
 
 ## **Controller**
 
-The `Controller` is used and created within a` Component` to keep the logic and state separate from the component, leaving `Component` solely responsible for the layout.
+The `Controller` is used together a `Component` to keep the logic and state separate from the component, leaving  component solely responsible for the layout.
 
 ```dart
 class HomeController extends Controller {

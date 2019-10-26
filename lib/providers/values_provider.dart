@@ -4,6 +4,32 @@ import 'package:flutter/foundation.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
 
+/// Class to provide a values for a `ValuesConsumer`
+/// 
+/// {@tool sample}
+/// 
+/// In the example below, a `ValuesProvider` will be created to
+/// maintain the movie information
+/// 
+/// ```dart
+/// ValuesProvider movie = ValuesProvider(initialValue: {
+///   'name': 'Terminator 2: Judgment Day',
+///   'director': 'James Cameron',
+///   'year': 1991 
+/// });
+/// 
+/// /// to set new values
+/// movie.setValue('year', 1991);
+/// movie.setValues({
+///   'name': 'Star Wars: Episode IV - A New Hope',
+///   'director': 'George Lucas',
+///   'year': 1977 
+/// });
+/// 
+/// /// to get current values
+/// movie.getValue('name');
+/// ```
+/// {@end-tool}
 class ValuesProvider extends ChangeNotifier {
   final Map<String, dynamic> _values;
 
