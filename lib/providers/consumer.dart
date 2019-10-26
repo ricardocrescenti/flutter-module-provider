@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:module_provider/patterns/inherited_module.dart';
 
 abstract class Consumer<T extends ChangeNotifier, V> extends StatefulWidget {
   final T provider;

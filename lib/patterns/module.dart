@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/inject_manager.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:module_provider/patterns/inherited_module.dart';
 
 Map<Type, ModuleState> _modules = {};
 

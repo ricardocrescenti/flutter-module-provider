@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
-import 'package:module_provider/patterns/inherited_module.dart';
 
 /// Widget for implement components in your app module
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
