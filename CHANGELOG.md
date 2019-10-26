@@ -1,3 +1,7 @@
+## 1.1.0+3
+
+* Removed '{@tool sample}' and '{@end-tool}' from documentation.
+
 ## 1.1.0+2
 
 * Added documentation for package classes.

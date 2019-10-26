@@ -5,8 +5,6 @@ import 'list_provider.dart';
 
 /// Class to consume a `ListProvider`.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ListProvider<String>` will be consumed, and when
 /// adding or removing an item in the list, the `builder()` method is called, and
 /// the layout will be updated.
@@ -29,7 +27,6 @@ import 'list_provider.dart';
 ///   }
 /// );
 /// ```
-/// {@end-tool}
 class ListConsumer<T> extends Consumer<ListProvider<T>, List<T>> {
   /// `ListProvider` instance that will provide the list.
   final ListProvider<T> list;

@@ -3,8 +3,6 @@ import 'package:module_provider/module_provider.dart';
 
 /// Class to consume a `Service`.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, the `AppService` that is declared inside` AppModule`
 /// will be consumed. It is not necessary to define the serice provider, as it
 /// will automatically take service from the current module or the parent 
@@ -18,7 +16,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-/// {@end-tool}
 class ServiceConsumer<T extends Service> extends Consumer<T, T> {
   /// Funtion to build the user interface represented by this consumer.
   final Widget Function(BuildContext context, T service) builder;

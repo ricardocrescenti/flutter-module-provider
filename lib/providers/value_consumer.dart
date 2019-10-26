@@ -3,8 +3,6 @@ import 'package:module_provider/module_provider.dart';
 
 /// Class to consume a `ValueProvider`.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ValueConsumer<String>` will be consumed, and when
 /// update value, the `builder()` method is called, and the layout will be 
 /// updated.
@@ -22,7 +20,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-/// {@end-tool}
 class ValueConsumer<T> extends Consumer<ValueProvider<T>, T> {
   /// The instance of `ValueProvider` that will provide value
   final ValueProvider<T> provider;

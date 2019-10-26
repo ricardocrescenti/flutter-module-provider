@@ -8,8 +8,6 @@ import 'package:module_provider/module_provider.dart';
 /// not necessary to create a` StatefulWidget` and `State` class, and usually
 /// have an associated `Controller` to maintain the state of the component.
 /// 
-/// {@tool sample}
-/// 
 /// In this example it was declared the variable of type `ValueProvider<int>`
 /// which will be incremented on calling the `increment()` method, and in the
 /// component will be used `ValueConsumer` so that when there is a modification
@@ -26,7 +24,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// }
 /// ```
-/// {@end-tool}
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
   initController(BuildContext context, Module module) => null;
 

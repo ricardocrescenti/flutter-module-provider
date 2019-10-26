@@ -9,8 +9,6 @@ import 'package:module_provider/module_provider.dart';
 /// and other services, he is created and maintained in memory until module be 
 /// disposed.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, I declared the `darkMode` property of type` bool` 
 /// that defines whether the app will be built in dark mode or not, wehen 
 /// `changeDarkMode()` is called, the `darkMode` property is changed and 
@@ -39,7 +37,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// }
 /// ```
-/// {@end-tool}
 abstract class Service extends ChangeNotifier with OnDispose {
   /// Module that the service is registered
   final Module module;

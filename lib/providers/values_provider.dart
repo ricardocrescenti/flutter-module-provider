@@ -6,8 +6,6 @@ import 'package:module_provider/module_provider.dart';
 
 /// Class to provide a values for a `ValuesConsumer`
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ValuesProvider` will be created to
 /// maintain the movie information
 /// 
@@ -29,7 +27,6 @@ import 'package:module_provider/module_provider.dart';
 /// /// to get current values
 /// movie.getValue('name');
 /// ```
-/// {@end-tool}
 class ValuesProvider extends ChangeNotifier {
   final Map<String, dynamic> _values;
 

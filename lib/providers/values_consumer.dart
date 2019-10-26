@@ -5,8 +5,6 @@ import 'package:module_provider/module_provider.dart';
 
 /// Class to consume a `ValuesProvider`.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ValuesConsumer` will be consumed, and when
 /// update any values, the `builder()` method is called, and
 /// the layout will be updated.
@@ -35,7 +33,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-/// {@end-tool}
 class ValuesConsumer extends Consumer<ValuesProvider, UnmodifiableMapView<String, dynamic>> {
   /// The instance of `ValuesProvider` that will provide values
   final ValuesProvider provider;

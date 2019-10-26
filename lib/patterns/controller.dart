@@ -8,8 +8,6 @@ import 'package:module_provider/module_provider.dart';
 /// separate from the component, leaving  component solely responsible for the 
 /// layout.
 /// 
-/// {@tool sample}
-/// 
 /// ```dart
 /// class HomeController extends Controller {
 ///   final ValueProvider<int> counter = ValueProvider(initialValue: 0);
@@ -21,7 +19,6 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// }
 /// ```
-/// {@end-tool}
 abstract class Controller with OnDispose {
   /// Module that the controller is registered
   final Module module;

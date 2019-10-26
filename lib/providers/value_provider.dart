@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 
 /// Class to provide a value for a `ValueConsumer`
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ValueProvider<String>` will be created to
 /// maintain the movie name.
 /// 
@@ -12,7 +10,6 @@ import 'package:flutter/foundation.dart';
 /// movieName.value = 'Terminator';
 /// movieName.setValue('Total Recall');
 /// ```
-/// {@end-tool}
 class ValueProvider<T> extends ChangeNotifier {
   T _value;
 

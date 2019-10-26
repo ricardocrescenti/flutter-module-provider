@@ -8,8 +8,6 @@ import 'package:flutter/foundation.dart';
 /// To notify listeners, create a `dispose()` method in your class and, after 
 /// all objects are disposed, call `notifyDispose()`.
 /// 
-/// {@tool sample}
-/// 
 /// Sample `Dispose ()` method to use in your class
 /// 
 /// ```dart
@@ -17,7 +15,6 @@ import 'package:flutter/foundation.dart';
 ///   notifyDispose();
 /// }
 /// ```
-/// {@end-tool}
 abstract class OnDispose {
   final StreamController<dynamic> _onDispose = StreamController.broadcast();
   Stream<dynamic> get onDispose => _onDispose.stream;

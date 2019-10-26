@@ -12,8 +12,6 @@ Map<Type, ModuleState> _modules = {};
 /// components, keeping services instances. When the module is disposed, all
 /// services are also disposed.
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, I created the module structure, with `Services` and
 /// `Components`, and in the `build` method, `HomeComponent` is returned for 
 /// display on the screen.
@@ -39,14 +37,11 @@ Map<Type, ModuleState> _modules = {};
 ///   Widget build(BuildContext context) => component<HomeComponent>();
 /// }
 /// ```
-/// {@end-tool}
 abstract class Module extends StatefulWidget with OnDispose {
 
   /// List of `Service` that your module will provide for all objects that are
   /// built on this module or the widgets tree. He is created and maintained 
   /// in memory until module be disposed.
-  /// 
-  /// {@tool sample}
   /// 
   /// ```dart
   /// @override
@@ -66,8 +61,6 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// when you need to load another module structure with a service and
   /// component structure.
   /// 
-  /// {@tool sample}
-  /// 
   /// ```dart
   /// @override
   /// List<Inject<Module>> get modules => [
@@ -84,8 +77,6 @@ abstract class Module extends StatefulWidget with OnDispose {
 
   /// List of `Component` that your module will provide for all objects that are
   /// built on this module or the widgets tree.
-  /// 
-  /// {@tool sample}
   /// 
   /// ```dart
   /// @override

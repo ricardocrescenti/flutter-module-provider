@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 /// Class to provide a list of defined objects for a `ListConsumer`
 /// 
-/// {@tool sample}
-/// 
 /// In the example below, a `ListProvider<String>` will be created to
 /// maintain the movies list.
 /// 
@@ -15,7 +13,6 @@ import 'package:flutter/material.dart';
 /// movies.addItem('Terminator');
 /// movies.addItem('Total Recall');
 /// ```
-/// {@end-tool}
 class ListProvider<T> extends ChangeNotifier {
   List<T> _items = [];
 
