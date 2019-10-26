@@ -35,10 +35,13 @@ class ValuesProvider extends ChangeNotifier {
 
   bool _isChanged = true;
   UnmodifiableMapView<String, dynamic> _unmodifiableValues;
+
+  /// Get current values
   UnmodifiableMapView<String, dynamic> get values => _createUnmodifiableValues();
 
   ValuesProvider(this._values);
 
+  /// Set new values
   setValues(Map<String, dynamic> newValues) {
     if (newValues == null) {
       throw Exception('The map containing new values cannot be null');
@@ -50,6 +53,8 @@ class ValuesProvider extends ChangeNotifier {
     
     notifyListeners();
   }
+  
+  /// Set new value to specifically field
   setValue(String fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
     _validadeIfFieldExists(fieldName);
 
@@ -77,6 +82,7 @@ class ValuesProvider extends ChangeNotifier {
     }
   }
 
+  /// Get de current value
   getValue(String fieldName) {
     _validadeIfFieldExists(fieldName);
 
@@ -87,6 +93,8 @@ class ValuesProvider extends ChangeNotifier {
       return currentValue;
     }
   }
+  
+  /// Get de currente Provider value
   getValueProvider(String fieldName) {
     _validadeIfFieldExists(fieldName);
 
