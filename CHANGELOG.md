@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Added the `initialize()` method in `Module` to allow the user to initialize something on `Module` initialization, this method is called only once before the `build()` method.
+
 ## 1.1.0+3
 
 * Removed '{@tool sample}' and '{@end-tool}' from documentation.

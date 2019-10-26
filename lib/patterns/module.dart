@@ -93,6 +93,9 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// parent module.
   T component<T extends Component>({dynamic arg}) => _getComponent<T>(arg);
 
+  /// Called only once when this module is inicialized, before call `build()` method
+  initialize(BuildContext context) {}
+
   /// Build the user interface represented by this module.
   Widget build(BuildContext context);
 
@@ -133,7 +136,11 @@ abstract class Module extends StatefulWidget with OnDispose {
 
 /// Class to maintain `Module` state
 class ModuleState extends State<Module> {
-  Module parentModule;
+  bool _initialized = false;
+
+  Module _parentModule;
+  Module get parentModule => _parentModule;
+
   final InjectManager<Service> _servicesInstances = InjectManager<Service>();
   final InjectManager<Module> _modulesInstances = InjectManager<Module>(standalone: false);
   final InjectManager<Component> _componentsInstances = InjectManager<Component>(standalone: false);
@@ -150,7 +157,12 @@ class ModuleState extends State<Module> {
 
     InheritedModule inheritedModule = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule);
     if (inheritedModule != null) {
-      this.parentModule = inheritedModule.module;
+      this._parentModule = inheritedModule.module;
+    }
+
+    if (!_initialized) {
+      _initialized = true;
+      widget.initialize(context);
     }
   }
 

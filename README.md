@@ -43,9 +43,16 @@ class AppModule extends Module {
   ];
 
   @override
+  initialize(BuildContext context) {
+    service<AppService>().changeDarkMode();
+  }
+
+  @override
   Widget build(BuildContext context) => component<HomeComponent>();
 }
 ```
+
+Optionally, if you need to initialize something on `Module` initialize, override the `initialize()` method in `Module`.
 
 ## **Service**
 
