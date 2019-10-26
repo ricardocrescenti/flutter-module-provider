@@ -41,7 +41,7 @@ class ValuesConsumer extends Consumer<ValuesProvider, UnmodifiableMapView<String
   final ValuesProvider provider;
 
   /// Funtion to build the user interface represented by this consumer.
-  final Widget Function(BuildContext context, UnmodifiableMapView<String, dynamic> value) builder;
+  final Widget Function(BuildContext context, UnmodifiableMapView<String, dynamic> values) builder;
   
   ValuesConsumer({
     Key key,
