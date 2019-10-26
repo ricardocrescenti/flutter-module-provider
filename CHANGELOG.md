@@ -1,6 +1,12 @@
+## 1.1.0+2
+
+* Added documentation for package classes.
+* Renamed parameter `value` in `ValuesProvider` method `build()` to `values`.
+* Moved the `inject_manager.dart` file to the 'classes' folder.
+
 ## 1.1.0+1
 
-* Updated README.md with another examples and descriptions
+* Updated README.md with another examples and descriptions.
 
 ## 1.1.0
 
