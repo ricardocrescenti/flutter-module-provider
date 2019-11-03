@@ -1,6 +1,10 @@
+## 1.3.0
+
+* Added `initialize()` method in `Component` to allow the user to initialize something at `Component` initialization, this method is called only once before the `build()` method.
+
 ## 1.2.0
 
-* Added the `initialize()` method in `Module` to allow the user to initialize something on `Module` initialization, this method is called only once before the `build()` method.
+* Added `initialize()` method in `Module` to allow the user to initialize something at `Module` initialization, this method is called only once before the `build()` method.
 
 ## 1.1.0+3
 

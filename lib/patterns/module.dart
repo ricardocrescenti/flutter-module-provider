@@ -93,7 +93,8 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// parent module.
   T component<T extends Component>({dynamic arg}) => _getComponent<T>(arg);
 
-  /// Called only once when this module is inicialized, before call `build()` method
+  /// Initialize something at startup of `Module`, this method id called only 
+  /// once when this module is inicialized, before call `build()` method.
   initialize(BuildContext context) {}
 
   /// Build the user interface represented by this module.

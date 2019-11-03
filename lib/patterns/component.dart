@@ -25,7 +25,12 @@ import 'package:module_provider/module_provider.dart';
 /// }
 /// ```
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
+  /// Controller Initializer
   initController(BuildContext context, Module module) => null;
+
+  /// Initialize something at startup of `Component`, this method id called only 
+  /// once when this component is inicialized, before call `build()` method.
+  initialize(BuildContext context, Module module, T controller) {}
 
   /// Build the user interface represented by this component.
   Widget build(BuildContext context, Module module, T controller);
@@ -43,6 +48,8 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
 
 /// Class to maintain `Component` state
 class _ComponentWidget<T extends Controller> extends State<Component> {
+  bool _initialized = false;
+
   Module module;
   T controller;
 
@@ -60,6 +67,11 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     this.module = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule).module;
     if (controller == null) {
       controller = widget.initController(context, module);
+    }
+    
+    if (!_initialized) {
+      _initialized = true;
+      widget.initialize(context, module, controller);
     }
   }
   
