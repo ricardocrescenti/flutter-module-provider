@@ -36,6 +36,9 @@ class ValuesProvider extends ChangeNotifier {
   /// Get current values
   UnmodifiableMapView<String, dynamic> get values => _createUnmodifiableValues();
 
+  /// Operator to get value
+  operator [](String fieldName) => values[fieldName];
+
   ValuesProvider(this._values);
 
   /// Set new values
