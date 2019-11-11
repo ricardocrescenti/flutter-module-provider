@@ -1,5 +1,9 @@
 ## 1.3.0
 
+* Added operator [] in ValuesProvider to get values.
+
+## 1.3.0
+
 * Added `initialize()` method in `Component` to allow the user to initialize something at `Component` initialization, this method is called only once before the `build()` method.
 
 ## 1.2.0
