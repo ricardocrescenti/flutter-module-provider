@@ -64,7 +64,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     
-    this.module = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule).module;
+    this.module = context.dependOnInheritedWidgetOfExactType<InheritedModule>().module;
     if (controller == null) {
       controller = widget.initController(context, module);
     }

@@ -22,7 +22,7 @@ class ServiceConsumer<T extends Service> extends Consumer<T, T> {
 
   ServiceConsumer({
     Key key,
-    @required this.builder}) : super(key: key, builder: builder);
+    @required this.builder}) : super(key: key, provider: null, builder: builder);
 
   @override
   T getProvider(BuildContext context, ConsumerState consumer) {

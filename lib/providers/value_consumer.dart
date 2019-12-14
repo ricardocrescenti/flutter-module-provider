@@ -20,17 +20,11 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-class ValueConsumer<T> extends Consumer<ValueProvider<T>, T> {
-  /// The instance of `ValueProvider` that will provide value
-  final ValueProvider<T> provider;
-
-  /// Funtion to build the user interface represented by this consumer.
-  final Widget Function(BuildContext context, T value) builder;
-  
+class ValueConsumer<T> extends Consumer<ValueProvider<T>, T> {  
   ValueConsumer({
     Key key,
-    @required this.provider,
-    @required this.builder}) : super(key: key);
+    @required ValueProvider<T> provider,
+    @required Widget Function(BuildContext context, T value) builder}) : super(key: key, provider: provider, builder: builder);
 
   @override
   T getValue(BuildContext context, ConsumerState consumer) {

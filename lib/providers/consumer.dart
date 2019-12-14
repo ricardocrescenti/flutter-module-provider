@@ -55,7 +55,7 @@ class ConsumerState<T extends ChangeNotifier, V> extends State<Consumer<T, V>> {
   }
 
   _initConsumer() {
-    _module = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule).module;
+    _module = context.dependOnInheritedWidgetOfExactType<InheritedModule>().module;
     _provider = widget.getProvider(context, this);
     _value = widget.getValue(context, this);
     _provider.addListener(_listener);

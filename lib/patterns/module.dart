@@ -156,7 +156,7 @@ class ModuleState extends State<Module> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    InheritedModule inheritedModule = (context.inheritFromWidgetOfExactType(InheritedModule) as InheritedModule);
+    InheritedModule inheritedModule = context.dependOnInheritedWidgetOfExactType<InheritedModule>();
     if (inheritedModule != null) {
       this._parentModule = inheritedModule.module;
     }
@@ -182,19 +182,19 @@ class ModuleState extends State<Module> {
     _unregisterModule();
     super.dispose();
     
-    Utilities.log('Module ${this.runtimeType} disposed');
+    Utilities.log('Module ${this.widget.runtimeType} disposed');
   }
 
   _registerModule() {
     if (_modules.containsKey(this.runtimeType)) {
-      throw Exception('The module ${this.runtimeType} is already registered.');
+      throw Exception('The module ${this.widget.runtimeType} is already registered.');
     }
     _modules[this.widget.runtimeType] = this;
-    Utilities.log('Module ${this.runtimeType} registered');
+    Utilities.log('Module ${this.widget.runtimeType} registered');
   }
   _unregisterModule() {
     _modules.remove(this.runtimeType);
-    Utilities.log('Module ${this.runtimeType} unregistered');
+    Utilities.log('Module ${this.widget.runtimeType} unregistered');
   }
   
 }
