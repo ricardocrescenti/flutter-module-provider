@@ -1,4 +1,4 @@
-import 'dart:collection';
+//import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:module_provider/classes/utilities.dart';
@@ -29,17 +29,21 @@ import 'package:module_provider/module_provider.dart';
 /// ```
 class ValuesProvider extends ChangeNotifier {
   final Map<String, dynamic> _values;
+  Map<String, dynamic> _originalvalues = Map();
 
-  bool _isChanged = true;
-  UnmodifiableMapView<String, dynamic> _unmodifiableValues;
+  //bool _isChanged = true;
+  //UnmodifiableMapView<String, dynamic> _unmodifiableValues;
 
   /// Get current values
-  UnmodifiableMapView<String, dynamic> get values => _createUnmodifiableValues();
+  //UnmodifiableMapView<String, dynamic> get values => _createUnmodifiableValues();
+  Map<String, dynamic> get values => _values;
 
   /// Operator to get value
   operator [](String fieldName) => values[fieldName];
 
-  ValuesProvider(this._values);
+  ValuesProvider(this._values) {
+    this._values.forEach((key, value) => this._originalvalues[key] = value);
+  }
 
   /// Set new values
   setValues(Map<String, dynamic> newValues) {
@@ -73,7 +77,7 @@ class ValuesProvider extends ChangeNotifier {
       _values[fieldName] = newValue;
     }
     
-    _isChanged = true;
+    //_isChanged = true;
 
     Utilities.log('Field $fieldName changed to $newValue');
 
@@ -106,19 +110,36 @@ class ValuesProvider extends ChangeNotifier {
     }
   }
 
+  /// Get values
+  getValues({bool onlyChanged = false}) {
+    assert(onlyChanged != null);
+
+    if (onlyChanged) {
+      Map<String, dynamic> changedValues = Map();
+      _values.forEach((key, value) {
+        if (_originalvalues[key] != value) {
+          changedValues[key] = value;
+        }
+      });
+      return changedValues;
+    } else {
+      return values;
+    }
+  }
+
   _validadeIfFieldExists(String fieldName) {
     if (!values.containsKey(fieldName)) {
       throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
     }
   }
 
-  _createUnmodifiableValues() {
-    if (_isChanged) {
-      _unmodifiableValues = UnmodifiableMapView<String, dynamic>(_values.map((key, value) {
-        return MapEntry(key, (value is ValueProvider ? value.value : value));
-      }));
-      _isChanged = false;
-    }
-    return _unmodifiableValues;
-  }
+  // _createUnmodifiableValues() {
+  //   if (_isChanged) {
+  //     _unmodifiableValues = UnmodifiableMapView<String, dynamic>(_values.map((key, value) {
+  //       return MapEntry(key, (value is ValueProvider ? value.value : value));
+  //     }));
+  //     _isChanged = false;
+  //   }
+  //   return _unmodifiableValues;
+  // }
 }
