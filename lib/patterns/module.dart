@@ -5,6 +5,9 @@ import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/inject_manager.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:module_provider/widgets/future/future_await_widget.dart';
+import 'package:module_provider/widgets/future/future_error_widget.dart';
+import 'package:module_provider/widgets/future/future_widget.dart';
 
 Map<Type, ModuleState> _modules = {};
 
@@ -74,28 +77,22 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// current module, an attempt will be made to load this module from the
   /// parent module.
   T module<T extends Module>({dynamic arg}) => _getModule<T>(arg);
-
-  /// List of `Component` that your module will provide for all objects that are
-  /// built on this module or the widgets tree.
-  /// 
-  /// ```dart
-  /// @override
-  /// List<Inject<Component>> get services => [
-  ///   Inject((m, arg) => HomeComponent(m)),
-  ///   Inject((m, arg) => AddEditTaskComponent(m)),
-  ///   Inject((m, arg) => ListTaskComponent(m)),
-  /// ];
-  /// ```
-  List<Inject<Component>> get components => [];
-
-  /// Load the requested `Component`, if the component is not available in the
-  /// current module, an attempt will be made to load this component from the
-  /// parent module.
-  T component<T extends Component>({dynamic arg}) => _getComponent<T>(arg);
-
+  
   /// Initialize something at startup of `Module`, this method id called only 
   /// once when this module is inicialized, before call `build()` method.
   initialize(BuildContext context) {}
+
+  /// Initialize something at startup of `Module`, this method id called only 
+  /// once when this module is inicialized, before call `build()` method.
+  Future futureInitialize(BuildContext context) => null;
+
+  Widget buildFutureAwaitWidget(BuildContext context) {
+    return FutureAwaitWidget();
+  }
+  
+  Widget buildFutureErrorWidget(BuildContext context, Object error) {
+    return FutureErrorWidget();
+  }
 
   /// Build the user interface represented by this module.
   Widget build(BuildContext context);
@@ -120,11 +117,6 @@ abstract class Module extends StatefulWidget with OnDispose {
     return module._modulesInstances.getInstance<T>(this, arg, modules, 
       nullInstance: (module.parentModule != null ? () => module.parentModule.module<T>(arg: arg): null));
   }
-  _getComponent<T extends Component>(dynamic arg) {
-    ModuleState module = _modules[this.runtimeType];
-    return module._componentsInstances.getInstance<T>(this, arg, components,
-      nullInstance: (module.parentModule != null ? () => module.parentModule.component<T>(arg: arg): null));
-  }
 
   static T of<T extends Module>() {
     ModuleState module = _modules[T];
@@ -138,13 +130,13 @@ abstract class Module extends StatefulWidget with OnDispose {
 /// Class to maintain `Module` state
 class ModuleState extends State<Module> {
   bool _initialized = false;
+  Future<void> _futureInitialize;
 
   Module _parentModule;
   Module get parentModule => _parentModule;
 
   final InjectManager<Service> _servicesInstances = InjectManager<Service>();
   final InjectManager<Module> _modulesInstances = InjectManager<Module>(standalone: false);
-  final InjectManager<Component> _componentsInstances = InjectManager<Component>(standalone: false);
 
   @override
   void initState() {
@@ -164,6 +156,7 @@ class ModuleState extends State<Module> {
     if (!_initialized) {
       _initialized = true;
       widget.initialize(context);
+      _futureInitialize = widget.futureInitialize(context);
     }
   }
 
@@ -171,7 +164,13 @@ class ModuleState extends State<Module> {
   Widget build(BuildContext context) {
     return InheritedModule(
       module: this.widget,
-      child: widget.build(context));
+      child: FutureWidget<void>(
+        future: (context) => this._futureInitialize,
+        awaitWidget: widget.buildFutureAwaitWidget,
+        errorWidget: widget.buildFutureErrorWidget,
+        builder: (context, result) => widget.build(context)
+      ),
+    );
   }
 
   @override

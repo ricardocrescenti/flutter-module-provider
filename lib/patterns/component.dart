@@ -3,6 +3,9 @@ import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:module_provider/widgets/future/future_await_widget.dart';
+import 'package:module_provider/widgets/future/future_error_widget.dart';
+import 'package:module_provider/widgets/future/future_widget.dart';
 
 /// The `Components` are extended `StatefulWidget` widgets, but simpler, it is
 /// not necessary to create a` StatefulWidget` and `State` class, and usually
@@ -30,7 +33,29 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
 
   /// Initialize something at startup of `Component`, this method id called only 
   /// once when this component is inicialized, before call `build()` method.
-  initialize(BuildContext context, Module module, T controller) {}
+  @mustCallSuper
+ initialize(BuildContext context, Module module, T controller) {
+    if (controller != null) {
+      controller.initialize(context);
+    }
+  }
+
+  /// Initialize something at startup of `Component`, this method id called only 
+  /// once when this component is inicialized, before call `build()` method.
+  @mustCallSuper
+  Future futureInitialize(BuildContext context, Module module, T controller) async {
+    if (controller != null) {
+      await controller.futureInitialize(context);
+    }
+  }
+
+  Widget buildFutureAwaitWidget(BuildContext context) {
+    return FutureAwaitWidget();
+  }
+  
+  Widget buildFutureErrorWidget(BuildContext context, Object error) {
+    return FutureErrorWidget();
+  }
 
   /// Build the user interface represented by this component.
   Widget build(BuildContext context, Module module, T controller);
@@ -49,6 +74,7 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
 /// Class to maintain `Component` state
 class _ComponentWidget<T extends Controller> extends State<Component> {
   bool _initialized = false;
+  Future _futureInitialize;
 
   Module module;
   T controller;
@@ -72,12 +98,18 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     if (!_initialized) {
       _initialized = true;
       widget.initialize(context, module, controller);
+      _futureInitialize = widget.futureInitialize(context, module, controller);
     }
   }
   
   @override
   Widget build(BuildContext context) {
-    return widget.build(context, module, controller);
+    return FutureWidget<void>(
+      future: (context) => this._futureInitialize,
+      awaitWidget: widget.buildFutureAwaitWidget,
+      errorWidget: widget.buildFutureErrorWidget,
+      builder: (context, result) => widget.build(context, module, controller),
+    );
   }
 
   @override

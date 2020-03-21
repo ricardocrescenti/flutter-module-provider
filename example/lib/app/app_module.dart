@@ -12,11 +12,6 @@ class AppModule extends Module {
   ];
 
   @override
-  List<Inject<Component<Controller>>> get components => [
-    Inject((m, arg) => HomeComponent())
-  ];
-
-  @override
   initialize(BuildContext context) {
     service<AppService>().changeDarkMode();
   }
@@ -32,7 +27,7 @@ class AppModule extends Module {
             brightness: (service.darkMode ? Brightness.dark : Brightness.light),
             primarySwatch: Colors.blue,
           ),
-          home: component<HomeComponent>(),
+          home: HomeComponent(),
         );
 
       }

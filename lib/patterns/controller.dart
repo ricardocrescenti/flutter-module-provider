@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/utilities.dart';
 import 'package:module_provider/module_provider.dart';
@@ -30,6 +31,10 @@ abstract class Controller with OnDispose {
   Controller(this.module) {
     Utilities.log('Controller ${this.runtimeType} initialized');
   }
+
+  initialize(BuildContext context) {}
+
+  futureInitialize(BuildContext context) async => {};
 
   /// Called when `Component` is permanently removed from the tree. Will also
   /// be canceled all StreamSubscription. 
