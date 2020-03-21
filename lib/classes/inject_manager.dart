@@ -13,7 +13,7 @@ class InjectManager<T extends OnDispose> {
   InjectManager({this.standalone = true});
 
   /// Get the instance of an object, if it is not instantiated, the object will be created and returned to its instance.
-  T getInstance<P extends T>(Module module, dynamic args, List<Inject<T>> constructors, {T Function() nullInstance}) {
+  T getInstance<P extends T>(Module module, List<Inject<T>> constructors, {T Function() nullInstance}) {
     T instance;
 
     _instances.forEach((item) {
@@ -23,9 +23,9 @@ class InjectManager<T extends OnDispose> {
     });
 
     if (instance == null && constructors != null && constructors.isNotEmpty) {
-      Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module, List<dynamic> args), orElse: () => null); 
+      Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module), orElse: () => null); 
       if (inject != null) {
-        instance = inject.constructor(module, args);
+        instance = inject.constructor(module);
         if (standalone) {
           instance.onDispose.listen((_) {
             _instances.remove(instance);

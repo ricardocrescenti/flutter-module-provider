@@ -8,7 +8,7 @@ import './services/app_service.dart';
 class AppModule extends Module {
   @override
   List<Inject<Service>> get services => [
-    Inject((m, arg) => AppService(m))
+    Inject((m) => AppService(m))
   ];
 
   @override

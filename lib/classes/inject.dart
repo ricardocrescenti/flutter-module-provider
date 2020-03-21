@@ -5,7 +5,7 @@ import 'package:module_provider/module_provider.dart';
 /// object to be built when needed.
 class Inject<T> extends OnDispose {
   /// Default function for creating object
-  final T Function(Module module, dynamic arg) constructor;
+  final T Function(Module module) constructor;
 
   Inject(this.constructor);
 }

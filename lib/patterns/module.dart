@@ -25,15 +25,15 @@ Map<Type, ModuleState> _modules = {};
 /// class AppModule extends Module {
 ///   @override
 ///   List<Inject<Service>> get services => [
-///     Inject((m, arg) => AppService(m)),
-///     Inject((m, arg) => DataService(m)),
+///     Inject((m) => AppService(m)),
+///     Inject((m) => DataService(m)),
 ///   ];
 /// 
 ///   @override
 ///   List<Inject<Component>> get components => [
-///     Inject((m, arg) => HomeComponent()),
-///     Inject((m, arg) => TaskListComponent()),
-///     Inject((m, arg) => AddEditTaskComponent()),
+///     Inject((m) => HomeComponent()),
+///     Inject((m) => TaskListComponent()),
+///     Inject((m) => AddEditTaskComponent()),
 ///   ];
 /// 
 ///   @override
@@ -49,8 +49,8 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// ```dart
   /// @override
   /// List<Inject<Service>> get services => [
-  ///   Inject((m, arg) => AppService(m)),
-  ///   Inject((m, arg) => DataService(m)),
+  ///   Inject((m) => AppService(m)),
+  ///   Inject((m) => DataService(m)),
   /// ];
   /// ```
   List<Inject<Service>> get services => [];
@@ -58,7 +58,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// Load the requested `Service`, if the service is not available in the
   /// current module, an attempt will be made to load this service from the
   /// parent module.
-  T service<T extends Service>({dynamic arg}) => _getService<T>(arg);
+  T service<T extends Service>() => _getService<T>();
 
   /// List of `Module` that can be loaded into your module, should be used
   /// when you need to load another module structure with a service and
@@ -67,8 +67,8 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// ```dart
   /// @override
   /// List<Inject<Module>> get modules => [
-  ///   Inject((m, arg) => RegistrarionModule(m)),
-  ///   Inject((m, arg) => PaymentModule(m)),
+  ///   Inject((m) => RegistrarionModule(m)),
+  ///   Inject((m) => PaymentModule(m)),
   /// ];
   /// ```
   List<Inject<Module>> get modules => [];
@@ -76,7 +76,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// Load the requested `Module`, if the module is not available in the
   /// current module, an attempt will be made to load this module from the
   /// parent module.
-  T module<T extends Module>({dynamic arg}) => _getModule<T>(arg);
+  T module<T extends Module>() => _getModule<T>();
   
   /// Initialize something at startup of `Module`, this method id called only 
   /// once when this module is inicialized, before call `build()` method.
@@ -107,15 +107,15 @@ abstract class Module extends StatefulWidget with OnDispose {
     notifyDispose();
   }
   
-  _getService<T extends Service>(dynamic arg) {
+  _getService<T extends Service>() {
     ModuleState module = _modules[this.runtimeType];
-    return module._servicesInstances.getInstance<T>(this, arg, services, 
-      nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(arg: arg): null));
+    return module._servicesInstances.getInstance<T>(this, services, 
+      nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(): null));
   }
-  _getModule<T extends Module>(dynamic arg) {
+  _getModule<T extends Module>() {
     ModuleState module = _modules[this.runtimeType];
-    return module._modulesInstances.getInstance<T>(this, arg, modules, 
-      nullInstance: (module.parentModule != null ? () => module.parentModule.module<T>(arg: arg): null));
+    return module._modulesInstances.getInstance<T>(this, modules, 
+      nullInstance: (module.parentModule != null ? () => module.parentModule.module<T>(): null));
   }
 
   static T of<T extends Module>() {
@@ -177,7 +177,7 @@ class ModuleState extends State<Module> {
   void dispose() {
     widget.dispose();
     _modulesInstances.dispose((module) => module.dispose());
-    _servicesInstances..dispose((service) => service.dispose());
+    _servicesInstances.dispose((service) => service.dispose());
     _unregisterModule();
     super.dispose();
     
