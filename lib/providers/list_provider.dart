@@ -19,6 +19,8 @@ class ListProvider<T> extends ChangeNotifier {
   /// Itens List
   List<T> get items => _items;
 
+  operator [](int index) => items[index];
+
   /// StreamController to notify when an item is inserted in the list
   StreamController<List<T>> onInsert = StreamController<List<T>>();
 
