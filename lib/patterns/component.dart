@@ -43,10 +43,14 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
   /// Initialize something at startup of `Component`, this method id called only 
   /// once when this component is inicialized, before call `build()` method.
   @mustCallSuper
-  Future futureInitialize(BuildContext context, Module module, T controller) async {
+  Future futureInitialize(BuildContext context, Module module, T controller) {
     if (controller != null) {
-      await controller.futureInitialize(context);
+      Future futureControllerInitialize = controller.futureInitialize(context);
+      if ((futureControllerInitialize != null)) {
+        return futureControllerInitialize;
+      }
     }
+    return null;
   }
 
   Widget buildFutureAwaitWidget(BuildContext context) {
