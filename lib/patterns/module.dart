@@ -78,6 +78,9 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// parent module.
   T module<T extends Module>() => _getModule<T>();
   
+  /// Load the routes to use in this module
+  List<RouterPattern> get routes => null;
+
   /// Initialize something at startup of `Module`, this method id called only 
   /// once when this module is inicialized, before call `build()` method.
   initialize(BuildContext context) {}
@@ -128,7 +131,7 @@ abstract class Module extends StatefulWidget with OnDispose {
 }
 
 /// Class to maintain `Module` state
-class ModuleState extends State<Module> {
+class ModuleState extends State<Module> with RouterOperations {
   bool _initialized = false;
   Future<void> _futureInitialize;
 
@@ -142,6 +145,11 @@ class ModuleState extends State<Module> {
   void initState() {
     super.initState();
     _registerModule();
+
+    if (widget.routes != null) {
+      routes['/'] = Router('/', builder: widget.build);
+      loadRoutes(widget.routes);
+    }
   }
 
   @override
@@ -168,7 +176,15 @@ class ModuleState extends State<Module> {
         future: (context) => this._futureInitialize,
         awaitWidget: widget.buildFutureAwaitWidget,
         errorWidget: widget.buildFutureErrorWidget,
-        builder: (context, result) => widget.build(context)
+        builder: (context, result) {
+
+          if (widget.routes != null) {
+            return navigador;
+          } else {
+            return widget.build(context);
+          }
+
+        }
       ),
     );
   }
@@ -195,5 +211,4 @@ class ModuleState extends State<Module> {
     _modules.remove(this.runtimeType);
     Utilities.log('Module ${this.widget.runtimeType} unregistered');
   }
-  
 }
