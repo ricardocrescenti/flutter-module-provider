@@ -18,6 +18,9 @@ class ValueProvider<T> extends ChangeNotifier {
   /// Set new value
   set value(T newValue) => setValue(newValue);
 
+  /// Checks whether the `ValueProvider` has value
+  bool get hasValue => value != null;
+
   ValueProvider({T initialValue}) {
     value = initialValue;
   }
