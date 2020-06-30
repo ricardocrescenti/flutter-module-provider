@@ -59,10 +59,11 @@ class ValuesProvider extends ChangeNotifier {
   }
   
   /// Set new value to specifically field
-  setValue(String fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
-    _validadeIfFieldExists(fieldName);
+  setValue(dynamic fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
+    List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
+    dynamic valuesContainer = _getValueContainer(fieldNameList);
 
-    dynamic currentValue = _values[fieldName];
+    dynamic currentValue = valuesContainer[fieldNameList.last];
     if (currentValue is ValueProvider) {
       currentValue = currentValue.value;
     }
@@ -71,15 +72,15 @@ class ValuesProvider extends ChangeNotifier {
       return;
     }
 
-    if (_values[fieldName] is ValueProvider) {
-      _values[fieldName].value = newValue;
+    if (valuesContainer[fieldNameList.last] is ValueProvider) {
+      valuesContainer[fieldNameList.last].value = newValue;
     } else {
-      _values[fieldName] = newValue;
+      valuesContainer[fieldNameList.last] = newValue;
     }
     
     //_isChanged = true;
 
-    Utilities.log('Field $fieldName changed to $newValue');
+    Utilities.log('Field ${fieldNameList.join('.')} changed to $newValue');
 
     if (canNotifyListeners) {
       notifyListeners();
@@ -87,10 +88,11 @@ class ValuesProvider extends ChangeNotifier {
   }
 
   /// Get de current value
-  getValue(String fieldName) {
-    _validadeIfFieldExists(fieldName);
+  getValue(dynamic fieldName) {
+    List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
+    dynamic valuesContainer = _getValueContainer(fieldNameList);
 
-    dynamic currentValue = _values[fieldName];
+    dynamic currentValue = valuesContainer[fieldNameList.last];
     if (currentValue is ValueProvider) {
       return currentValue.value;
     } else {
@@ -99,14 +101,15 @@ class ValuesProvider extends ChangeNotifier {
   }
   
   /// Get de currente Provider value
-  getValueProvider(String fieldName) {
-    _validadeIfFieldExists(fieldName);
+  getValueProvider(dynamic fieldName) {
+    List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
+    dynamic valuesContainer = _getValueContainer(fieldNameList);
 
-    dynamic currentValue = _values[fieldName];
+    dynamic currentValue = valuesContainer[fieldNameList.last];
     if (currentValue is ValueProvider) {
       return currentValue;
     } else {
-      throw Exception('Field $fieldName is not of type ValueProvider.');
+      throw Exception('Field ${fieldNameList.last} is not of type ValueProvider.');
     }
   }
 
@@ -127,9 +130,30 @@ class ValuesProvider extends ChangeNotifier {
     }
   }
 
-  _validadeIfFieldExists(String fieldName) {
-    if (!values.containsKey(fieldName)) {
-      throw Exception('The field ($fieldName) dont exists in ValuesProvider.');
+  _getValueContainer(List<dynamic> fieldNameList) {
+    dynamic valuesContainer = _values;
+
+    for (int index = 0; index < fieldNameList.length; index++) {
+
+      if (valuesContainer is Map) {
+
+        if (!valuesContainer.containsKey(fieldNameList[index])) {
+          throw Exception('The field ${fieldNameList.join('.')} does not exists in ValuesProvider');
+        }
+      
+      } else if (valuesContainer is List) {
+
+        if (valuesContainer.length < (index + 1)) {
+          throw Exception('The field ${fieldNameList.join('.')} does not exists in ValuesProvider');
+        }
+
+      }
+
+      if (index == fieldNameList.length - 1) {
+        return valuesContainer;
+      } else {
+        valuesContainer = valuesContainer[fieldNameList[index]];
+      }
     }
   }
 
