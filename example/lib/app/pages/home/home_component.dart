@@ -32,7 +32,7 @@ class HomeComponent extends Component<HomeController> {
               builder: (context, value) {
                 return Text(
                   '${value}',
-                  style: Theme.of(context).textTheme.display1,
+                  style: Theme.of(context).textTheme.headline4,
                 );
               }
             ),
