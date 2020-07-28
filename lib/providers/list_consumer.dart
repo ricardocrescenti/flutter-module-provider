@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
 
-import 'list_provider.dart';
-
 /// Class to consume a `ListProvider`.
 /// 
 /// In the example below, a `ListProvider<String>` will be consumed, and when

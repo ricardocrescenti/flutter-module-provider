@@ -1,5 +1,5 @@
-import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:useful_classes/useful_classes.dart';
 
 /// Class for building and maintaining instances of the objects, will only be
 /// kept in memory if the [standalone] property is true.
@@ -47,7 +47,7 @@ class InjectManager<T extends OnDispose> {
   }
 
   /// Dispose all instances
-  dispose(Function (T instance) instanceDispose) {
+  void dispose(Function (T instance) instanceDispose) {
     _instances.forEach((instance) {
       instanceDispose(instance);
       instance.notifyDispose();

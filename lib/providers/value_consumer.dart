@@ -23,7 +23,7 @@ import 'package:module_provider/module_provider.dart';
 class ValueConsumer<T> extends Consumer<ValueProvider<T>, T> {  
   ValueConsumer({
     Key key,
-    @required ValueProvider<T> provider,
+    @required ValueProvider<T>  provider,
     @required Widget Function(BuildContext context, T value) builder}) : super(key: key, provider: provider, builder: builder);
 
   @override

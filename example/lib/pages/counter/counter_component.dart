@@ -2,25 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:module_provider/module_provider.dart';
 
-import '../../services/app_service.dart';
-import 'home_controller.dart';
+import 'counter_controller.dart';
 
-class HomeComponent extends Component<HomeController> {
+class CounterComponent extends Component<CounterController> {
   @override
-  initController(BuildContext context, Module module) => HomeController(module);
+  initController(BuildContext context, Module module) => CounterController(module);
 
   @override
-  Widget build(BuildContext context, Module module, HomeController controller) {
+  Widget build(BuildContext context, CounterController controller) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter'),
+        title: Text('Counter Example'),
         centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.brightness_low),
-            tooltip: "Change to dark mode",
-            onPressed: module.service<AppService>().changeDarkMode,)
-        ],
       ),
       body: Center(
         child: Column(

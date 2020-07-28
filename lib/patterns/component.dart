@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/inherited_module.dart';
-import 'package:module_provider/classes/on_dispose.dart';
-import 'package:module_provider/classes/utilities.dart';
+import 'package:module_provider/classes/logger.dart';
 import 'package:module_provider/module_provider.dart';
 import 'package:module_provider/widgets/future/future_await_widget.dart';
 import 'package:module_provider/widgets/future/future_error_widget.dart';
 import 'package:module_provider/widgets/future/future_widget.dart';
+import 'package:useful_classes/useful_classes.dart';
 
 /// The `Components` are extended `StatefulWidget` widgets, but simpler, it is
 /// not necessary to create a` StatefulWidget` and `State` class, and usually
@@ -29,12 +29,12 @@ import 'package:module_provider/widgets/future/future_widget.dart';
 /// ```
 abstract class Component<T extends Controller> extends StatefulWidget with OnDispose {
   /// Controller Initializer
-  initController(BuildContext context, Module module) => null;
+  initController(BuildContext context, Module module) => Controller(module);
 
   /// Initialize something at startup of `Component`, this method id called only 
   /// once when this component is inicialized, before call `build()` method.
   @mustCallSuper
- initialize(BuildContext context, Module module, T controller) {
+  initialize(BuildContext context, T controller) {
     if (controller != null) {
       controller.initialize(context);
     }
@@ -43,26 +43,28 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
   /// Initialize something at startup of `Component`, this method id called only 
   /// once when this component is inicialized, before call `build()` method.
   @mustCallSuper
-  Future futureInitialize(BuildContext context, Module module, T controller) {
+  Future futureInitialize(BuildContext context, T controller) {
     if (controller != null) {
       Future futureControllerInitialize = controller.futureInitialize(context);
-      if ((futureControllerInitialize != null)) {
+      if (futureControllerInitialize != null) {
         return futureControllerInitialize;
       }
     }
     return null;
   }
 
+  /// 
   Widget buildFutureAwaitWidget(BuildContext context) {
     return FutureAwaitWidget();
   }
   
+  /// 
   Widget buildFutureErrorWidget(BuildContext context, Object error) {
     return FutureErrorWidget();
   }
 
   /// Build the user interface represented by this component.
-  Widget build(BuildContext context, Module module, T controller);
+  Widget build(BuildContext context, T controller);
 
   @override
   State<StatefulWidget> createState() => _ComponentWidget<T>();
@@ -87,7 +89,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
   void initState() {
     super.initState();
     
-    Utilities.log('Component ${widget.runtimeType} initialized');
+    logger.log('Component ${this.widget.runtimeType} initialized');
   }
 
   @override
@@ -101,8 +103,8 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     
     if (!_initialized) {
       _initialized = true;
-      widget.initialize(context, module, controller);
-      _futureInitialize = widget.futureInitialize(context, module, controller);
+      widget.initialize(context, controller);
+      _futureInitialize = widget.futureInitialize(context, controller);
     }
   }
   
@@ -112,7 +114,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
       future: (context) => this._futureInitialize,
       awaitWidget: widget.buildFutureAwaitWidget,
       errorWidget: widget.buildFutureErrorWidget,
-      builder: (context, result) => widget.build(context, module, controller),
+      builder: (context, result) => widget.build(context, controller),
     );
   }
 
@@ -124,6 +126,6 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     widget.dispose();
     super.dispose();
     
-    Utilities.log('Component ${this} disposed');
+    logger.log('Component ${this.widget.runtimeType} disposed');
   }
 }

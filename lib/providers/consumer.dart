@@ -54,14 +54,14 @@ class ConsumerState<T extends ChangeNotifier, V> extends State<Consumer<T, V>> {
     super.dispose();
   }
 
-  _initConsumer() {
+  void _initConsumer() {
     _module = context.dependOnInheritedWidgetOfExactType<InheritedModule>().module;
     _provider = widget.getProvider(context, this);
     _value = widget.getValue(context, this);
     _provider.addListener(_listener);
   }
 
-  _listener() {
+  void _listener() {
     setState(() {
       _value = widget.getValue(context, this);
     });

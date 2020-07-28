@@ -1,3 +1,7 @@
+## 2.0.0
+
+* 
+
 ## 1.3.1
 
 * Replaced `inheritFromWidgetOfExactType` deprecated method by `dependOnInheritedWidgetOfExactType`.

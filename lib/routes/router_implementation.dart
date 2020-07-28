@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
 
-abstract class RouterOperations {
+abstract class RouterImplementation {
+  @protected
+  String initialRoute = '/';
   @protected
   final Map<String, Router> routes = {};
 
@@ -9,6 +11,7 @@ abstract class RouterOperations {
   Widget get navigador {
     if (_navigador == null) {
       _navigador = Navigator(
+        initialRoute: this.initialRoute,
         onGenerateRoute: onGenerateRoute,
         observers: [RouterObserver(
           onPush: (route, _) => onChangeRoute(route),
@@ -29,16 +32,22 @@ abstract class RouterOperations {
   loadRoutes(List<RouterPattern> routes, {String parentUrl = ''}) {
     routes.forEach((route) {
       if (route is RouterGroup) {
-        loadRoutes(route.routes, parentUrl: parentUrl + (parentUrl.isNotEmpty && route.name.isNotEmpty ? '/' : '') + route.name);
+        loadRoutes(route.routes, parentUrl: parentUrl + ((parentUrl.isEmpty || !parentUrl.endsWith('/')) && route.name.isNotEmpty ? '/' : '') + route.name);
       } else {
-        this.routes[parentUrl + (parentUrl.isNotEmpty && route.name.isNotEmpty ? '/' : '') + route.name] = route;
+        this.routes[parentUrl + ((parentUrl.isEmpty || !parentUrl.endsWith('/')) && route.name.isNotEmpty ? '/' : '') + route.name] = route;
       }
     });
   }  
   
-  @protected
   Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
-    Router router = routes[routeSettings.name];
+
+    ///
+    String routeName = (!routeSettings.name.startsWith('/') ? '/' : '') + routeSettings.name;
+
+    /// 
+    Router router = routes[routeName];
+
+    ///
     if (router == null) {
       //TODO: Implementar a rota inválida
       return null;
@@ -48,7 +57,6 @@ abstract class RouterOperations {
     return MaterialPageRoute(builder: router.builder, settings: routeSettings);
   }
   
-  @protected
   onChangeRoute(Route route) {
     _navigatorState = route.navigator;
   }

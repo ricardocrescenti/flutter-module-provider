@@ -1,7 +1,7 @@
 //import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:module_provider/classes/utilities.dart';
+import 'package:module_provider/classes/logger.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Class to provide a values for a `ValuesConsumer`
@@ -80,7 +80,7 @@ class ValuesProvider extends ChangeNotifier {
     
     //_isChanged = true;
 
-    Utilities.log('Field ${fieldNameList.join('.')} changed to $newValue');
+    logger.log('Field ${fieldNameList.join('.')} changed to $newValue');
 
     if (canNotifyListeners) {
       notifyListeners();

@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:module_provider/classes/on_dispose.dart';
-import 'package:module_provider/classes/utilities.dart';
+import 'package:module_provider/classes/logger.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:useful_classes/useful_classes.dart';
 
 /// The `Service` provide functions and properties to components, submodules
 /// and other services, he is created and maintained in memory until module be 
@@ -37,7 +36,7 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// }
 /// ```
-abstract class Service extends ChangeNotifier with OnDispose {
+abstract class Service with OnDispose {
   /// Module that the service is registered
   final Module module;
 
@@ -46,17 +45,15 @@ abstract class Service extends ChangeNotifier with OnDispose {
   final List<StreamSubscription> streamsSubscriptions = [];
 
   Service(this.module) {
-    Utilities.log('Service ${this.runtimeType} initialized');
+    logger.log('Service ${this.runtimeType} initialized');
   }
 
   /// Called when `Module` is permanently removed from the tree. Will also
   /// be canceled all StreamSubscription. 
-  @override
   void dispose() {
-    super.dispose();
     streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
     notifyDispose();
 
-    Utilities.log('Service ${this} disposed');
+    logger.log('Service ${this} disposed');
   }
 }

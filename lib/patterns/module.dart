@@ -1,14 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/inherited_module.dart';
-import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/classes/inject_manager.dart';
-import 'package:module_provider/classes/utilities.dart';
+import 'package:module_provider/classes/logger.dart';
 import 'package:module_provider/module_provider.dart';
 import 'package:module_provider/widgets/future/future_await_widget.dart';
 import 'package:module_provider/widgets/future/future_error_widget.dart';
 import 'package:module_provider/widgets/future/future_widget.dart';
+import 'package:useful_classes/useful_classes.dart';
 
+/// 
 Map<Type, ModuleState> _modules = {};
 
 /// The `Module` contains the basic structure with services, submodules, and 
@@ -54,29 +55,6 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// ];
   /// ```
   List<Inject<Service>> get services => [];
-
-  /// Load the requested `Service`, if the service is not available in the
-  /// current module, an attempt will be made to load this service from the
-  /// parent module.
-  T service<T extends Service>() => _getService<T>();
-
-  /// List of `Module` that can be loaded into your module, should be used
-  /// when you need to load another module structure with a service and
-  /// component structure.
-  /// 
-  /// ```dart
-  /// @override
-  /// List<Inject<Module>> get modules => [
-  ///   Inject((m) => RegistrarionModule(m)),
-  ///   Inject((m) => PaymentModule(m)),
-  /// ];
-  /// ```
-  List<Inject<Module>> get modules => [];
-
-  /// Load the requested `Module`, if the module is not available in the
-  /// current module, an attempt will be made to load this module from the
-  /// parent module.
-  T module<T extends Module>() => _getModule<T>();
   
   /// Load the routes to use in this module
   List<RouterPattern> get routes => null;
@@ -85,14 +63,23 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// once when this module is inicialized, before call `build()` method.
   initialize(BuildContext context) {}
 
+  /// 
+  T service<T extends Service>() {
+    ModuleState module = _modules[this.runtimeType];
+    return module._servicesInstances.getInstance<T>(this, services, 
+      nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(): null));
+  }
+  
   /// Initialize something at startup of `Module`, this method id called only 
   /// once when this module is inicialized, before call `build()` method.
   Future futureInitialize(BuildContext context) => null;
 
+  /// 
   Widget buildFutureAwaitWidget(BuildContext context) {
     return FutureAwaitWidget();
   }
   
+  /// 
   Widget buildFutureErrorWidget(BuildContext context, Object error) {
     return FutureErrorWidget();
   }
@@ -110,17 +97,7 @@ abstract class Module extends StatefulWidget with OnDispose {
     notifyDispose();
   }
   
-  _getService<T extends Service>() {
-    ModuleState module = _modules[this.runtimeType];
-    return module._servicesInstances.getInstance<T>(this, services, 
-      nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(): null));
-  }
-  _getModule<T extends Module>() {
-    ModuleState module = _modules[this.runtimeType];
-    return module._modulesInstances.getInstance<T>(this, modules, 
-      nullInstance: (module.parentModule != null ? () => module.parentModule.module<T>(): null));
-  }
-
+  /// 
   static T of<T extends Module>() {
     ModuleState module = _modules[T];
     if (module != null) {
@@ -128,10 +105,15 @@ abstract class Module extends StatefulWidget with OnDispose {
     }
     throw Exception('Undeclared module');
   }
+
+  /// 
+  static get onGenerateRoute => _modules[_modules.keys.elementAt(0)].onGenerateRoute;
+
 }
 
 /// Class to maintain `Module` state
-class ModuleState extends State<Module> with RouterOperations {
+class ModuleState extends State<Module> with RouterImplementation {
+  bool _isRootModule = false;
   bool _initialized = false;
   Future<void> _futureInitialize;
 
@@ -146,9 +128,18 @@ class ModuleState extends State<Module> with RouterOperations {
     super.initState();
     _registerModule();
 
-    if (widget.routes != null) {
-      routes['/'] = Router('/', builder: widget.build);
-      loadRoutes(widget.routes);
+    if (_modules.keys.elementAt(0) == this.widget.runtimeType) {
+      _isRootModule = true;
+    }
+
+    if (widget.routes != null || !_isRootModule) {
+
+      if (!_isRootModule && !this.widget.routes.any((route) => route.name.isEmpty || route.name == '/')) {
+        routes['/'] = Router('/', builder: widget.build);
+      }
+
+      loadRoutes(widget.routes, parentUrl: '/');
+      
     }
   }
 
@@ -174,15 +165,26 @@ class ModuleState extends State<Module> with RouterOperations {
       module: this.widget,
       child: FutureWidget<void>(
         future: (context) => this._futureInitialize,
-        awaitWidget: widget.buildFutureAwaitWidget,
-        errorWidget: widget.buildFutureErrorWidget,
+        awaitWidget: this.widget.buildFutureAwaitWidget,
+        errorWidget: this.widget.buildFutureErrorWidget,
         builder: (context, result) {
 
-          if (widget.routes != null) {
-            return navigador;
+          final Widget widget = this.widget.build(context);
+
+          if (this._isRootModule) {
+
+            if (widget == null) {
+              throw Exception('The "build" method was not implemented in ${this.widget.runtimeType}, for root modules or without routes, it is required');
+            }
+            return widget;
+
           } else {
-            return widget.build(context);
+            
+            return navigador;
+
           }
+
+          //return widget.build(context);
 
         }
       ),
@@ -197,18 +199,18 @@ class ModuleState extends State<Module> with RouterOperations {
     _unregisterModule();
     super.dispose();
     
-    Utilities.log('Module ${this.widget.runtimeType} disposed');
+    logger.log('Module ${this.widget.runtimeType} disposed');
   }
 
   _registerModule() {
     if (_modules.containsKey(this.runtimeType)) {
-      throw Exception('The module ${this.widget.runtimeType} is already registered.');
+      throw Exception('The module ${this.widget.runtimeType} ${this._isRootModule ? '(root) ' : ''}is already registered.');
     }
     _modules[this.widget.runtimeType] = this;
-    Utilities.log('Module ${this.widget.runtimeType} registered');
+    logger.log('Module ${this.widget.runtimeType} ${this._isRootModule ? '(root) ' : ''}registered');
   }
   _unregisterModule() {
     _modules.remove(this.runtimeType);
-    Utilities.log('Module ${this.widget.runtimeType} unregistered');
+    logger.log('Module ${this.widget.runtimeType} ${this._isRootModule ? '(root) ' : ''}unregistered');
   }
 }
