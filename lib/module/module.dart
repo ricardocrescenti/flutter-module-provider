@@ -104,7 +104,6 @@ abstract class Module extends StatefulWidget with OnDispose {
 
   /// 
   static get onGenerateRoute => _modules[_modules.keys.elementAt(0)].onGenerateRoute;
-
 }
 
 /// Class to maintain `Module` state

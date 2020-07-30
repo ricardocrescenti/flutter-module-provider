@@ -33,7 +33,7 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-class ValuesConsumer extends Consumer<ValuesProvider, UnmodifiableMapView<String, dynamic>> {
+class ValuesConsumer extends ConsumerPattern<ValuesProvider, UnmodifiableMapView<String, dynamic>> {
   /// The instance of `ValuesProvider` that will provide values
   final ValuesProvider provider;
 
@@ -46,7 +46,7 @@ class ValuesConsumer extends Consumer<ValuesProvider, UnmodifiableMapView<String
     @required this.builder});
 
   @override
-  UnmodifiableMapView<String, dynamic> getValue(BuildContext context, ConsumerState consumer) {
+  UnmodifiableMapView<String, dynamic> getValue(BuildContext context, ConsumerPatternState consumer) {
     return provider.values;
   }
 }

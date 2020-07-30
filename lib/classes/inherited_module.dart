@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:module_provider/patterns/module.dart';
+import 'package:module_provider/module_provider.dart';
 
 /// Class used on to pass the module reference to its descendants
 class InheritedModule extends InheritedWidget {

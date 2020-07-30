@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
+import 'package:module_provider/provider/consumer_pattern.dart';
 
 /// Class to consume a `ListProvider`.
 /// 
@@ -25,7 +26,7 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-class ListConsumer<T> extends Consumer<ListProvider<T>, List<T>> {
+class ListConsumer<T> extends ConsumerPattern<ListProvider<T>, List<T>> {
   /// `ListProvider` instance that will provide the list.
   final ListProvider<T> list;
 
@@ -38,7 +39,7 @@ class ListConsumer<T> extends Consumer<ListProvider<T>, List<T>> {
     @required this.builder}) : super(key: key, provider: list, builder: builder);
 
   @override
-  List<T> getValue(BuildContext context, ConsumerState consumer) {
+  List<T> getValue(BuildContext context, ConsumerPatternState consumer) {
     return list.items;
   }
 }

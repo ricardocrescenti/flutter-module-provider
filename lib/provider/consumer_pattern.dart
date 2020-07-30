@@ -3,29 +3,29 @@ import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Generic class to provide values for consumers
-abstract class Consumer<T extends ChangeNotifier, V> extends StatefulWidget {
+abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidget {
   /// Value provider reference
   final T provider;
 
   /// Funtion to build the user interface represented by this consumer.
   final Widget Function(BuildContext context, V value) builder;
   
-  Consumer({Key key, @required this.provider, @required this.builder}) : super(key: key);
+  ConsumerPattern({Key key, @required this.provider, @required this.builder}) : super(key: key);
 
   /// Get provider reference
-  T getProvider(BuildContext context, ConsumerState consumer) {
+  T getProvider(BuildContext context, ConsumerPatternState consumer) {
     return provider;
   }
 
   /// Get value from value provider
-  V getValue(BuildContext context, ConsumerState consumer);
+  V getValue(BuildContext context, ConsumerPatternState consumer);
 
   @override
-  ConsumerState createState() => ConsumerState<T, V>();
+  ConsumerPatternState createState() => ConsumerPatternState<T, V>();
 }
 
 /// Class to maintain `Consumer` state
-class ConsumerState<T extends ChangeNotifier, V> extends State<Consumer<T, V>> {
+class ConsumerPatternState<T extends ChangeNotifier, V> extends State<ConsumerPattern<T, V>> {
   Module _module;
   Module get module => _module;
 

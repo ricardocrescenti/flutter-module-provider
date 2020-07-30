@@ -2,22 +2,21 @@ library module_pattern;
 
 export 'classes/inject.dart';
 
+export 'module/component.dart';
+export 'module/controller.dart';
+export 'module/module.dart';
+export 'module/service.dart';
 
-export 'patterns/component.dart';
-export 'patterns/controller.dart';
-export 'patterns/module.dart';
-export 'patterns/service.dart';
+export 'provider/consumer_pattern.dart';
+export 'provider/list_consumer.dart';
+export 'provider/list_provider.dart';
+export 'provider/value_consumer.dart';
+export 'provider/value_provider.dart';
+export 'provider/values_consumer.dart';
+export 'provider/values_provider.dart';
 
-export 'providers/consumer.dart';
-export 'providers/list_consumer.dart';
-export 'providers/list_provider.dart';
-export 'providers/value_consumer.dart';
-export 'providers/value_provider.dart';
-export 'providers/values_consumer.dart';
-export 'providers/values_provider.dart';
-
-export 'routes/router_group.dart';
-export 'routes/router_observer.dart';
-export 'routes/router_implementation.dart';
-export 'routes/router_pattern.dart';
-export 'routes/router.dart';
+export 'router/router_group.dart';
+export 'router/router_observer.dart';
+export 'router/router_implementation.dart';
+export 'router/router_pattern.dart';
+export 'router/router.dart';
