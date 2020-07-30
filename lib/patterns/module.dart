@@ -70,10 +70,6 @@ abstract class Module extends StatefulWidget with OnDispose {
       nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(): null));
   }
   
-  /// Initialize something at startup of `Module`, this method id called only 
-  /// once when this module is inicialized, before call `build()` method.
-  Future futureInitialize(BuildContext context) => null;
-
   /// 
   Widget buildFutureAwaitWidget(BuildContext context) {
     return FutureAwaitWidget();
@@ -154,8 +150,7 @@ class ModuleState extends State<Module> with RouterImplementation {
 
     if (!_initialized) {
       _initialized = true;
-      widget.initialize(context);
-      _futureInitialize = widget.futureInitialize(context);
+      _futureInitialize = widget.initialize(context) as Future;
     }
   }
 

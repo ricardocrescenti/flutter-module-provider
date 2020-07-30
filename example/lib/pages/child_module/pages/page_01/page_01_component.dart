@@ -4,6 +4,12 @@ import 'package:module_provider/module_provider.dart';
 
 class Page01Component extends Component {
   @override
+  initialize(BuildContext context, Controller controller) async {
+    await super.initialize(context, controller);
+    await Future.delayed(Duration(seconds: 3));
+  }
+  
+  @override
   Widget build(BuildContext context, Controller controller) {
     return Scaffold(
       appBar: AppBar(

@@ -53,7 +53,6 @@ abstract class Service with OnDispose {
   void dispose() {
     streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
     notifyDispose();
-
     logger.log('Service ${this} disposed');
   }
 }

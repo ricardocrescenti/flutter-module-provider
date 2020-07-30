@@ -35,22 +35,7 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
   /// once when this component is inicialized, before call `build()` method.
   @mustCallSuper
   initialize(BuildContext context, T controller) {
-    if (controller != null) {
-      controller.initialize(context);
-    }
-  }
-
-  /// Initialize something at startup of `Component`, this method id called only 
-  /// once when this component is inicialized, before call `build()` method.
-  @mustCallSuper
-  Future futureInitialize(BuildContext context, T controller) {
-    if (controller != null) {
-      Future futureControllerInitialize = controller.futureInitialize(context);
-      if (futureControllerInitialize != null) {
-        return futureControllerInitialize;
-      }
-    }
-    return null;
+    return controller.initialize(context);
   }
 
   /// 
@@ -87,8 +72,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
 
   @override
   void initState() {
-    super.initState();
-    
+    super.initState();    
     logger.log('Component ${this.widget.runtimeType} initialized');
   }
 
@@ -103,8 +87,7 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
     
     if (!_initialized) {
       _initialized = true;
-      widget.initialize(context, controller);
-      _futureInitialize = widget.futureInitialize(context, controller);
+      _futureInitialize = widget.initialize(context, controller) as Future;
     }
   }
   

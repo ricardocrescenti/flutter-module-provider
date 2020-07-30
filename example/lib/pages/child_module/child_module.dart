@@ -13,6 +13,12 @@ class ChildModule extends Module {
   ];
 
   @override
+  initialize(BuildContext context) async {
+    await super.initialize(context);
+    await Future.delayed(Duration(seconds: 3));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

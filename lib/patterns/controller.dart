@@ -36,8 +36,6 @@ class Controller with OnDispose {
   /// 
   initialize(BuildContext context) {}
 
-  Future futureInitialize(BuildContext context) => null;
-
   /// Called when `Component` is permanently removed from the tree. Will also
   /// be canceled all StreamSubscription. 
   @mustCallSuper
