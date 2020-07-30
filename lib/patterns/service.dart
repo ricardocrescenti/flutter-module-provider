@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:module_provider/classes/logger.dart';
+import 'package:module_provider/util/logger.dart';
 import 'package:module_provider/module_provider.dart';
 import 'package:useful_classes/useful_classes.dart';
 

@@ -1,7 +1,7 @@
 //import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:module_provider/classes/logger.dart';
+import 'package:module_provider/util/logger.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Class to provide a values for a `ValuesConsumer`

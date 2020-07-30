@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/classes/inject_manager.dart';
-import 'package:module_provider/classes/logger.dart';
+import 'package:module_provider/util/logger.dart';
 import 'package:module_provider/module_provider.dart';
 import 'package:module_provider/widgets/future/future_await_widget.dart';
 import 'package:module_provider/widgets/future/future_error_widget.dart';
