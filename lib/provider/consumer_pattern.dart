@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:module_provider/classes/inherited_module.dart';
-import 'package:module_provider/module_provider.dart';
 
 /// Generic class to provide values for consumers
 abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidget {
@@ -26,9 +24,6 @@ abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidg
 
 /// Class to maintain `Consumer` state
 class ConsumerPatternState<T extends ChangeNotifier, V> extends State<ConsumerPattern<T, V>> {
-  Module _module;
-  Module get module => _module;
-
   T _provider;
   T get provider => _provider;
 
@@ -55,7 +50,6 @@ class ConsumerPatternState<T extends ChangeNotifier, V> extends State<ConsumerPa
   }
 
   void _initConsumer() {
-    _module = context.dependOnInheritedWidgetOfExactType<InheritedModule>().module;
     _provider = widget.getProvider(context, this);
     _value = widget.getValue(context, this);
     _provider.addListener(_listener);
