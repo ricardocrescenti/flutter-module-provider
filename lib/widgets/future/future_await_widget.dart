@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 /// Default await widget used by `FutureWidget`
 class FutureAwaitWidget extends StatelessWidget {
+  const FutureAwaitWidget();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,9 +12,9 @@ class FutureAwaitWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             CircularProgressIndicator()
-          ],
+          ]
         )
       )
     );
