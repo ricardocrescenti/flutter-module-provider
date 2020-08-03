@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'future_await_widget.dart';
 import 'future_error_widget.dart';
+import 'package:module_provider/module_provider.dart';
 
+/// Widget to implement loading in [Module] and [Component] when `intialize`
+/// is asynchronous.
 class FutureWidget<T> extends StatefulWidget {
   final Future<T> Function(BuildContext context) future;
   final Widget Function(BuildContext context, T data) builder;
   final Widget Function(BuildContext context) awaitWidget;
   final Widget Function(BuildContext context, Object error) errorWidget;
   
+  ///FutureWidget initializer
   FutureWidget({
     @required this.future,
     @required this.builder,
@@ -20,6 +24,7 @@ class FutureWidget<T> extends StatefulWidget {
   State<StatefulWidget> createState() => _FutureWidgetState<T>();
 }
 
+/// Class to maintain `FutureWidget` state
 class _FutureWidgetState<T> extends State<FutureWidget<T>> {
   @override
   Widget build(BuildContext context) {

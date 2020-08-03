@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class RouterObserver extends NavigatorObserver {
+  
   /// The [Navigator] pushed `route`.
   ///
   /// The route immediately below that one, and thus the previously active
   /// route, is `previousRoute`.
   Function(Route route, Route previousRoute) onPush;
+  
   /// The [Navigator] popped `route`.
   ///
   /// The route immediately below that one, and thus the newly active
   /// route, is `previousRoute`.
   Function(Route route, Route previousRoute) onPop;
+  
   /// The [Navigator] removed `route`.
   ///
   /// If only one route is being removed, then the route immediately below
@@ -21,8 +24,10 @@ class RouterObserver extends NavigatorObserver {
   /// method will be called once for each removed route, from the topmost route
   /// to the bottommost route.
   Function(Route route, Route previousRoute) onRemove;
+  
   /// The [Navigator] replaced `oldRoute` with `newRoute`.
   Function(Route newRoute, Route previousRoute) onReplace;
+  
   /// The [Navigator]'s route `route` is being moved by a user gesture.
   ///
   /// For example, this is called when an iOS back gesture starts.
@@ -35,11 +40,13 @@ class RouterObserver extends NavigatorObserver {
   /// the gesture is canceled. In that case, [didStopUserGesture] is still
   /// called but a follow-up [didPop] is not.
   Function(Route route, Route previousRoute) onStartUserGesture;
+  
   /// User gesture is no longer controlling the [Navigator].
   ///
   /// Paired with an earlier call to [didStartUserGesture].
   Function() onStopUserGesture;
 
+  /// RouterObserver initializer
   RouterObserver({
     this.onPush,
     this.onPop,

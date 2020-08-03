@@ -1,33 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
 
-abstract class RouterImplementation {
+/// Abstract class for implementing the route manager
+abstract class RouterManager {
+
+  /// Initial route.
   @protected
   String initialRoute = '/';
+
+  /// List of routes.
   @protected
   final Map<String, Router> routes = {};
 
-  Navigator _navigador;
-  Widget get navigador {
-    if (_navigador == null) {
-      _navigador = Navigator(
+  Navigator _navigator;
+  Widget get navigator {
+    if (_navigator == null) {
+      _navigator = Navigator(
         initialRoute: this.initialRoute,
         onGenerateRoute: onGenerateRoute,
-        observers: [RouterObserver(
-          onPush: (route, _) => onChangeRoute(route),
-          onReplace: (route, _) => onChangeRoute(route))
-        ]
+        // observers: [RouterObserver(
+        //   onPush: (route, _) => onChangeRoute(route),
+        //   onReplace: (route, _) => onChangeRoute(route))
+        // ]
       );
     }
     return WillPopScope(
       onWillPop: () async => !await _navigatorState.maybePop(),
-      child: _navigador
+      child: _navigator
     );
   }
 
   NavigatorState _navigatorState;
   NavigatorState get navigatorState => _navigatorState;
 
+  /// Load the list of [RouterPattern] passed in the [routes] parameter and
+  /// convert it into a standard format for the route manager.
   @protected
   loadRoutes(List<RouterPattern> routes, {String parentUrl = ''}) {
     routes.forEach((route) {
@@ -39,25 +46,25 @@ abstract class RouterImplementation {
     });
   }  
   
+  /// Method that receives the route request and returns the page to show
   Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
 
-    ///
+    /// Get route name
     String routeName = (!routeSettings.name.startsWith('/') ? '/' : '') + routeSettings.name;
 
-    /// 
+    /// Get route
     Router router = routes[routeName];
 
-    ///
+    /// If the requested route does not exist, an error will be issued
     if (router == null) {
-      //TODO: Implementar a rota inválida
-      return null;
+      throw Exception('Invalid route \'$routeName\'');
     }
 
-    //TODO: Implementar o canPush e canPop
+    /// Return [MaterialPageRoute] to create the page
     return MaterialPageRoute(builder: router.builder, settings: routeSettings);
   }
   
-  onChangeRoute(Route route) {
-    _navigatorState = route.navigator;
-  }
+  // onChangeRoute(Route route) {
+  //   _navigatorState = route.navigator;
+  // }
 }

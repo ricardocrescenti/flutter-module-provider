@@ -257,7 +257,7 @@ abstract class Module extends StatefulWidget with OnDispose {
 }
 
 /// Class to maintain `Module` state
-class ModuleState extends State<Module> with RouterImplementation {
+class ModuleState extends State<Module> with RouterManager {
 
   /// Indicates whether the module is the root module
   bool _isRootModule = false;
@@ -331,7 +331,7 @@ class ModuleState extends State<Module> with RouterImplementation {
 
           } else {
             
-            return navigador;
+            return navigator;
 
           }
 
