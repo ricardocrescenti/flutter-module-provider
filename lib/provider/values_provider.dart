@@ -1,12 +1,11 @@
 //import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:module_provider/util/logger.dart';
 import 'package:module_provider/module_provider.dart';
 
-/// Class to provide a values for a `ValuesConsumer`
+/// Class to provide a values for a [ValuesConsumer]
 /// 
-/// In the example below, a `ValuesProvider` will be created to
+/// In the example below, a [ValuesProvider] will be created to
 /// maintain the movie information
 /// 
 /// ```dart
@@ -15,53 +14,40 @@ import 'package:module_provider/module_provider.dart';
 ///   'director': 'James Cameron',
 ///   'year': 1991 
 /// });
-/// 
-/// /// to set new values
-/// movie.setValue('year', 1991);
-/// movie.setValues({
-///   'name': 'Star Wars: Episode IV - A New Hope',
-///   'director': 'George Lucas',
-///   'year': 1977 
-/// });
-/// 
-/// /// to get current values
-/// movie.getValue('name');
 /// ```
+/// To set the values use the following methods:
+/// 
+/// - [setValue] (set the value of a single field)
+/// - [setValues] (set the value of multiple fields)
+/// 
+/// To get the values use the following methods:
+/// 
+/// - [getValue] (get the single field value)
+/// - [getValues] (get all field values)
+/// - [getValueProvider] (get the field provider reference, if the field value is ValueProvider)
 class ValuesProvider extends ChangeNotifier {
+
+  /// Map with current values
   final Map<String, dynamic> _values;
+
+  /// Map with original values, used to detect changed values
   Map<String, dynamic> _originalvalues = Map();
 
-  //bool _isChanged = true;
-  //UnmodifiableMapView<String, dynamic> _unmodifiableValues;
-
   /// Get current values
-  //UnmodifiableMapView<String, dynamic> get values => _createUnmodifiableValues();
   Map<String, dynamic> get values => _values;
 
-  /// Operator to get value
+  /// Operator to get single value
   operator [](String fieldName) => values[fieldName];
 
+  /// ValuesProvider initializer
   ValuesProvider(this._values) {
     this._values.forEach((key, value) => this._originalvalues[key] = value);
   }
 
-  /// Set new values
-  setValues(Map<String, dynamic> newValues) {
-    if (newValues == null) {
-      throw Exception('The map containing new values cannot be null');
-    }
-    
-    newValues.forEach((key, value) {
-      setValue(key, value, canNotifyListeners: false);
-    });
-    
-    notifyListeners();
-  }
-  
-  /// Set new value to specifically field
+  /// Set the value of a single field
   setValue(dynamic fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
     List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
-    dynamic valuesContainer = _getValueContainer(fieldNameList);
+    dynamic valuesContainer = _getValue(fieldNameList);
 
     dynamic currentValue = valuesContainer[fieldNameList.last];
     if (currentValue is ValueProvider) {
@@ -77,20 +63,29 @@ class ValuesProvider extends ChangeNotifier {
     } else {
       valuesContainer[fieldNameList.last] = newValue;
     }
-    
-    //_isChanged = true;
-
-    logger.log('Field ${fieldNameList.join('.')} changed to $newValue');
 
     if (canNotifyListeners) {
       notifyListeners();
     }
   }
 
-  /// Get de current value
+  /// Set the value of multiple fields
+  setValues(Map<String, dynamic> newValues) {
+    if (newValues == null) {
+      throw Exception('The map containing new values cannot be null');
+    }
+    
+    newValues.forEach((key, value) {
+      setValue(key, value, canNotifyListeners: false);
+    });
+    
+    notifyListeners();
+  }
+  
+  /// Get the single field value
   getValue(dynamic fieldName) {
     List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
-    dynamic valuesContainer = _getValueContainer(fieldNameList);
+    dynamic valuesContainer = _getValue(fieldNameList);
 
     dynamic currentValue = valuesContainer[fieldNameList.last];
     if (currentValue is ValueProvider) {
@@ -100,37 +95,8 @@ class ValuesProvider extends ChangeNotifier {
     }
   }
   
-  /// Get de currente Provider value
-  getValueProvider(dynamic fieldName) {
-    List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
-    dynamic valuesContainer = _getValueContainer(fieldNameList);
-
-    dynamic currentValue = valuesContainer[fieldNameList.last];
-    if (currentValue is ValueProvider) {
-      return currentValue;
-    } else {
-      throw Exception('Field ${fieldNameList.last} is not of type ValueProvider.');
-    }
-  }
-
-  /// Get values
-  getValues({bool onlyChanged = false}) {
-    assert(onlyChanged != null);
-
-    if (onlyChanged) {
-      Map<String, dynamic> changedValues = Map();
-      _values.forEach((key, value) {
-        if (_originalvalues[key] != value) {
-          changedValues[key] = value;
-        }
-      });
-      return changedValues;
-    } else {
-      return values;
-    }
-  }
-
-  _getValueContainer(List<dynamic> fieldNameList) {
+  /// Get value from tree map
+  _getValue(List<dynamic> fieldNameList) {
     dynamic valuesContainer = _values;
 
     for (int index = 0; index < fieldNameList.length; index++) {
@@ -157,13 +123,33 @@ class ValuesProvider extends ChangeNotifier {
     }
   }
 
-  // _createUnmodifiableValues() {
-  //   if (_isChanged) {
-  //     _unmodifiableValues = UnmodifiableMapView<String, dynamic>(_values.map((key, value) {
-  //       return MapEntry(key, (value is ValueProvider ? value.value : value));
-  //     }));
-  //     _isChanged = false;
-  //   }
-  //   return _unmodifiableValues;
-  // }
+  /// Get the field's value provider, if the field's value is ValueProvider.
+  getValueProvider(dynamic fieldName) {
+    List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
+    dynamic valuesContainer = _getValue(fieldNameList);
+
+    dynamic currentValue = valuesContainer[fieldNameList.last];
+    if (currentValue is ValueProvider) {
+      return currentValue;
+    } else {
+      throw Exception('Field ${fieldNameList.last} is not of type ValueProvider.');
+    }
+  }
+
+  /// Get all values
+  getValues({bool onlyChanged = false}) {
+    assert(onlyChanged != null);
+
+    if (onlyChanged) {
+      Map<String, dynamic> changedValues = Map();
+      _values.forEach((key, value) {
+        if (_originalvalues[key] != value) {
+          changedValues[key] = value;
+        }
+      });
+      return changedValues;
+    } else {
+      return values;
+    }
+  }
 }

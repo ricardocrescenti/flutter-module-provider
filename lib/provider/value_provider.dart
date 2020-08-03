@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:module_provider/module_provider.dart';
 
-/// Class to provide a value for a `ValueConsumer`
+/// Class to provide a value for a [ValueConsumer]
 /// 
-/// In the example below, a `ValueProvider<String>` will be created to
+/// In the example below, a [ValueProvider] of type [String] will be created to
 /// maintain the movie name.
 /// 
 /// ```dart
@@ -11,6 +12,8 @@ import 'package:flutter/foundation.dart';
 /// movieName.setValue('Total Recall');
 /// ```
 class ValueProvider<T> extends ChangeNotifier {
+
+  /// Current value of [ValueProvider]
   T _value;
 
   /// Get current value
@@ -18,9 +21,10 @@ class ValueProvider<T> extends ChangeNotifier {
   /// Set new value
   set value(T newValue) => setValue(newValue);
 
-  /// Checks whether the `ValueProvider` has value
+  /// Checks whether the [ValueProvider] has value
   bool get hasValue => value != null;
 
+  /// ValueProvider initializer
   ValueProvider({T initialValue}) {
     value = initialValue;
   }

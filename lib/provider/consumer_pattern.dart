@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Generic class to provide values for consumers
 abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidget {
+
   /// Value provider reference
   final T provider;
 
@@ -9,11 +10,6 @@ abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidg
   final Widget Function(BuildContext context, V value) builder;
   
   ConsumerPattern({Key key, @required this.provider, @required this.builder}) : super(key: key);
-
-  /// Get provider reference
-  T getProvider(BuildContext context, ConsumerPatternState consumer) {
-    return provider;
-  }
 
   /// Get value from value provider
   V getValue(BuildContext context, ConsumerPatternState consumer);
@@ -24,17 +20,23 @@ abstract class ConsumerPattern<T extends ChangeNotifier, V> extends StatefulWidg
 
 /// Class to maintain `Consumer` state
 class ConsumerPatternState<T extends ChangeNotifier, V> extends State<ConsumerPattern<T, V>> {
+
+  /// Reference of current value provider
   T _provider;
+  /// Get the reference of current value provider
   T get provider => _provider;
 
+  /// Value of the last value change notification from the value provider
   V _value;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (_provider == null) {
-      _initConsumer();
+    if (_provider == null) {    
+      _provider = widget.provider;
+      _value = widget.getValue(context, this);
+      _provider.addListener(_listener);
     }
   }
 
@@ -49,12 +51,7 @@ class ConsumerPatternState<T extends ChangeNotifier, V> extends State<ConsumerPa
     super.dispose();
   }
 
-  void _initConsumer() {
-    _provider = widget.getProvider(context, this);
-    _value = widget.getValue(context, this);
-    _provider.addListener(_listener);
-  }
-
+  /// Event to get current value of value provider and call [setState] to rebuild widget
   void _listener() {
     setState(() {
       _value = widget.getValue(context, this);

@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:module_provider/module_provider.dart';
 
-/// Class to provide a list of defined objects for a `ListConsumer`
+/// Class to provide a list of defined objects for a [ListConsumer]
 /// 
-/// In the example below, a `ListProvider<String>` will be created to
+/// In the example below, a [ListProvider] os type [String] will be created to
 /// maintain the movies list.
 /// 
 /// ```dart
@@ -19,6 +20,7 @@ class ListProvider<T> extends ChangeNotifier {
   /// Itens List
   List<T> get items => _items;
 
+  /// Operator to get value of [index] position
   operator [](int index) => items[index];
 
   /// StreamController to notify when an item is inserted in the list
@@ -27,6 +29,7 @@ class ListProvider<T> extends ChangeNotifier {
   /// StreamController to notify when an item is removed from the list
   StreamController<List<T>> onRemove = StreamController<List<T>>();  
 
+  /// ListProvider initializer
   ListProvider({List<T> initialItems}) {
     if (initialItems != null) {
       _items.addAll(initialItems);
