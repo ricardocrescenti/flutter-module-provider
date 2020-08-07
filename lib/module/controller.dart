@@ -47,13 +47,13 @@ class Controller with OnDispose {
 
   /// Called when the [Component] is discarded. All StreamSubscription will also 
   /// be canceled.
-  @mustCallSuper
+  @override
   dispose() {
 
     // cancel all streams subscriptions
     streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
 
-    notifyDispose();
+    super.dispose();
     
     logger.log('Controller ${this.runtimeType} disposed');
   }

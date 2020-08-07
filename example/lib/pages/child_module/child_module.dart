@@ -1,3 +1,4 @@
+import 'package:counter_example/pages/child_module/services/child_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:module_provider/module_provider.dart';
@@ -6,6 +7,11 @@ import 'pages/page_01/page_01_component.dart';
 import 'pages/page_02/page_02_component.dart';
 
 class ChildModule extends Module {
+  @override
+  List<InjectService> get services => [
+    (m) => ChildService(m)
+  ];
+
   @override
   List<RouterPattern> get routes => [
     Router('page01', builder: (context) => Page01Component()),

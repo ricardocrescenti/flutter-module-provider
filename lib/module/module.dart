@@ -235,9 +235,9 @@ abstract class Module extends StatefulWidget with OnDispose {
 
   /// Called when this object is permanently removed from the tree. All services 
   /// loaded in memory will be disposed.
-  @mustCallSuper
+  @override
   dispose() {
-    notifyDispose();
+    super.dispose();
   }
   
   /// Get the reference of an initialized module
@@ -348,13 +348,8 @@ class ModuleState extends State<Module> with RouterManager {
   @override
   void dispose() {
 
-    // dispose widget
     widget.dispose();
-
-    // dispose all services instances
     _servicesInstances.dispose();
-
-    // unregister module
     _unregisterModule();
 
     super.dispose();

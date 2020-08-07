@@ -1,20 +1,63 @@
-# module_provider
+# Module Provider 👽
 
-This package facilitates the creation of applications in the module structure, with service injection, components and state management.
+Create great applications, organizing your code structure in modules, with dependency injection (services), route management and state control.
+
+- **[Introduction](#introduction)**
+- **[How to Install](#how-to-install)**
+- **[Modules Structure](#modules-structure)**
+  - **[Root Module](#root-module)**
+  - **[Childs Module](#childs-module)**
+  - **[Service](#service)**
+  - **[Component](#component)**
+  - **[Controller](#controller)**
+- **[State Management](#state-management)**
+  - **[ValueProvider](#valueprovider-/-valueconsumer)**
+  - **[ValuesProvider](#valuesprovider-/-valuesconsumer)**
+  - **[ListProvider](#listprovider-/-listconsumer)**
+- **[Examples](#examples)**
+  - **[Counter](#counter)**
+  - **[Task List](#task-list)**
+  - **[Weather Forecast](#weather-forecast)**
+  - **[Shopping Cart](#shopping-cart)**
+
+## Introduction
+
+The **Module Provider** is a package that facilitates the creation of simple and complex applications, using a concept of modules with dependency injection, similar to that used by Angular, having in the module the declaration of services (dependency injection) and routes navigation.
+
+This package also provides classes for state managers, which facilitate the control of data changes and update the dependents (widgets) in each change
+
+## How to install
+
+Add the dependency on `pubspec.yaml`. 
+
+*Informing `^` at the beginning of the version, you will receive all updates that are made from version `2.0.0` up to the version before `3.0.0`.*
+
+```yaml
+dependencies:
+  module_provider: ^2.0.0
+```
+
+Import the package in the source code.
 
 ```dart
 import 'package:module_provider/module_provider.dart';
 ```
 
-Below I will explain how `Module`,` Service`, `Component` and` Controller` are used, and then we will explain how to use the state management classes with` ValueProvider`, `ValuesProvider` and` ServiceConsumer` and also how to consume these values, ​​and be notified whenever there are any changes to these values.
+## Modules Structure
 
----
+A module is the main structure of the application, where all services used and navigation routes will be declared.
 
-## **Module**
+The use of routes is important for applications that have more than one module or have the need to navigate to other screens, this practice also facilitates the reading of the code, because as the routes are declared in the module, it is possible to identify all the screens that the module will open in just one location. If your application does not use navigation, using routes is optional.
 
-The `Module` contains the basic structure with services, submodules, and components, keeping services instances. When the module is disposed, all services are also disposed.
+The implementation of modules is standard throughout the system, with the exception of the first application module, which will be the `Root Module`, and all other modules will be `Child Modules`.
 
-On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the widget informed in `build` method  is returned.
+Below, it will be explained how the declaration of each type of module is made.
+
+#### **Root Module**
+
+As already explained above, the `Root Module` is the main module of the application, the first to be created, which will contain all the sub-modules (`Child Modules`), [Component](#component) and any other type of Widget as descending, in this module, the implementation of the `build` method will be required.
+
+On `main.dart`, I informed that the `AppModule` is my root module, how much the module is create, the widget informed in `build` method is returned. As this is the root module, the `MaterialApp` should be returned.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -23,7 +66,9 @@ import 'package:app_module.dart';
 void main() => runApp(AppModule());
 ```
 
-In `app_module.dart`, I created my module structure, with` Services` and `Components`, and in the` build` method, `HomeComponent` is returned for display on the screen.
+In `app_module.dart`, I created my module structure, with `Services` and `Routes`. 
+
+The `Widget` created by the `build` method will be `MaterialApp`, and as the module has configured routes, the `Module.onGenerateRoute` method must be passed to `MaterialApp.onGenerateRoute`, so that the route manager can be used of the module.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -31,30 +76,90 @@ import 'package:flutter/material.dart';
 class AppModule extends Module {
   @override
   List<Inject<Service>> get services => [
-    Inject((m, arg) => AppService(m)),
-    Inject((m, arg) => DataService(m)),
+    (module) => AppService(module),
+    (module) => DataService(module),
   ];
 
   @override
-  List<Inject<Component>> get components => [
-    Inject((m, arg) => HomeComponent()),
-    Inject((m, arg) => TaskListComponent()),
-    Inject((m, arg) => AddEditTaskComponent()),
+  List<RouterPattern> get routes => [
+    Router('', (context) => HomePage()),
+    Router('page01', (context) => FirstPage()),
+    Router('page02', (context) => SecondPage()),
   ];
 
   @override
-  initialize(BuildContext context) {
-    service<AppService>().changeDarkMode();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Module Provider',
+      onGenerateRoute: Module.onGenerateRoute,
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => component<HomeComponent>();
 }
 ```
 
-Optionally, if you need to initialize something on `Module` initialize, override the `initialize()` method in `Module`.
+If you do not use routes, the `Module.onGenerateRoute` method does not need to be used, and the main component will be informed directly in the` MaterialApp.home` parameter.
 
-## **Service**
+```dart
+import 'package:flutter/material.dart';
+
+class AppModule extends Module {
+  @override
+  List<Inject<Service>> get services => [
+    (module) => AppService(module),
+    (module) => DataService(module),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Module Provider',
+      home: HomePage(),
+    );
+  }
+}
+```
+
+#### **Childs Module**
+
+The child modules are similar to the root modules, however the `build` method will only be mandatory if no routes are used, or if the root route (/) is not defined.
+
+In the example below, a child module that does not use routes will be created.
+
+```dart
+import 'package:flutter/material.dart';
+
+class ChildModule extends Module {
+  @override
+  List<Inject<Service>> get services => [
+    (m, arg) => ChildService(m),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ChildPage();
+  }
+}
+```
+
+The example below will show how a module that uses routes will look.
+
+```dart
+class ChildModule extends Module {
+  @override
+  List<Inject<Service>> get services => [
+    (m, arg) => ChildService(m),
+  ];
+
+  @override
+  List<RouterPattern> get routes => [
+    Router('', (context) => ChildPage()),
+    Router('childpage01', (context) => FirstChildPage()),
+    Router('childpage02', (context) => SecondChildPage()),
+  ];
+}
+```
+
+### **Service**
 
 The `Service` provide functions and properties to components, submodules and other services, he is created and maintained in memory until module be disposed.
 
@@ -65,26 +170,30 @@ class AppService extends Service {
   bool _darkMode = false;
   bool get darkMode => _darkMode;
 
-  final ValueProvider<int> counter = ValueProvider(initialValue: 0);
-
   AppService(Module module) : super(module);
+}
+```
 
-  changeDarkMode() {
-    _darkMode = !_darkMode;
-    notifyListeners();
-  }
+### **Component**
 
-  incrementCounter() {
-    counter.value++;
+The `Components` are extended `StatefulWidget` widgets, but simpler, it is not necessary to create a` StatefulWidget` and `State` class, and usually have an associated `Controller` to maintain the state of the component.
+
+Basic example of implementing a component.
+
+```dart
+class HomeComponent extends Component {
+  @override
+  Widget build(BuildContext context, Controller controller) { 
+    return Scaffold(
+      body: Center(
+        child: Text('Home Component')
+      )
+    );
   }
 }
 ```
 
-When `changeDarkMode()` is called, the `darkMode` property is changed and `notifyListeners()` is called to notify all consumers.
-
-## **Component**
-
-The `Components` are extended `StatefulWidget` widgets, but simpler, it is not necessary to create a` StatefulWidget` and `State` class, and usually have an associated `Controller` to maintain the state of the component.
+Implementation of a component with a custom controller.
 
 ```dart
 class HomeComponent extends Component<HomeController> {
@@ -92,31 +201,33 @@ class HomeComponent extends Component<HomeController> {
   initController(BuildContext context, Module module) => HomeController(module);
 
   @override
-  Widget build(BuildContext context, Module module, HomeController controller) { 
-    /// return Scaffold(....
+  Widget build(BuildContext context, HomeController controller) { 
+    return Scaffold(
+      body: Center(
+        child: Text(controller.bodyMassage)
+      )
+    );
   }
 }
 ```
 
-## **Controller**
+### **Controller**
 
 The `Controller` is used together a `Component` to keep the logic and state separate from the component, leaving  component solely responsible for the layout.
 
 ```dart
 class HomeController extends Controller {
-  final ValueProvider<int> counter = ValueProvider(initialValue: 0);
+  String bodyMassage = 'Home Componente';
 
   HomeController(Module module) : super(module);
-
-  increment() {
-    counter.value++;
-  }
 }
 ```
 
-# State Management Classes
+## State Management
 
-## **ValueProvider / ValueConsumer**
+State managers are classes that facilitate the control of change transfers, all of which have a consumer so that they can change a screen with each value change.
+
+### **ValueProvider / ValueConsumer**
 
 Simple class to notify listeners when value is changed.
 
@@ -140,7 +251,7 @@ ValueConsumer<String>(
 );
 ```
 
-## **ValuesProvider / ValuesConsumer**
+### **ValuesProvider / ValuesConsumer**
 
 Controlling multiple values and ValueProvider.
 
@@ -185,29 +296,41 @@ ValueConsumer<String>(
 );
 ```
 
-## **ServiceConsumer**
+### **ListProvider / ListConsumer**
 
-The 'ServiceConsumer' is used for consume an specfically service declared in the 'Module', and receive notifications when state of service is changed. 
-
-For example, you have a 'darkMode' property of type bool in the 'Service', and on change this property, yout application need build again to set your application to dark mode.
+Simple class to notify listeners when list is changed.
 
 ```dart
-ServiceConsumer<AppService>(
-      builder: (context, service) {
-
-        return MaterialApp(
-          title: 'Task List',
-          theme: ThemeData(
-            brightness: (service.darkMode ? Brightness.dark : Brightness.light),
-            primarySwatch: Colors.blue,
-          ),
-          initialRoute: Page.home,
-          routes: {
-            Page.home: (context) => component<HomeComponent>(),
-            Page.addEdit: (context) => component<AddEditTaskComponent>(),
-          },
-        );
-
-      }
-    )
+ListProvider<String> movies = ValueProvider(initialValue: [
+  'Star Wars',
+  'Terminator 2'
+]);
 ```
+
+You can modify value setting property 'value' or calling method 'setValue'.
+
+```dart
+description.value = 'Another Description';
+description.setValue('Another Description');
+```
+
+Example to consume this value. In this case, when changing the description value, the Text Widget is rebuilt and shows the new value.
+
+```dart
+ValueConsumer<String>(
+  provider: description,
+  builder: (context, value) => Text(value)
+);
+```
+
+## Examples
+
+### **Counter**
+
+
+
+### **Task List**
+
+
+
+### **Weather Forecast**

@@ -12,10 +12,10 @@ dependencies:
     sdk: flutter
 
   useful_classes:
-    # path: 'D:\Projetos\CrescentiApps\Packages\Flutter\flutter-useful-classes'
-    git: 
-      url: https://github.com/ricardocrescenti/flutter-useful-classes.git
-      ref: master
+    path: 'D:\Projetos\CrescentiApps\Packages\Flutter\flutter-useful-classes'
+    # git: 
+    #   url: https://github.com/ricardocrescenti/flutter-useful-classes.git
+    #   ref: master
 
 dev_dependencies:
   flutter_test:

@@ -37,15 +37,16 @@ abstract class Service with OnDispose {
     logger.log('Service ${this.runtimeType} initialized');
   }
 
-  /// Called when the [Module] is discarded. All StreamSubscription will also 
-  /// be canceled.
+  /// This method is called when the [Module] is discarded. All StreamSubscription
+  /// will also be canceled.
+  @override
   void dispose() {
     
     // cancel all streams subscriptions
     streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
 
-    notifyDispose();
+    super.dispose();
     
-    logger.log('Service ${this} disposed');
+    logger.log('Service ${this.runtimeType} disposed');
   }
 }

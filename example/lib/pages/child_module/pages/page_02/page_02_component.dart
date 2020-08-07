@@ -1,3 +1,4 @@
+import 'package:counter_example/pages/child_module/services/child_service.dart';
 import 'package:counter_example/services/data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,6 +9,7 @@ class Page02Component extends Component {
   initialize(BuildContext context, Controller controller) {
     super.initialize(context, controller);
     controller.module.service<DataService>();
+    controller.module.service<ChildService>();
   }
   
   @override

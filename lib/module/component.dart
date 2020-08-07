@@ -141,9 +141,7 @@ abstract class Component<T extends Controller> extends StatefulWidget with OnDis
   /// [Controller] associated with this component will also be discarded.
   @mustCallSuper
   dispose() {
-    
-    // notify listeners with dispose of this object
-    notifyDispose();
+    super.dispose();
   }
 }
 
@@ -152,7 +150,6 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
 
   /// Indicate whether the component has already been initialized
   bool _initialized = false;
-
 
   /// Reference of the [Future] reference used to initialize the component if
   /// the [Component.initialize] method is asynchronous.
@@ -203,13 +200,9 @@ class _ComponentWidget<T extends Controller> extends State<Component> {
   @override
   void dispose() {
     
-    // dispose controller
-    if (controller != null) {
-      controller.dispose();
-    }
-
-    // dispose widget
+    /// dispose widget and controller
     widget.dispose();
+    controller?.dispose();
 
     super.dispose();
 

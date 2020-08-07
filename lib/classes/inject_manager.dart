@@ -2,7 +2,7 @@ import 'package:module_provider/module_provider.dart';
 import 'package:useful_classes/classes/on_dispose.dart';
 
 /// Class for building and maintaining instances of the objects.
-class InjectManager<T extends OnDispose> {
+class InjectManager<T extends OnDispose> with OnDispose {
 
   /// Initialized instance lists.
   final List<T> _instances = [];
@@ -38,7 +38,7 @@ class InjectManager<T extends OnDispose> {
       /// will be created and stored in memory
       if (inject != null) {
         instance = inject(module)
-          ..onDispose.listen((_) {
+          ..onDispose.add((instance) {
             _instances.remove(instance);
           });
         _instances.add(instance);
@@ -63,7 +63,9 @@ class InjectManager<T extends OnDispose> {
 
   /// Dispose all instances
   void dispose() {
-    _instances.forEach((instance) => instance.dispose());
-    _instances.clear();
+    while (_instances.isNotEmpty) {
+      _instances[0].dispose();
+    }
+    super.dispose();
   }
 }
