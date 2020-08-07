@@ -6,11 +6,13 @@ import 'pages/home/home_component.dart';
 import 'pages/counter/counter_component.dart';
 import 'pages/child_module/child_module.dart';
 import 'services/app_service.dart';
+import 'services/data_service.dart';
 
 class AppModule extends Module {
   @override
-  List<Inject<Service>> get services => [
-    Inject((m) => AppService(m))
+  List<InjectService> get services => [
+    (m) => AppService(m),
+    (m) => DataService(m)
   ];
 
   @override
