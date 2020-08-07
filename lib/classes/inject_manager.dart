@@ -1,14 +1,11 @@
 import 'package:module_provider/module_provider.dart';
-import 'package:useful_classes/useful_classes.dart';
+import 'package:useful_classes/classes/on_dispose.dart';
 
 /// Class for building and maintaining instances of the objects.
 class InjectManager<T extends OnDispose> {
 
   /// Initialized instance lists.
   final List<T> _instances = [];
-  
-  /// Initialize [InjectManager]
-  InjectManager();
 
   /// Get the instance of an object.
   /// 
@@ -35,12 +32,12 @@ class InjectManager<T extends OnDispose> {
     if (instance == null && constructors != null && constructors.isNotEmpty) {
       
       /// Find the requested type constructor
-      Inject inject = constructors.firstWhere((item) => item.constructor is P Function(Module module), orElse: () => null);
+      Inject<T> inject = constructors.firstWhere((item) => item is P Function(Module module), orElse: () => null);
 
       /// If the constructor related to the requested type exists, the instance
       /// will be created and stored in memory
       if (inject != null) {
-        instance = inject.constructor(module)
+        instance = inject(module)
           ..onDispose.listen((_) {
             _instances.remove(instance);
           });

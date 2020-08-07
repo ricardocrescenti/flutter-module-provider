@@ -1,14 +1,7 @@
 import 'package:module_provider/module_provider.dart';
-import 'package:useful_classes/useful_classes.dart';
 
-/// Class to implement constructors for use in `InjectManager`.
-/// 
-/// This class is currently being used to initialize module services in `services` of [Module].
-class Inject<T extends OnDispose> {
+/// Basic type used in `InjectManager` to implement dependency injection
+typedef Inject<T> = T Function(Module module);
 
-  /// Default function for creating object.
-  final T Function(Module module) constructor;
-
-  /// Initialize [Inject]
-  Inject(this.constructor);
-}
+/// Basic type for dependency injection used in module services
+typedef InjectService = Service Function(Module module);

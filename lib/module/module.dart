@@ -124,7 +124,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   ///   Inject((m) => DataService(m)),
   /// ];
   /// ```
-  List<Inject<Service>> get services => [];
+  List<InjectService> get services => [];
   
   /// List of routes used by the module.
   /// 
