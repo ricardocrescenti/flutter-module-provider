@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:module_provider/classes/inherited_module.dart';
 import 'package:module_provider/classes/inject_manager.dart';
