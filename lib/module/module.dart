@@ -172,7 +172,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// is not the root module).
   T service<T extends Service>() {
     ModuleState module = _modules[this.runtimeType];
-    return module._servicesInstances.getInstance<T>(this, services, 
+    return module._servicesInstances.getInstance<T>(this, services ?? [], 
       nullInstance: (module.parentModule != null ? () => module.parentModule.service<T>(): null));
   }
   
