@@ -37,7 +37,7 @@ abstract class RouterManager {
   /// convert it into a standard format for the route manager.
   @protected
   loadRoutes(List<RouterPattern> routes, {String parentUrl = ''}) {
-    if (routes == null) {
+    if (routes == null || routes.isEmpty) {
       return;
     }
 

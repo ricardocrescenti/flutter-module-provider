@@ -151,7 +151,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// 
   /// Don't worry about putting the slashes (/) at the beginning of each route,
   /// the module route manager will take care of adding this for you.
-  List<RouterPattern> get routes => null;
+  List<RouterPattern> get routes => [];
 
   /// Module initializer.
   /// 
@@ -287,9 +287,12 @@ class ModuleState extends State<Module> with RouterManager {
       _isRootModule = true;
     }
 
-    if (widget.routes != null || !_isRootModule) {
+    // Get information if the module has routes
+  	final bool moduleHasRoutes = (widget.routes != null && widget.routes.isNotEmpty);
 
-      if (!_isRootModule && (this.widget.routes == null || !this.widget.routes.any((route) => route.name.isEmpty || route.name == '/'))) {
+    if (moduleHasRoutes || !_isRootModule) {
+
+      if (!_isRootModule && (!moduleHasRoutes || !this.widget.routes.any((route) => route.name.isEmpty || route.name == '/'))) {
         routes['/'] = Router('/', builder: widget.build);
       }
 
