@@ -18,10 +18,10 @@ abstract class RouterManager {
       _navigator = Navigator(
         initialRoute: this.initialRoute,
         onGenerateRoute: onGenerateRoute,
-        // observers: [RouterObserver(
-        //   onPush: (route, _) => onChangeRoute(route),
-        //   onReplace: (route, _) => onChangeRoute(route))
-        // ]
+        observers: [RouterObserver(
+          onPush: (route, _) => onChangeRoute(route),
+          onReplace: (route, _) => onChangeRoute(route))
+        ]
       );
     }
     return WillPopScope(
@@ -37,6 +37,10 @@ abstract class RouterManager {
   /// convert it into a standard format for the route manager.
   @protected
   loadRoutes(List<RouterPattern> routes, {String parentUrl = ''}) {
+    if (routes == null) {
+      return;
+    }
+
     routes.forEach((route) {
       if (route is RouterGroup) {
         loadRoutes(route.routes, parentUrl: parentUrl + ((parentUrl.isEmpty || !parentUrl.endsWith('/')) && route.name.isNotEmpty ? '/' : '') + route.name);
@@ -64,7 +68,7 @@ abstract class RouterManager {
     return MaterialPageRoute(builder: router.builder, settings: routeSettings);
   }
   
-  // onChangeRoute(Route route) {
-  //   _navigatorState = route.navigator;
-  // }
+  onChangeRoute(Route route) {
+    _navigatorState = route.navigator;
+  }
 }

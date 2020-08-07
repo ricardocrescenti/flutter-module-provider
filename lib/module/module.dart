@@ -289,7 +289,7 @@ class ModuleState extends State<Module> with RouterManager {
 
     if (widget.routes != null || !_isRootModule) {
 
-      if (!_isRootModule && !this.widget.routes.any((route) => route.name.isEmpty || route.name == '/')) {
+      if (!_isRootModule && (this.widget.routes == null || !this.widget.routes.any((route) => route.name.isEmpty || route.name == '/'))) {
         routes['/'] = Router('/', builder: widget.build);
       }
 
