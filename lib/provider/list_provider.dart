@@ -1,4 +1,5 @@
-import 'dart:async';
+import 'dart:collection';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
@@ -10,104 +11,153 @@ import 'package:module_provider/module_provider.dart';
 /// 
 /// ```dart
 /// ListProvider<String> movies = ListProvider<String>();
-/// movies.addItem('Start Wars');
-/// movies.addItem('Terminator');
-/// movies.addItem('Total Recall');
+/// movies.add('Start Wars');
+/// movies.addAll([
+///   'Terminator 2: Judgment Day',
+///   'Total Recall'
+/// ]);
 /// ```
-class ListProvider<T> extends ChangeNotifier {
-  List<T> _items = [];
+class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
 
-  /// Itens List
-  List<T> get items => _items;
+  /// 
+  List<E> _list = List();
 
-  /// Operator to get value of [index] position
-  operator [](int index) => items[index];
+  /// 
+  bool _canNotifyListeners = true;
 
-  /// StreamController to notify when an item is inserted in the list
-  StreamController<List<T>> onInsert = StreamController<List<T>>();
+  @override
+  int get length {
+    return _list.length;
+  }
 
-  /// StreamController to notify when an item is removed from the list
-  StreamController<List<T>> onRemove = StreamController<List<T>>();  
+  @override
+  set length(int newLength) {
+    _list.length = newLength;
+  }
 
-  /// ListProvider initializer
-  ListProvider({List<T> initialItems}) {
+  @override
+  operator [](int index) {
+    return _list[index];
+  }
+  
+  @override
+  void operator []=(int index, E value) {
+    _executeOperation(() => _list[index] = value);
+  }
+
+  /// 
+  ListProvider({List<E> initialItems}) {
     if (initialItems != null) {
-      _items.addAll(initialItems);
-    }
-  }
-
-  /// Add a new list item
-  addItem(T item) => addItems([item]);
-  
-  /// Add a new list item at a specified position
-  addItemAt(int index, T item) => addItemsAt(index, [item]);
-  
-  /// Add an item list
-  addItems(List<T> items) {
-    if (items.isNotEmpty) {
-      _items.addAll(items);
-
-      onInsert.add(items);
-      notifyListeners();
-    }
-  }
-  
-  /// Add an item list at a specified position
-  addItemsAt(int index, List<T> items) {
-    if (items.isNotEmpty) {
-      _items.insertAll(index, items);
-
-      onInsert.add(items);
-      notifyListeners();
-    }
-  }
-
-  /// Replaces a list item
-  replaceItem(T item, T newItem) {
-    int index = _items.indexOf(item);
-    if (index >= 0) {
-      replaceItemAt(index, newItem);
-    } else {
-      throw 'The item to be replaced not exist';
-    }
-  }
-  
-  /// Replaces a list item at a specific position.
-  replaceItemAt(int index, T newItem) {
-    _items[index] = newItem;
-    notifyListeners();
-  }
-
-  /// Remove an item from the list.
-  removeItem(T item) {
-    if (_items.contains(item)) {
-      _items.remove(item);
-
-      onRemove.add([item]);
-      notifyListeners();
-    }
-  }
-  
-  /// Remove a item in specific position from the list
-  removeItemAt(int index) {
-    if (_items.length > index) {
-      T item = _items[index];
-      removeItem(item);
-    }
-  }
-
-  /// Clear list
-  clear() {
-    if (items.isNotEmpty) {
-      items.clear();
-      notifyListeners();
+      addAll(initialItems);
     }
   }
 
   @override
-  dispose() {
-    onInsert.close();
-    onRemove.close();
-    return super.dispose();
+  void add(E element) {
+    _executeOperation(() => super.add(element));
+  }
+
+  @override
+  void addAll(Iterable<E> iterable) {
+    _executeOperation(() => super.addAll(iterable));
+  }
+
+  @override
+  void insert(int index, E element) {
+    _executeOperation(() => super.insert(index, element));
+  }
+
+  @override
+  void insertAll(int index, Iterable<E> iterable) {
+    _executeOperation(() => super.insertAll(index, iterable));
+  }
+
+  @override
+  void fillRange(int start, int end, [E fill]) {
+    _executeOperation(() => super.fillRange(start, end, fill));
+  }
+
+  @override
+  void setAll(int index, Iterable<E> iterable) {
+    _executeOperation(() => super.setAll(index, iterable));
+  }
+
+  @override
+  void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
+    _executeOperation(() => super.setRange(start, end, iterable, skipCount));
+  }
+
+  @override
+  void replaceRange(int start, int end, Iterable<E> newContents) {
+    _executeOperation(() => super.replaceRange(start, end, newContents));
+  }
+
+  @override
+  bool remove(Object element) {
+    return _executeOperation(() => super.remove(element));
+  }
+
+  @override
+  E removeAt(int index) {
+    return _executeOperation(() => super.removeAt(index));
+  }
+
+  @override
+  E removeLast() {
+    return _executeOperation(() => super.removeLast());
+  }
+
+  @override
+  void removeRange(int start, int end) {
+    _executeOperation(() => super.removeRange(start, end));
+  }
+
+  @override
+  void removeWhere(bool Function(E element) test) {
+    _executeOperation(() => super.removeWhere(test));
+  }
+
+  @override
+  void clear() {
+    _executeOperation(() => super.clear());
+  }
+
+  /// 
+  dynamic _executeOperation(Function operation) {
+    bool canNotifyListeners = _canNotifyListeners;
+    if (canNotifyListeners) {
+      _stopListenersNotification();
+    }
+    dynamic result = operation();
+
+    if (canNotifyListeners) {
+      this.notifyListeners();
+    }
+
+    return result;
+  }
+
+  /// 
+  void _stopListenersNotification() {
+    _canNotifyListeners = false;
+  }
+
+  @override
+  void notifyListeners() {
+    _canNotifyListeners = true;
+    super.notifyListeners();
   }
 }
+
+// getList() {
+//   ListProvider list = ListProvider<String>();
+//   list.add("");
+//   list.addAll([
+//     "",
+//     ""
+//   ]);
+
+//   list[0] = "";
+
+//   return list;
+// }

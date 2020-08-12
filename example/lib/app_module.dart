@@ -4,6 +4,7 @@ import 'package:module_provider/module_provider.dart';
 
 import 'pages/home/home_component.dart';
 import 'pages/counter/counter_component.dart';
+import 'pages/list/list_component.dart';
 import 'pages/child_module/child_module.dart';
 import 'services/app_service.dart';
 import 'services/data_service.dart';
@@ -19,6 +20,7 @@ class AppModule extends Module {
   List<RouterPattern> get routes => [
     Router('', builder: (context) => HomeComponent()),
     Router('counter', builder: (context) => CounterComponent()),
+    Router('list', builder: (context) => ListComponent()),
     Router('childmodule', builder: (context) => ChildModule()),
   ];
 

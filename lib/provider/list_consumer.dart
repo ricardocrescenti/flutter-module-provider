@@ -30,13 +30,13 @@ import 'package:module_provider/module_provider.dart';
 ///   }
 /// );
 /// ```
-class ListConsumer<T> extends ConsumerPattern<ListProvider<T>, List<T>> {
+class ListConsumer<T> extends ConsumerPattern<ListProvider<T>, ListProvider<T>> {
   
   /// [ListProvider] instance that will provide the list.
   final ListProvider<T> list;
 
   /// Funtion to build the user interface represented by this consumer.
-  final Widget Function(BuildContext context, List<T> list) builder;
+  final Widget Function(BuildContext context, ListProvider<T> list) builder;
   
   /// ValueConsumer initializer
   ListConsumer({
@@ -46,7 +46,7 @@ class ListConsumer<T> extends ConsumerPattern<ListProvider<T>, List<T>> {
 
   /// Get all items of [list]
   @override
-  List<T> getValue(BuildContext context, ConsumerPatternState consumer) {
-    return list.items;
+  ListProvider<T> getValue(BuildContext context, ConsumerPatternState consumer) {
+    return this.list;
   }
 }

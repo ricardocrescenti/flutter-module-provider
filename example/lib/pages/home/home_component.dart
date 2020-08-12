@@ -21,7 +21,8 @@ class HomeComponent extends Component {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(child: Text('Counter example'), onPressed: () => Navigator.of(context).pushNamed('counter')),
+            RaisedButton(child: Text('Counter (Value Provider) example'), onPressed: () => Navigator.of(context).pushNamed('counter')),
+            RaisedButton(child: Text('Movies (List Provider) example'), onPressed: () => Navigator.of(context).pushNamed('list')),
             RaisedButton(child: Text('Child module example'), onPressed: () => Navigator.of(context).pushNamed('childmodule'))
           ],
         ),
