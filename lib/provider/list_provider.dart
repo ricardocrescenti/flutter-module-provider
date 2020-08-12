@@ -148,16 +148,3 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
     super.notifyListeners();
   }
 }
-
-// getList() {
-//   ListProvider list = ListProvider<String>();
-//   list.add("");
-//   list.addAll([
-//     "",
-//     ""
-//   ]);
-
-//   list[0] = "";
-
-//   return list;
-// }
