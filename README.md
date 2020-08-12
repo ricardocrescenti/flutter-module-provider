@@ -18,7 +18,6 @@ Create great applications, organizing your code structure in modules, with depen
   - **[Counter](#counter)**
   - **[Task List](#task-list)**
   - **[Weather Forecast](#weather-forecast)**
-  - **[Shopping Cart](#shopping-cart)**
 
 ## Introduction
 
@@ -253,7 +252,7 @@ ValueConsumer<String>(
 
 ### **ValuesProvider / ValuesConsumer**
 
-Controlling multiple values and ValueProvider.
+This class is similar to `ValueProvider`, but allows the control of several values using a `Map`.
 
 In the bellow example , is declared 'packageInfo' with the values 'name' os type String and value 'version' of type ValueProvider<String>. If you use a ValueProvider in value of ValuesProvider, on get value, is returned the value of ValueProvider, to get the ValueProvider instance, you need use 'getValueProvider' method.
 
@@ -264,7 +263,7 @@ ValuesProvider packageInfo = ValuesProvider({
 });
 ```
 
-To update the values on ValuesProvider use 'setValues' method passing a Map<String, dynamic>, and to update a single value, use 'setValue' with 'fieldName' and 'newValue' arguments.
+To update the values on ValuesProvider use `setValues` method passing a `Map<String, dynamic>` and to update a single value, use `setValue` with `fieldName` and `newValue` arguments.
 
 ```dart
 packageInfo.setValues({
@@ -298,28 +297,41 @@ ValueConsumer<String>(
 
 ### **ListProvider / ListConsumer**
 
-Simple class to notify listeners when list is changed.
+Notify listeners based on changing a list of objects.
+
+This class that follows the same principle of `ValueProvier` and `ValuesProvider` but with inheritance of `ListMixin`, with this you will be able to perform the same operations as a standard `List`, and with each modification of the list the listeners will be notified.
 
 ```dart
 ListProvider<String> movies = ValueProvider(initialValue: [
   'Star Wars',
-  'Terminator 2'
+  'Terminator 2: Judgment Day'
 ]);
 ```
 
-You can modify value setting property 'value' or calling method 'setValue'.
+As explained above, you can use the same methods as a standard `List`, below is a basic usage example.
 
 ```dart
-description.value = 'Another Description';
-description.setValue('Another Description');
+movies.add('Total Recall');
+movies.addAll([
+  'Matrix',
+  'Tron: Legacy'
+]);
 ```
 
-Example to consume this value. In this case, when changing the description value, the Text Widget is rebuilt and shows the new value.
+Example to consume this list. In this case, when changing the list, the Text Widget is rebuilt and shows the new value.
 
 ```dart
-ValueConsumer<String>(
-  provider: description,
-  builder: (context, value) => Text(value)
+return ListConsumer<String>(
+  list: movies,
+  builder: (context, movies) {
+
+    return ListView.separated(
+      itemCount: movies.length,
+      itemBuilder: (context, index) => Text(movies[index]),
+      separatorBuilder: (context, index) => Divider()
+    );
+
+  }
 );
 ```
 

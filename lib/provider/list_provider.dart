@@ -19,10 +19,13 @@ import 'package:module_provider/module_provider.dart';
 /// ```
 class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
 
-  /// 
+  /// List used to store the elements of [ListProvider]
   List<E> _list = List();
 
+  /// Indicates whether listeners should be notified when the list changes.
   /// 
+  /// This variable is used by the [_executeOperation] method to control which
+  /// execution should notify existing users.
   bool _canNotifyListeners = true;
 
   @override
@@ -45,7 +48,10 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
     _executeOperation(() => _list[index] = value);
   }
 
+  /// [ListProvider] default constructor.
   /// 
+  /// If you want to initialize [ListProvider] with a list of initial items, 
+  /// use the parameter [initialItems].
   ListProvider({List<E> initialItems}) {
     if (initialItems != null) {
       addAll(initialItems);
@@ -122,12 +128,20 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
     _executeOperation(() => super.clear());
   }
 
+  /// This method is used to perform the operations of all methods that modify
+  /// (insert, remove replace) the elements of [ListProvider].
   /// 
+  /// Depending on the method used, it may be that he calls another internal method
+  /// to make the changes, such as the [addAll] method that receives a list of
+  /// objects, and internally executes the [add] method for each element, however
+  /// the notification of the listeners it should occur only after inserting all
+  /// the elements, and not every [add] executed.
   dynamic _executeOperation(Function operation) {
     bool canNotifyListeners = _canNotifyListeners;
     if (canNotifyListeners) {
-      _stopListenersNotification();
+      _canNotifyListeners = false;
     }
+
     dynamic result = operation();
 
     if (canNotifyListeners) {
@@ -135,11 +149,6 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
     }
 
     return result;
-  }
-
-  /// 
-  void _stopListenersNotification() {
-    _canNotifyListeners = false;
   }
 
   @override
