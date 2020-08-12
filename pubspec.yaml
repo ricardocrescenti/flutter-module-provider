@@ -1,8 +1,9 @@
 name: module_provider
-description: Package to make it easy to build applications in the module structure, with service injection, components and state management with providers.
 version: 2.0.0
-author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
-homepage: https://github.com/ricardocrescenti/flutter-module-provider
+description: Package to make it easy to build applications in the module structure, with service injection, components and state management with providers.
+homepage: https://github.com/ricardocrescenti
+repository: https://github.com/ricardocrescenti/flutter-module-provider
+issue_tracker: https://github.com/ricardocrescenti/flutter-module-provider/issues
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -11,11 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  useful_classes:
-    path: 'D:\Projetos\CrescentiApps\Packages\Flutter\flutter-useful-classes'
-    # git: 
-    #   url: https://github.com/ricardocrescenti/flutter-useful-classes.git
-    #   ref: master
+  useful_classes: ^2.0.0
+    # path: '..\flutter-useful-classes'
 
 dev_dependencies:
   flutter_test:
