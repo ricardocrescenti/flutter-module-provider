@@ -55,30 +55,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_cupertino_localizations:
-    dependency: transitive
-    description:
-      name: flutter_cupertino_localizations
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.16.1"
   matcher:
     dependency: transitive
     description:
@@ -167,7 +148,7 @@ packages:
       name: useful_classes
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0+1"
   vector_math:
     dependency: transitive
     description:

@@ -14,10 +14,6 @@ Create great applications, organizing your code structure in modules, with depen
   - **[ValueProvider](#valueprovider-/-valueconsumer)**
   - **[ValuesProvider](#valuesprovider-/-valuesconsumer)**
   - **[ListProvider](#listprovider-/-listconsumer)**
-- **[Examples](#examples)**
-  - **[Counter](#counter)**
-  - **[Task List](#task-list)**
-  - **[Weather Forecast](#weather-forecast)**
 
 ## Introduction
 
@@ -334,15 +330,3 @@ return ListConsumer<String>(
   }
 );
 ```
-
-## Examples
-
-### **Counter**
-
-
-
-### **Task List**
-
-
-
-### **Weather Forecast**
