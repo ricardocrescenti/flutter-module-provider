@@ -1,4 +1,4 @@
-package com.example.counter
+package com.crescentiapps.module_provider_example
 
 import android.os.Bundle
 
