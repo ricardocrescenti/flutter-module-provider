@@ -14,6 +14,11 @@ class ListComponent extends Component<ListController> {
       appBar: AppBar(
         title: Text('List Example'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh), 
+            onPressed: () => controller.resetList())
+        ],
       ),
       body: ListConsumer<String>(
         list: controller.movies,

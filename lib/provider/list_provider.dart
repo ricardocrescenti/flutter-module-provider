@@ -128,6 +128,16 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
     _executeOperation(() => super.clear());
   }
 
+  /// Removes all objects from this list; the length of the list becomes zero.
+  /// 
+  /// Throws an [UnsupportedError], and retains all objects, if this is a fixed-length list.
+  void clearAddAll(Iterable<E> iterable) {
+    _executeOperation(() {
+      super.clear();
+      super.addAll(iterable);
+    });
+  }
+
   /// This method is used to perform the operations of all methods that modify
   /// (insert, remove replace) the elements of [ListProvider].
   /// 
