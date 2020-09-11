@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Abstract class for implementing the route manager
-abstract class RouterManager {
+abstract class ModuleRouteManager {
 
   /// Initial route.
   @protected
@@ -10,7 +10,7 @@ abstract class RouterManager {
 
   /// List of routes.
   @protected
-  final Map<String, Router> routes = {};
+  final Map<String, ModuleRoute> routes = {};
 
   Navigator _navigator;
   Widget get navigator {
@@ -18,7 +18,7 @@ abstract class RouterManager {
       _navigator = Navigator(
         initialRoute: this.initialRoute,
         onGenerateRoute: onGenerateRoute,
-        observers: [RouterObserver(
+        observers: [ModuleRouteObserver(
           onPush: (route, _) => onChangeRoute(route),
           onReplace: (route, _) => onChangeRoute(route))
         ]
@@ -33,16 +33,16 @@ abstract class RouterManager {
   NavigatorState _navigatorState;
   NavigatorState get navigatorState => _navigatorState;
 
-  /// Load the list of [RouterPattern] passed in the [routes] parameter and
+  /// Load the list of [ModuleRoutePattern] passed in the [routes] parameter and
   /// convert it into a standard format for the route manager.
   @protected
-  loadRoutes(List<RouterPattern> routes, {String parentUrl = ''}) {
+  loadRoutes(List<ModuleRoutePattern> routes, {String parentUrl = ''}) {
     if (routes == null || routes.isEmpty) {
       return;
     }
 
     routes.forEach((route) {
-      if (route is RouterGroup) {
+      if (route is ModuleRouteGroup) {
         loadRoutes(route.routes, parentUrl: parentUrl + ((parentUrl.isEmpty || !parentUrl.endsWith('/')) && route.name.isNotEmpty ? '/' : '') + route.name);
       } else {
         this.routes[parentUrl + ((parentUrl.isEmpty || !parentUrl.endsWith('/')) && route.name.isNotEmpty ? '/' : '') + route.name] = route;
@@ -57,7 +57,7 @@ abstract class RouterManager {
     String routeName = (!routeSettings.name.startsWith('/') ? '/' : '') + routeSettings.name;
 
     /// Get route
-    Router router = routes[routeName];
+    ModuleRoute router = routes[routeName];
 
     /// If the requested route does not exist, an error will be issued
     if (router == null) {

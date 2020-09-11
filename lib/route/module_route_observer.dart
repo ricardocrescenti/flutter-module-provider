@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RouterObserver extends NavigatorObserver {
+class ModuleRouteObserver extends NavigatorObserver {
   
   /// The [Navigator] pushed `route`.
   ///
@@ -47,7 +47,7 @@ class RouterObserver extends NavigatorObserver {
   Function() onStopUserGesture;
 
   /// RouterObserver initializer
-  RouterObserver({
+  ModuleRouteObserver({
     this.onPush,
     this.onPop,
     this.onRemove,

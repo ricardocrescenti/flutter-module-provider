@@ -76,10 +76,10 @@ class AppModule extends Module {
   ];
 
   @override
-  List<RouterPattern> get routes => [
-    Router('', (context) => HomePage()),
-    Router('page01', (context) => FirstPage()),
-    Router('page02', (context) => SecondPage()),
+  List<ModuleRoutePattern> get routes => [
+    ModuleRoute('', (context) => HomePage()),
+    ModuleRoute('page01', (context) => FirstPage()),
+    ModuleRoute('page02', (context) => SecondPage()),
   ];
 
   @override
@@ -146,10 +146,10 @@ class ChildModule extends Module {
   ];
 
   @override
-  List<RouterPattern> get routes => [
-    Router('', (context) => ChildPage()),
-    Router('childpage01', (context) => FirstChildPage()),
-    Router('childpage02', (context) => SecondChildPage()),
+  List<ModuleRoutePattern> get routes => [
+    ModuleRoute('', (context) => ChildPage()),
+    ModuleRoute('childpage01', (context) => FirstChildPage()),
+    ModuleRoute('childpage02', (context) => SecondChildPage()),
   ];
 }
 ```

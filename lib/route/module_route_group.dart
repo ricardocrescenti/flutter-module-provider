@@ -14,10 +14,10 @@ import 'package:module_provider/module_provider.dart';
 /// 
 /// - /groupRouteName/page01
 /// - /groupRouteName/page02
-class RouterGroup extends RouterPattern {
-  final List<RouterPattern> routes;
+class ModuleRouteGroup extends ModuleRoutePattern {
+  final List<ModuleRoutePattern> routes;
 
-  RouterGroup(String name, {
+  ModuleRouteGroup(String name, {
     @required this.routes,
   }) : super(name);
 }

@@ -15,9 +15,9 @@ export 'provider/value_provider.dart';
 export 'provider/values_consumer.dart';
 export 'provider/values_provider.dart';
 
-export 'router/router.dart';
-export 'router/router_group.dart';
-export 'router/router_manager.dart';
-export 'router/router_observer.dart';
-//export 'router/router_outlet.dart';
-export 'router/router_pattern.dart';
+export 'route/module_route.dart';
+export 'route/module_route_group.dart';
+export 'route/module_route_manager.dart';
+export 'route/module_route_observer.dart';
+//export 'route/module_route_outlet.dart';
+export 'route/module_route_pattern.dart';

@@ -9,12 +9,12 @@ import 'package:module_provider/module_provider.dart';
 typedef RouteBuilder = Widget Function(BuildContext context);
 
 
-class Router extends RouterPattern {
+class ModuleRoute extends ModuleRoutePattern {
 	//final List<RouteValidation> canPush;
 	//final List<RouteValidation> canPop;
 	final RouteBuilder builder;
 
-	Router(String name, {
+	ModuleRoute(String name, {
 		//this.canPush,
 		//this.canPop,
 		@required this.builder

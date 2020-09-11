@@ -17,11 +17,11 @@ class AppModule extends Module {
   ];
 
   @override
-  List<RouterPattern> get routes => [
-    Router('', builder: (context) => HomeComponent()),
-    Router('counter', builder: (context) => CounterComponent()),
-    Router('list', builder: (context) => ListComponent()),
-    Router('childmodule', builder: (context) => ChildModule()),
+  List<ModuleRoutePattern> get routes => [
+    ModuleRoute('', builder: (context) => HomeComponent()),
+    ModuleRoute('counter', builder: (context) => CounterComponent()),
+    ModuleRoute('list', builder: (context) => ListComponent()),
+    ModuleRoute('childmodule', builder: (context) => ChildModule()),
   ];
 
   @override

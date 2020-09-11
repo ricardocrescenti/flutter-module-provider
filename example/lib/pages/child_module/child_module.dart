@@ -13,9 +13,9 @@ class ChildModule extends Module {
   ];
 
   @override
-  List<RouterPattern> get routes => [
-    Router('page01', builder: (context) => Page01Component()),
-    Router('page02', builder: (context) => Page02Component())
+  List<ModuleRoutePattern> get routes => [
+    ModuleRoute('page01', builder: (context) => Page01Component()),
+    ModuleRoute('page02', builder: (context) => Page02Component())
   ];
 
   @override
