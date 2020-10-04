@@ -1,3 +1,7 @@
+## 2.0.0+1
+
+* Updated package icon in the documentation
+
 ## 2.0.0 (New version)
 
 Made several adjustments that will cause code break when upgrading from version 1 to version 2;

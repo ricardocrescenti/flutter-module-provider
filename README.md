@@ -1,4 +1,4 @@
-# Module Provider 👽
+# Module Provider 🚀
 
 Create great applications, organizing your code structure in modules, with dependency injection (services), route management and state control.
 
