@@ -1,6 +1,6 @@
 name: counter_example
 description: Example of CounterApp using module_provider
-version: 0.1.0
+version: 1.0.0+1
 author: Ricardo Crescenti <ricardo.crescenti@gmail.com>
 homepage: https://github.com/ricardocrescenti/flutter-module-provider/example
 
