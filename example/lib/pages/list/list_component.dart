@@ -11,36 +11,48 @@ class ListComponent extends Component<ListController> {
   @override
   Widget build(BuildContext context, ListController controller) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('List Example'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh), 
-            onPressed: () => controller.resetList())
-        ],
-      ),
-      body: ListConsumer<String>(
-        list: controller.movies,
-        builder: (context, movies) {
+      appBar: _buildAppBar(controller),
+      body: _buildBody(controller),
+      floatingActionButton: _buildAddButton(controller),
+    );
+  }
 
-          return ListView.separated(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            itemCount: movies.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(movies[index]),
-              trailing: FlatButton(onPressed: () => movies.remove(movies[index]), child: Icon(Icons.delete)),
-            ),
-            separatorBuilder: (context, index) => Divider(),
-          );
+  _buildAppBar(ListController controller) {
+    return AppBar(
+      title: Text('List Example'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh), 
+          onPressed: () => controller.resetList())
+      ],
+    );
+  }
 
-        }
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.add('batata'),
-        tooltip: 'Add movie',
-        child: Icon(Icons.add),
-      ),
+  _buildBody(ListController controller) {
+    return ListConsumer<String>(
+      list: controller.movies,
+      builder: (context, movies) {
+
+        return ListView.separated(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          itemCount: movies.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text(movies[index]),
+            trailing: FlatButton(onPressed: () => movies.remove(movies[index]), child: Icon(Icons.delete)),
+          ),
+          separatorBuilder: (context, index) => Divider(),
+        );
+
+      }
+    );
+  }
+
+  _buildAddButton(ListController controller) {
+    return FloatingActionButton(
+      onPressed: () => controller.add('Movie ' + controller.movies.length.toString()),
+      tooltip: 'Add movie',
+      child: Icon(Icons.add),
     );
   }
 }

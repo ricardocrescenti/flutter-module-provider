@@ -1,7 +1,7 @@
 import 'package:module_provider/module_provider.dart';
 
 class ListController extends Controller {
-  final List<String> basicList = [
+  final List<String> _basicList = [
     'Star Wars',
     'Terminator 2: Judgment Day',
     'Total Recall',
@@ -11,7 +11,7 @@ class ListController extends Controller {
   final ListProvider<String> movies = ListProvider();
 
   ListController(Module module) : super(module) {
-    movies.addAll(basicList);
+    movies.addAll(_basicList);
   }
 
   add(String movieName) {
@@ -19,6 +19,6 @@ class ListController extends Controller {
   }
 
   resetList() {
-    movies.clearAddAll(basicList);
+    movies.clearAddAll(_basicList);
   }
 }
