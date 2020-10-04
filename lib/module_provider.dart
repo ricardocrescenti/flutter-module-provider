@@ -1,15 +1,23 @@
 library module_pattern;
 
 export 'classes/inject.dart';
-export 'patterns/component.dart';
-export 'patterns/controller.dart';
-export 'patterns/module.dart';
-export 'patterns/service.dart';
-export 'providers/consumer.dart';
-export 'providers/list_consumer.dart';
-export 'providers/list_provider.dart';
-export 'providers/service_consumer.dart';
-export 'providers/value_consumer.dart';
-export 'providers/value_provider.dart';
-export 'providers/values_consumer.dart';
-export 'providers/values_provider.dart';
+
+export 'module/component.dart';
+export 'module/controller.dart';
+export 'module/module.dart';
+export 'module/service.dart';
+
+export 'provider/consumer_pattern.dart';
+export 'provider/list_consumer.dart';
+export 'provider/list_provider.dart';
+export 'provider/value_consumer.dart';
+export 'provider/value_provider.dart';
+export 'provider/values_consumer.dart';
+export 'provider/values_provider.dart';
+
+export 'route/module_route.dart';
+export 'route/module_route_group.dart';
+export 'route/module_route_manager.dart';
+export 'route/module_route_observer.dart';
+//export 'route/module_route_outlet.dart';
+export 'route/module_route_pattern.dart';

@@ -1,11 +1,7 @@
-import 'package:module_provider/classes/on_dispose.dart';
 import 'package:module_provider/module_provider.dart';
 
-/// Class to implement constructors for use in `InjectManager`, and allow an
-/// object to be built when needed.
-class Inject<T> extends OnDispose {
-  /// Default function for creating object
-  final T Function(Module module, dynamic arg) constructor;
+/// Basic type used in `InjectManager` to implement dependency injection
+typedef Inject<T> = T Function(Module module);
 
-  Inject(this.constructor);
-}
+/// Basic type for dependency injection used in module services
+typedef InjectService = Service Function(Module module);

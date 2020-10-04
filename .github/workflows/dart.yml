@@ -1,0 +1,29 @@
+name: Publish Package
+on:
+  push:
+    paths-ignore:
+      - 'example/**'
+    branches:
+      - master
+  pull_request:
+    paths-ignore:
+      - 'example/**'
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup credentials
+      run: | 
+        mkdir -p ~/.pub-cache 
+        cat <<EOF > ~/.pub-cache/credentials.json
+        ${{ secrets.PUB_CREDENTIALS }}
+        EOF
+    - name: Format code
+      run: dartfmt -w lib
+    - name: Publish package
+      run: pub publish -f
