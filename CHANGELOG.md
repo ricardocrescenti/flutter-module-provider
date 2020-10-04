@@ -1,6 +1,13 @@
-## 2.0.0
+## 2.0.0 (New version)
 
-* 
+Made several adjustments that will cause code break when upgrading from version 1 to version 2;
+
+* Improved service declaration in the module;
+* Added support for navigation with routes;
+* Removed the declaration of components and submodules in the module;
+* Added future loading on modules and components;
+* Improved the `ListProvider` to work like a` List`;
+* Removed the parameter `module` from the component, to obtain the module, use the` controller` of the `component`.
 
 ## 1.3.1
 
