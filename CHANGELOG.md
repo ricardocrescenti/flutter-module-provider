@@ -1,6 +1,11 @@
+## 2.1.0
+
+* Added the types of returns in the `ValueProvider` and `ValuesProvider` methods;
+* Improvement in the `getValue` method of `ValuesProvider` when the value of the field is a `Map` or` List`.
+
 ## 2.0.0+1
 
-* Updated package icon in the documentation
+* Updated package icon in the documentation.
 
 ## 2.0.0 (New version)
 

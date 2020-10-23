@@ -45,7 +45,7 @@ class ValuesProvider extends ChangeNotifier {
   }
 
   /// Set the value of a single field
-  setValue(dynamic fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
+  void setValue(dynamic fieldName, dynamic newValue, {bool canNotifyListeners = true}) {
     List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
     dynamic valuesContainer = _getValue(fieldNameList);
 
@@ -70,7 +70,7 @@ class ValuesProvider extends ChangeNotifier {
   }
 
   /// Set the value of multiple fields
-  setValues(Map<String, dynamic> newValues) {
+  void setValues(Map<String, dynamic> newValues) {
     if (newValues == null) {
       throw Exception('The map containing new values cannot be null');
     }
@@ -83,7 +83,7 @@ class ValuesProvider extends ChangeNotifier {
   }
   
   /// Get the single field value
-  getValue(dynamic fieldName) {
+  T getValue<T>(dynamic fieldName) {
     List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
     dynamic valuesContainer = _getValue(fieldNameList);
 
@@ -96,23 +96,33 @@ class ValuesProvider extends ChangeNotifier {
   }
   
   /// Get value from tree map
-  _getValue(List<dynamic> fieldNameList) {
+  dynamic _getValue(List<dynamic> fieldNameList) {
     dynamic valuesContainer = _values;
 
     for (int index = 0; index < fieldNameList.length; index++) {
+      if (index == fieldNameList.length - 1) {
+        break;
+      }
 
       if (valuesContainer is Map) {
 
         if (!valuesContainer.containsKey(fieldNameList[index])) {
           throw Exception('The field ${fieldNameList.join('.')} does not exists in ValuesProvider');
         }
+        valuesContainer = valuesContainer[fieldNameList[index]];
       
       } else if (valuesContainer is List) {
 
-        if (valuesContainer.length < (index + 1)) {
-          throw Exception('The field ${fieldNameList.join('.')} does not exists in ValuesProvider');
+        int position = int.tryParse(fieldNameList[index]);
+        if (position == null) {
+          throw Exception('The position entered for field ${fieldNameList.join('.')} must be a valid number');
+        } else if (valuesContainer.length < (position + 1)) {
+          throw Exception('The position entered for the field ${fieldNameList.join('.')} must be less than the current list size');
         }
+        valuesContainer = valuesContainer[position];
 
+      } else {
+        valuesContainer = valuesContainer[fieldNameList[index]];
       }
 
       if (index == fieldNameList.length - 1) {
@@ -121,10 +131,11 @@ class ValuesProvider extends ChangeNotifier {
         valuesContainer = valuesContainer[fieldNameList[index]];
       }
     }
+    return valuesContainer;
   }
 
   /// Get the field's value provider, if the field's value is ValueProvider.
-  getValueProvider(dynamic fieldName) {
+  ValueProvider<T> getValueProvider<T>(dynamic fieldName) {
     List<dynamic> fieldNameList = (fieldName is List ? fieldName : [fieldName]);
     dynamic valuesContainer = _getValue(fieldNameList);
 
@@ -137,7 +148,7 @@ class ValuesProvider extends ChangeNotifier {
   }
 
   /// Get all values
-  getValues({bool onlyChanged = false}) {
+  Map<String, dynamic> getValues({bool onlyChanged = false}) {
     assert(onlyChanged != null);
 
     if (onlyChanged) {

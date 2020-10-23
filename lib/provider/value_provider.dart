@@ -30,7 +30,7 @@ class ValueProvider<T> extends ChangeNotifier {
   }
 
   /// Set new value
-  setValue(T newValue) {
+  void setValue(T newValue) {
     if (_value != newValue) {
       _value = newValue;
       notifyListeners();
