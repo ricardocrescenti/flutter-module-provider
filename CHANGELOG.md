@@ -1,3 +1,7 @@
+## 2.1.1
+
+* Fixed the `getValue` and `setValue` method when an array of fields was passed, used when there is a data hierarchy with `List` and `Map`.
+
 ## 2.1.0
 
 * Added the types of returns in the `ValueProvider` and `ValuesProvider` methods;

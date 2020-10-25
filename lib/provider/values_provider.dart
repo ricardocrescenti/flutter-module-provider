@@ -124,12 +124,6 @@ class ValuesProvider extends ChangeNotifier {
       } else {
         valuesContainer = valuesContainer[fieldNameList[index]];
       }
-
-      if (index == fieldNameList.length - 1) {
-        return valuesContainer;
-      } else {
-        valuesContainer = valuesContainer[fieldNameList[index]];
-      }
     }
     return valuesContainer;
   }
