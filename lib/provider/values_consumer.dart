@@ -50,6 +50,6 @@ class ValuesConsumer extends ConsumerPattern<ValuesProvider, UnmodifiableMapView
   /// Get map with all values in [provider]
   @override
   UnmodifiableMapView<String, dynamic> getValue(BuildContext context, ConsumerPatternState consumer) {
-    return provider.values;
+    return UnmodifiableMapView(provider.values);
   }
 }

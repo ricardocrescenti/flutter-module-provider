@@ -39,8 +39,14 @@ class ValuesProvider extends ChangeNotifier {
   /// Operator to get single value
   operator [](String fieldName) => values[fieldName];
 
+  /// Indicates whether listeners should be notified automatically when changing 
+  /// the value
+  final bool automaticNotifyListeners;
+
   /// ValuesProvider initializer
-  ValuesProvider(this._values) {
+  ValuesProvider(this._values, {
+    this.automaticNotifyListeners = true
+  }) {
     this._values.forEach((key, value) => this._originalvalues[key] = value);
   }
 
@@ -64,7 +70,7 @@ class ValuesProvider extends ChangeNotifier {
       valuesContainer[fieldNameList.last] = newValue;
     }
 
-    if (canNotifyListeners) {
+    if (canNotifyListeners && automaticNotifyListeners) {
       notifyListeners();
     }
   }
@@ -79,7 +85,10 @@ class ValuesProvider extends ChangeNotifier {
       setValue(key, value, canNotifyListeners: false);
     });
     
-    notifyListeners();
+
+    if (automaticNotifyListeners) {
+      notifyListeners();
+    }
   }
   
   /// Get the single field value
@@ -156,5 +165,9 @@ class ValuesProvider extends ChangeNotifier {
     } else {
       return values;
     }
+  }
+
+  void forceNotifyListeners() {
+    notifyListeners();
   }
 }

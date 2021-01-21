@@ -28,6 +28,10 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   /// execution should notify existing users.
   bool _canNotifyListeners = true;
 
+  /// Indicates whether listeners should be notified automatically when changing 
+  /// the list
+  final bool automaticNotifyListeners;
+
   @override
   int get length {
     return _list.length;
@@ -52,7 +56,10 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   /// 
   /// If you want to initialize [ListProvider] with a list of initial items, 
   /// use the parameter [initialItems].
-  ListProvider({List<E> initialItems}) {
+  ListProvider({
+    List<E> initialItems,
+    this.automaticNotifyListeners = true
+  }) {
     if (initialItems != null) {
       addAll(initialItems);
     }
@@ -154,7 +161,7 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
 
     dynamic result = operation();
 
-    if (canNotifyListeners) {
+    if (canNotifyListeners && automaticNotifyListeners) {
       this.notifyListeners();
     }
 
@@ -165,5 +172,9 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   void notifyListeners() {
     _canNotifyListeners = true;
     super.notifyListeners();
+  }
+
+  void forceNotifyListeners() {
+    notifyListeners();
   }
 }

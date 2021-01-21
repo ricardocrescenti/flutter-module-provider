@@ -252,7 +252,7 @@ abstract class Module extends StatefulWidget with OnDispose {
   /// 
   /// This method will return the routes from the root module to be used in
   /// [MaterialApp.onGenerateRoute].
-  static get onGenerateRoute => _modules[_modules.keys.elementAt(0)].onGenerateRoute;
+  static RouteFactory get onGenerateRoute => _modules[_modules.keys.elementAt(0)].onGenerateRoute;
 }
 
 /// Class to maintain `Module` state

@@ -24,8 +24,15 @@ class ValueProvider<T> extends ChangeNotifier {
   /// Checks whether the [ValueProvider] has value
   bool get hasValue => value != null;
 
+  /// Indicates whether listeners should be notified automatically when changing 
+  /// the value
+  final bool automaticNotifyListeners;
+
   /// ValueProvider initializer
-  ValueProvider({T initialValue}) {
+  ValueProvider({
+    T initialValue, 
+    this.automaticNotifyListeners = true
+  }) {
     value = initialValue;
   }
 
@@ -33,7 +40,14 @@ class ValueProvider<T> extends ChangeNotifier {
   void setValue(T newValue) {
     if (_value != newValue) {
       _value = newValue;
-      notifyListeners();
+
+      if (automaticNotifyListeners) {
+        notifyListeners();
+      }
     }
+  }
+
+  void forceNotifyListeners() {
+    notifyListeners();
   }
 }

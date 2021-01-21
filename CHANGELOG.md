@@ -1,3 +1,9 @@
+## 2.2.1
+
+* Added 'forceNotifyListeners' method in 'ValueProvider', 'ValuesProvider', and 'ListProvider', to force listeners to refresh even without modifying the value of the provider.
+* Correction made by getting values from 'ValuesProvider' by the 'getValues' method
+* Reported types of returns in some methods.
+
 ## 2.1.1
 
 * Fixed the `getValue` and `setValue` method when an array of fields was passed, used when there is a data hierarchy with `List` and `Map`.
