@@ -1,3 +1,7 @@
+## 2.2.1+1
+
+* Adjusted List initialization according to documentation.
+
 ## 2.2.1
 
 * Added 'forceNotifyListeners' method in 'ValueProvider', 'ValuesProvider', and 'ListProvider', to force listeners to refresh even without modifying the value of the provider.
