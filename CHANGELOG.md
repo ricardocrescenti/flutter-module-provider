@@ -1,3 +1,7 @@
+## 2.3.0
+
+* Added check to see if one of the valuesprovider map objects is a 'ValuesProvider' when setting a new value
+
 ## 2.2.1+1
 
 * Adjusted List initialization according to documentation.

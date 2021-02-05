@@ -64,7 +64,9 @@ class ValuesProvider extends ChangeNotifier {
       return;
     }
 
-    if (valuesContainer[fieldNameList.last] is ValueProvider) {
+    if (valuesContainer is ValuesProvider) {
+      valuesContainer.setValue(fieldNameList.last, newValue);
+    } else if (valuesContainer[fieldNameList.last] is ValueProvider) {
       valuesContainer[fieldNameList.last].value = newValue;
     } else {
       valuesContainer[fieldNameList.last] = newValue;
