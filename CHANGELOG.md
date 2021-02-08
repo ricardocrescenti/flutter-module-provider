@@ -1,3 +1,8 @@
+## 2.3.1
+
+* Update in the file '.gitignore' not to comit 'pubspec.lock'
+* Deleted the file 'pubspec.lock'
+
 ## 2.3.0
 
 * Added check to see if one of the valuesprovider map objects is a 'ValuesProvider' when setting a new value
