@@ -20,7 +20,7 @@ import 'package:module_provider/module_provider.dart';
 class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
 
   /// List used to store the elements of [ListProvider]
-  List<E> _list = [];
+  final List<E> _list = [];
 
   /// Indicates whether listeners should be notified when the list changes.
   /// 

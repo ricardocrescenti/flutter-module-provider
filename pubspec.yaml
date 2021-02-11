@@ -1,5 +1,5 @@
 name: module_provider
-version: 2.3.1
+version: 2.3.2
 description: Package to make it easy to build applications in the module structure, with service injection, components and state management with providers.
 homepage: https://github.com/ricardocrescenti
 repository: https://github.com/ricardocrescenti/flutter-module-provider

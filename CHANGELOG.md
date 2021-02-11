@@ -1,3 +1,7 @@
+## 2.3.2
+
+* Fixed issues with `setValue` and `getValue` methods of `ValuesProvider`
+
 ## 2.3.1
 
 * Update in the file '.gitignore' not to comit 'pubspec.lock'
