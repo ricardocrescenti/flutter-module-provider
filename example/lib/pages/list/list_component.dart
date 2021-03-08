@@ -39,7 +39,7 @@ class ListComponent extends Component<ListController> {
           itemCount: movies.length,
           itemBuilder: (context, index) => ListTile(
             title: Text(movies[index]),
-            trailing: FlatButton(onPressed: () => movies.remove(movies[index]), child: Icon(Icons.delete)),
+            trailing: TextButton(onPressed: () => movies.remove(movies[index]), child: Icon(Icons.delete)),
           ),
           separatorBuilder: (context, index) => Divider(),
         );

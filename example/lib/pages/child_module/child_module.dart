@@ -35,8 +35,8 @@ class ChildModule extends Module {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(child: Text('Page 01'), onPressed: () => Navigator.of(context).pushNamed('page01')),
-            RaisedButton(child: Text('Page 02'), onPressed: () => Navigator.of(context).pushNamed('page02'))
+            ElevatedButton(child: Text('Page 01'), onPressed: () => Navigator.of(context).pushNamed('page01')),
+            ElevatedButton(child: Text('Page 02'), onPressed: () => Navigator.of(context).pushNamed('page02'))
           ],
         ),
       ),
