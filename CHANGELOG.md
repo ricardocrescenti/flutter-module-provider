@@ -1,3 +1,7 @@
+## 2.4.0
+
+* Implemented `MapConsumer` and `MapProvider`
+
 ## 2.3.2
 
 * Fixed issues with `setValue` and `getValue` methods of `ValuesProvider`

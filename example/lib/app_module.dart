@@ -114,6 +114,33 @@ class AppModule extends Module {
 
     // dynamic teste = values.getValues();
 
+    // MapProvider values = MapProvider(
+    //   initialMap: {
+    //     '0': {
+    //       'aa': 'aa',
+    //       'bb': 'bb'
+    //     },
+    //     'a': 'a',
+    //     'b': ValueProvider(initialValue: 'b'),
+    //     'c': ['ca', {
+    //       "caa": "caa",
+    //       "cab": "cab"
+    //     }],
+    //     'd': ListProvider(initialItems: ['da', {
+    //       "daa": "daa",
+    //       "dab": "dab"
+    //     }], automaticConvertValuesToProvider: true),
+    //     'e': ValuesProvider({
+    //       'ea': 'ea',
+    //       'eb': ValueProvider(initialValue: 'eab'),
+    //       'ec': ['eca', 'ecb'],
+    //       'ed': ListProvider(initialItems: ['eda', 'edb']),
+    //     })
+    //   },
+    //   automaticConvertValuesToProvider: true
+    // );
+    // print(values);
+
     return ValueConsumer<bool>(
       provider: service<AppService>().darkMode,
       builder: (context, darkMode) {

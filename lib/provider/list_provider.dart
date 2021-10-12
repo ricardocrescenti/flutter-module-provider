@@ -32,6 +32,10 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   /// the list
   final bool automaticNotifyListeners;
 
+	/// Indicates whether the values informed in ListProvider should be automatically 
+  /// converted to other corresponding providers
+	final bool automaticConvertValuesToProvider;
+
   @override
   int get length {
     return _list.length;
@@ -49,7 +53,29 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   
   @override
   void operator []=(int index, E value) {
-    _executeOperation(() => _list[index] = value);
+    _executeOperation(() {
+
+			if (!automaticConvertValuesToProvider) {
+				_list[index] = value;
+			} else {
+				if (value is Map && !(value is MapProvider)) {
+					_list[index] = MapProvider(
+						initialMap: value, 
+						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
+				} else if (value is ValuesProvider) {
+					_list[index] = MapProvider(
+						initialMap: value.values, 
+						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
+				} else if (value is List && !(value is ListProvider)) {
+					_list[index] = ListProvider<E>(
+						initialItems: value as List<E>, 
+						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
+				} else {
+					_list[index] = value;
+				}
+			}
+
+    });
   }
 
   /// [ListProvider] default constructor.
@@ -58,7 +84,8 @@ class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
   /// use the parameter [initialItems].
   ListProvider({
     List<E> initialItems,
-    this.automaticNotifyListeners = true
+    this.automaticNotifyListeners = true,
+		this.automaticConvertValuesToProvider = false
   }) {
     if (initialItems != null) {
       addAll(initialItems);

@@ -1,5 +1,5 @@
 name: module_provider
-version: 2.3.2
+version: 2.4.0
 description: Package to make it easy to build applications in the module structure, with service injection, components and state management with providers.
 homepage: https://github.com/ricardocrescenti
 repository: https://github.com/ricardocrescenti/flutter-module-provider
@@ -13,12 +13,11 @@ dependencies:
     sdk: flutter
 
   useful_classes: ^2.0.0
-    # path: '..\flutter-useful-classes'
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.8.0
+  pedantic: ^1.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
