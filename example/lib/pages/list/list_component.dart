@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:module_provider/module_provider.dart';
 
 import 'list_controller.dart';
 
 class ListComponent extends Component<ListController> {
+  
+  /// Initializes [key] for subclasses.
+  ListComponent({ Key? key }) : super(key: key);
+
   @override
   initController(BuildContext context, Module module) => ListController(module);
 
@@ -19,11 +22,11 @@ class ListComponent extends Component<ListController> {
 
   _buildAppBar(ListController controller) {
     return AppBar(
-      title: Text('List Example'),
+      title: const Text('List Example'),
       centerTitle: true,
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh), 
+          icon: const Icon(Icons.refresh), 
           onPressed: () => controller.resetList())
       ],
     );
@@ -35,13 +38,13 @@ class ListComponent extends Component<ListController> {
       builder: (context, movies) {
 
         return ListView.separated(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           itemCount: movies.length,
           itemBuilder: (context, index) => ListTile(
-            title: Text(movies[index]),
-            trailing: TextButton(onPressed: () => movies.remove(movies[index]), child: Icon(Icons.delete)),
+            title: Text(movies[index]!),
+            trailing: TextButton(onPressed: () => movies.remove(movies[index]), child: const Icon(Icons.delete)),
           ),
-          separatorBuilder: (context, index) => Divider(),
+          separatorBuilder: (context, index) => const Divider(),
         );
 
       }
@@ -50,9 +53,9 @@ class ListComponent extends Component<ListController> {
 
   _buildAddButton(ListController controller) {
     return FloatingActionButton(
-      onPressed: () => controller.add('Movie ' + controller.movies.length.toString()),
+      onPressed: () => controller.add('Movie ${controller.movies.length}'),
       tooltip: 'Add movie',
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }

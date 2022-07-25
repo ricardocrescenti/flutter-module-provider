@@ -17,191 +17,188 @@ import 'package:module_provider/module_provider.dart';
 ///   'Total Recall'
 /// ]);
 /// ```
-class ListProvider<E> extends ChangeNotifier with ListMixin<E> {
+class ListProvider<E> extends ChangeNotifier with ListMixin<E?> {
 
-  /// List used to store the elements of [ListProvider]
-  final List<E> _list = [];
+	/// List used to store the elements of [ListProvider]
+	final List<E?> _list = [];
 
-  /// Indicates whether listeners should be notified when the list changes.
-  /// 
-  /// This variable is used by the [_executeOperation] method to control which
-  /// execution should notify existing users.
-  bool _canNotifyListeners = true;
+	/// Indicates whether listeners should be notified when the list changes.
+	/// 
+	/// This variable is used by the [_executeOperation] method to control which
+	/// execution should notify existing users.
+	bool _canNotifyListeners = true;
 
-  /// Indicates whether listeners should be notified automatically when changing 
-  /// the list
-  final bool automaticNotifyListeners;
+	/// Indicates whether listeners should be notified automatically when changing 
+	/// the list
+	final bool automaticNotifyListeners;
 
 	/// Indicates whether the values informed in ListProvider should be automatically 
-  /// converted to other corresponding providers
+	/// converted to other corresponding providers
 	final bool automaticConvertValuesToProvider;
 
-  @override
-  int get length {
-    return _list.length;
-  }
+	@override
+	int get length {
+		return _list.length;
+	}
 
-  @override
-  set length(int newLength) {
-    _list.length = newLength;
-  }
+	@override
+	set length(int newLength) {
+		_list.length = newLength;
+	}
 
-  @override
-  operator [](int index) {
-    return _list[index];
-  }
-  
-  @override
-  void operator []=(int index, E value) {
-    _executeOperation(() {
+	@override
+	operator [](int index) {
+		return _list[index];
+	}
+	
+	@override
+	void operator []=(int index, E? value) {
+		_executeOperation(() {
 
 			if (!automaticConvertValuesToProvider) {
 				_list[index] = value;
 			} else {
-				if (value is Map && !(value is MapProvider)) {
+				if (value is Map && value is! MapProvider) {
 					_list[index] = MapProvider(
 						initialMap: value, 
 						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
-				} else if (value is ValuesProvider) {
-					_list[index] = MapProvider(
-						initialMap: value.values, 
-						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
-				} else if (value is List && !(value is ListProvider)) {
+				} else if (value is List && value is! ListProvider) {
 					_list[index] = ListProvider<E>(
-						initialItems: value as List<E>, 
+						initialItems: value as List<E>?, 
 						automaticConvertValuesToProvider: automaticConvertValuesToProvider) as dynamic;
 				} else {
 					_list[index] = value;
 				}
 			}
 
-    });
-  }
+		});
+	}
 
-  /// [ListProvider] default constructor.
-  /// 
-  /// If you want to initialize [ListProvider] with a list of initial items, 
-  /// use the parameter [initialItems].
-  ListProvider({
-    List<E> initialItems,
-    this.automaticNotifyListeners = true,
+	/// [ListProvider] default constructor.
+	/// 
+	/// If you want to initialize [ListProvider] with a list of initial items, 
+	/// use the parameter [initialItems].
+	ListProvider({
+		List<E>? initialItems,
+		this.automaticNotifyListeners = true,
 		this.automaticConvertValuesToProvider = false
-  }) {
-    if (initialItems != null) {
-      addAll(initialItems);
-    }
-  }
+	}) {
+		if (initialItems != null) {
+			addAll(initialItems);
+		}
+	}
 
-  @override
-  void add(E element) {
-    _executeOperation(() => super.add(element));
-  }
+	@override
+	void add(E? element) {
+		_executeOperation(() => super.add(element));
+	}
 
-  @override
-  void addAll(Iterable<E> iterable) {
-    _executeOperation(() => super.addAll(iterable));
-  }
+	@override
+	void addAll(Iterable<E?> iterable) {
+		_executeOperation(() => super.addAll(iterable));
+	}
 
-  @override
-  void insert(int index, E element) {
-    _executeOperation(() => super.insert(index, element));
-  }
+	@override
+	void insert(int index, E? element) {
+		_executeOperation(() => super.insert(index, element));
+	}
 
-  @override
-  void insertAll(int index, Iterable<E> iterable) {
-    _executeOperation(() => super.insertAll(index, iterable));
-  }
+	@override
+	void insertAll(int index, Iterable<E?> iterable) {
+		_executeOperation(() => super.insertAll(index, iterable));
+	}
 
-  @override
-  void fillRange(int start, int end, [E fill]) {
-    _executeOperation(() => super.fillRange(start, end, fill));
-  }
+	@override
+	void fillRange(int start, int end, [E? fill]) {
+		_executeOperation(() => super.fillRange(start, end, fill));
+	}
 
-  @override
-  void setAll(int index, Iterable<E> iterable) {
-    _executeOperation(() => super.setAll(index, iterable));
-  }
+	@override
+	void setAll(int index, Iterable<E?> iterable) {
+		_executeOperation(() => super.setAll(index, iterable));
+	}
 
-  @override
-  void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
-    _executeOperation(() => super.setRange(start, end, iterable, skipCount));
-  }
+	@override
+	void setRange(int start, int end, Iterable<E?> iterable, [int skipCount = 0]) {
+		_executeOperation(() => super.setRange(start, end, iterable, skipCount));
+	}
 
-  @override
-  void replaceRange(int start, int end, Iterable<E> newContents) {
-    _executeOperation(() => super.replaceRange(start, end, newContents));
-  }
+	@override
+	void replaceRange(int start, int end, Iterable<E?> newContents) {
+		_executeOperation(() => super.replaceRange(start, end, newContents));
+	}
 
-  @override
-  bool remove(Object element) {
-    return _executeOperation(() => super.remove(element));
-  }
+	@override
+	bool remove(Object? element) {
+		return _executeOperation(() => super.remove(element));
+	}
 
-  @override
-  E removeAt(int index) {
-    return _executeOperation(() => super.removeAt(index));
-  }
+	@override
+	E? removeAt(int index) {
+		return _executeOperation(() => super.removeAt(index));
+	}
 
-  @override
-  E removeLast() {
-    return _executeOperation(() => super.removeLast());
-  }
+	@override
+	E? removeLast() {
+		return _executeOperation(() => super.removeLast());
+	}
 
-  @override
-  void removeRange(int start, int end) {
-    _executeOperation(() => super.removeRange(start, end));
-  }
+	@override
+	void removeRange(int start, int end) {
+		_executeOperation(() => super.removeRange(start, end));
+	}
 
-  @override
-  void removeWhere(bool Function(E element) test) {
-    _executeOperation(() => super.removeWhere(test));
-  }
+	@override
+	void removeWhere(bool Function(E? element) test) {
+		_executeOperation(() => super.removeWhere(test));
+	}
 
-  @override
-  void clear() {
-    _executeOperation(() => super.clear());
-  }
+	@override
+	void clear() {
+		_executeOperation(() => super.clear());
+	}
 
-  /// Removes all objects from this list; the length of the list becomes zero.
-  /// 
-  /// Throws an [UnsupportedError], and retains all objects, if this is a fixed-length list.
-  void clearAddAll(Iterable<E> iterable) {
-    _executeOperation(() {
-      super.clear();
-      super.addAll(iterable);
-    });
-  }
+	/// Removes all objects from this list; the length of the list becomes zero.
+	/// 
+	/// Throws an [UnsupportedError], and retains all objects, if this is a fixed-length list.
+	void clearAddAll(Iterable<E> iterable) {
+		_executeOperation(() {
+			super.clear();
+			super.addAll(iterable);
+		});
+	}
 
-  /// This method is used to perform the operations of all methods that modify
-  /// (insert, remove replace) the elements of [ListProvider].
-  /// 
-  /// Depending on the method used, it may be that he calls another internal method
-  /// to make the changes, such as the [addAll] method that receives a list of
-  /// objects, and internally executes the [add] method for each element, however
-  /// the notification of the listeners it should occur only after inserting all
-  /// the elements, and not every [add] executed.
-  dynamic _executeOperation(Function operation) {
-    bool canNotifyListeners = _canNotifyListeners;
-    if (canNotifyListeners) {
-      _canNotifyListeners = false;
-    }
+	/// This method is used to perform the operations of all methods that modify
+	/// (insert, remove replace) the elements of [ListProvider].
+	/// 
+	/// Depending on the method used, it may be that he calls another internal method
+	/// to make the changes, such as the [addAll] method that receives a list of
+	/// objects, and internally executes the [add] method for each element, however
+	/// the notification of the listeners it should occur only after inserting all
+	/// the elements, and not every [add] executed.
+	dynamic _executeOperation(Function operation) {
+		bool canNotifyListeners = _canNotifyListeners;
+		if (canNotifyListeners) {
+			_canNotifyListeners = false;
+		}
 
-    dynamic result = operation();
+		dynamic result = operation();
 
-    if (canNotifyListeners && automaticNotifyListeners) {
-      this.notifyListeners();
-    }
+		if (canNotifyListeners && automaticNotifyListeners) {
+			notifyListeners();
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  @override
-  void notifyListeners() {
-    _canNotifyListeners = true;
-    super.notifyListeners();
-  }
+	@override
+	void notifyListeners() {
+		_canNotifyListeners = true;
+		super.notifyListeners();
+	}
 
-  void forceNotifyListeners() {
-    notifyListeners();
-  }
+	void forceNotifyListeners() {
+		notifyListeners();
+	}
+
 }

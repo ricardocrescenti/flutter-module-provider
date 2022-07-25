@@ -17,6 +17,6 @@ class ModuleRoute extends ModuleRoutePattern {
 	ModuleRoute(String name, {
 		//this.canPush,
 		//this.canPop,
-		@required this.builder
+		required this.builder
 	}) : super(name);
 }

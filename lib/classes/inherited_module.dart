@@ -53,16 +53,18 @@ import 'package:module_provider/module_provider.dart';
 /// }
 /// ```
 class InheritedModule extends InheritedWidget {
-  
-  /// Module reference that will be passed on to descendants.
-  final Module module;
+	
+	/// Module reference that will be passed on to descendants.
+	final Module module;
 
-  /// Initialize [InheritedModule]
-  InheritedModule({
-    Key key, 
-    @required this.module, 
-    @required Widget child }) : super(key: key, child: child);
-    
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+	/// Initialize [InheritedModule]
+	const InheritedModule({
+		Key? key, 
+		required this.module, 
+		required Widget child 
+	}) : super(key: key, child: child);
+		
+	@override
+	bool updateShouldNotify(InheritedWidget oldWidget) => true;
+
 }

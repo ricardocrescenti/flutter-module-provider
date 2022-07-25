@@ -6,6 +6,6 @@ class AppService extends Service {
   AppService(Module module) : super(module);
 
   changeDarkMode() {
-    darkMode.value = !darkMode.value;
+    darkMode.value = !(darkMode.value ?? true);
   }
 }

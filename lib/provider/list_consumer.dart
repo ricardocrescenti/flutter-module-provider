@@ -31,22 +31,21 @@ import 'package:module_provider/module_provider.dart';
 /// );
 /// ```
 class ListConsumer<T> extends ConsumerPattern<ListProvider<T>, ListProvider<T>> {
-  
-  /// [ListProvider] instance that will provide the list.
-  final ListProvider<T> list;
 
-  /// Funtion to build the user interface represented by this consumer.
-  final Widget Function(BuildContext context, ListProvider<T> list) builder;
-  
-  /// ValueConsumer initializer
-  ListConsumer({
-    Key key, 
-    @required this.list, 
-    @required this.builder}) : super(key: key, provider: list, builder: builder);
+	/// [ListProvider] instance that will provide the list.
+	final ListProvider<T> list;
 
-  /// Get all items of [list]
-  @override
-  ListProvider<T> getValue(BuildContext context, ConsumerPatternState consumer) {
-    return this.list;
-  }
+	/// ValueConsumer initializer
+	const ListConsumer({
+		Key? key, 
+		required this.list, 
+		required Widget Function(BuildContext context, ListProvider<T> list) builder
+	}) : super(key: key, provider: list, builder: builder);
+
+	/// Get all items of [list]
+	@override
+	ListProvider<T> getValue(BuildContext context, ConsumerPatternState consumer) {
+		return list;
+	}
+
 }

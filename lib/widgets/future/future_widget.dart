@@ -7,34 +7,35 @@ import 'package:module_provider/module_provider.dart';
 /// Widget to implement loading in [Module] and [Component] when `intialize`
 /// is asynchronous.
 class FutureWidget<T> extends StatefulWidget {
-  final Future<T> Function(BuildContext context) future;
+  final Future<T>? Function(BuildContext context) future;
   final Widget Function(BuildContext context, T data) builder;
-  final Widget Function(BuildContext context) awaitWidget;
-  final Widget Function(BuildContext context, Object error) errorWidget;
+  final Widget Function(BuildContext context)? awaitWidget;
+  final Widget Function(BuildContext context, Object? error)? errorWidget;
   
   ///FutureWidget initializer
-  FutureWidget({
-    @required this.future,
-    @required this.builder,
+  const FutureWidget({
+    Key? key,
+    required this.future,
+    required this.builder,
     this.awaitWidget,
     this.errorWidget,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _FutureWidgetState<T>();
 }
 
 /// Class to maintain `FutureWidget` state
-class _FutureWidgetState<T> extends State<FutureWidget<T>> {
+class _FutureWidgetState<T> extends State<FutureWidget<T?>> {
   @override
   Widget build(BuildContext context) {
-    Future<T> future = widget.future(context);
+    Future<T?>? future = widget.future(context);
 
     if (future == null) {
       return widget.builder(context, null);
     }
 
-    return FutureBuilder<T>(
+    return FutureBuilder<T?>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,13 +51,13 @@ class _FutureWidgetState<T> extends State<FutureWidget<T>> {
 
   _buildAwaitWidget(BuildContext context) {
     return (widget.awaitWidget != null 
-      ? widget.awaitWidget(context) 
-      : FutureAwaitWidget());
+      ? widget.awaitWidget!(context) 
+      : const FutureAwaitWidget());
   }
 
-  _buildErrorWidget(BuildContext context, Object error) {
+  _buildErrorWidget(BuildContext context, Object? error) {
     return (widget.errorWidget != null 
-      ? widget.errorWidget(context, error) 
-      : FutureErrorWidget());
+      ? widget.errorWidget!(context, error) 
+      : const FutureErrorWidget());
   }
 }

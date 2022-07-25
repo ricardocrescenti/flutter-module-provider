@@ -1,8 +1,4 @@
-include: package:pedantic/analysis_options.1.8.0.yaml
-analyzer:
-  errors:
-    todo: ignore
-    unawaited_futures: ignore
+include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     - cancel_subscriptions
@@ -12,3 +8,7 @@ linter:
     - empty_statements
     - prefer_generic_function_type_aliases
     - prefer_typing_uninitialized_variables
+analyzer:
+  errors:
+    todo: ignore
+    unawaited_futures: ignore

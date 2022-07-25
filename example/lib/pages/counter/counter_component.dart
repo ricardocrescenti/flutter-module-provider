@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:module_provider/module_provider.dart';
 
 import 'counter_controller.dart';
 
 class CounterComponent extends Component<CounterController> {
+  
+  /// Initializes [key] for subclasses.
+  CounterComponent({ Key? key }) : super(key: key);
+
   @override
   initController(BuildContext context, Module module) => CounterController(module);
 
@@ -19,7 +22,7 @@ class CounterComponent extends Component<CounterController> {
 
   _buildAppBar() {
     return AppBar(
-      title: Text('Counter Example'),
+      title: const Text('Counter Example'),
       centerTitle: true,
     );
   }
@@ -29,12 +32,12 @@ class CounterComponent extends Component<CounterController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('You have pushed the button this many times:',),
+          const Text('You have pushed the button this many times:',),
           ValueConsumer<int>(
             provider: controller.counter,
             builder: (context, value) {
               return Text(
-                '${value}',
+                value.toString(),
                 style: Theme.of(context).textTheme.headline4,
               );
             }
@@ -48,7 +51,7 @@ class CounterComponent extends Component<CounterController> {
     return FloatingActionButton(
       onPressed: controller.increment,
       tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }

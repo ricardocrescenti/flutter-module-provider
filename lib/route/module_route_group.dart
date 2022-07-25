@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:module_provider/module_provider.dart';
 
 /// Class to create a route grouper.
@@ -18,6 +17,6 @@ class ModuleRouteGroup extends ModuleRoutePattern {
   final List<ModuleRoutePattern> routes;
 
   ModuleRouteGroup(String name, {
-    @required this.routes,
+    required this.routes,
   }) : super(name);
 }

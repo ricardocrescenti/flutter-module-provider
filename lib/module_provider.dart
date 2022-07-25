@@ -14,8 +14,6 @@ export 'provider/map_consumer.dart';
 export 'provider/map_provider.dart';
 export 'provider/value_consumer.dart';
 export 'provider/value_provider.dart';
-export 'provider/values_consumer.dart';
-export 'provider/values_provider.dart';
 
 export 'route/module_route.dart';
 export 'route/module_route_group.dart';

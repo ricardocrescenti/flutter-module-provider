@@ -13,41 +13,42 @@ import 'package:module_provider/module_provider.dart';
 /// ```
 class ValueProvider<T> extends ChangeNotifier {
 
-  /// Current value of [ValueProvider]
-  T _value;
+	/// Current value of [ValueProvider]
+	T? _value;
 
-  /// Get current value
-  T get value => _value;
-  /// Set new value
-  set value(T newValue) => setValue(newValue);
+	/// Get current value
+	T? get value => _value;
+	/// Set new value
+	set value(T? newValue) => setValue(newValue);
 
-  /// Checks whether the [ValueProvider] has value
-  bool get hasValue => value != null;
+	/// Checks whether the [ValueProvider] has value
+	bool get hasValue => value != null;
 
-  /// Indicates whether listeners should be notified automatically when changing 
-  /// the value
-  final bool automaticNotifyListeners;
+	/// Indicates whether listeners should be notified automatically when changing 
+	/// the value
+	final bool automaticNotifyListeners;
 
-  /// ValueProvider initializer
-  ValueProvider({
-    T initialValue, 
-    this.automaticNotifyListeners = true
-  }) {
-    value = initialValue;
-  }
+	/// ValueProvider initializer
+	ValueProvider({
+		T? initialValue, 
+		this.automaticNotifyListeners = true
+	}) {
+		value = initialValue;
+	}
 
-  /// Set new value
-  void setValue(T newValue) {
-    if (_value != newValue) {
-      _value = newValue;
+	/// Set new value
+	void setValue(T? newValue) {
+		if (_value != newValue) {
+			_value = newValue;
 
-      if (automaticNotifyListeners) {
-        notifyListeners();
-      }
-    }
-  }
+			if (automaticNotifyListeners) {
+				notifyListeners();
+			}
+		}
+	}
 
-  void forceNotifyListeners() {
-    notifyListeners();
-  }
+	void forceNotifyListeners() {
+		notifyListeners();
+	}
+
 }

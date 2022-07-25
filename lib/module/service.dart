@@ -25,28 +25,31 @@ import 'package:useful_classes/useful_classes.dart';
 /// ```
 abstract class Service with OnDispose {
 
-  /// Parent service module
-  final Module module;
+	/// Parent service module
+	final Module module;
 
-  /// List of [StreamSubscription] performed on the service, when discarding
-  /// the service, they are automatically canceled.
-  final List<StreamSubscription> streamsSubscriptions = [];
+	/// List of [StreamSubscription] performed on the service, when discarding
+	/// the service, they are automatically canceled.
+	final List<StreamSubscription> streamsSubscriptions = [];
 
-  /// Service initializer
-  Service(this.module) {
-    logger.log('Service ${this.runtimeType} initialized');
-  }
+	/// Service initializer
+	Service(this.module) {
+		logger.log('Service $runtimeType initialized');
+	}
 
-  /// This method is called when the [Module] is discarded. All StreamSubscription
-  /// will also be canceled.
-  @override
-  void dispose() {
-    
-    // cancel all streams subscriptions
-    streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
+	/// This method is called when the [Module] is discarded. All StreamSubscription
+	/// will also be canceled.
+	@override
+	void dispose() {
+		
+		// cancel all streams subscriptions
+		for (var subsctiption in streamsSubscriptions) {
+			subsctiption.cancel();
+		}
 
-    super.dispose();
-    
-    logger.log('Service ${this.runtimeType} disposed');
-  }
+		super.dispose();
+		
+		logger.log('Service $runtimeType disposed');
+	}
+
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 /// Default await widget used by `FutureWidget`
 class FutureAwaitWidget extends StatelessWidget {
-  const FutureAwaitWidget();
+  
+  /// Initializes [key] for subclasses.
+  const FutureAwaitWidget({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class FutureAwaitWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: const [
             CircularProgressIndicator()
           ]
         )

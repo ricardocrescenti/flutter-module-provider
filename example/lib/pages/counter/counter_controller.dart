@@ -6,6 +6,6 @@ class CounterController extends Controller {
   CounterController(Module module) : super(module);
 
   increment() {
-    counter.value++;
+    counter.value = (counter.value! + 1);
   }
 }

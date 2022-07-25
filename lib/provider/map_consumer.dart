@@ -33,22 +33,20 @@ import 'package:module_provider/module_provider.dart';
 /// );
 /// ```
 class MapConsumer<K,V> extends ConsumerPattern<MapProvider<K,V>, MapProvider<K,V>> {
-  
-  /// [MapProvider] instance that will provide the map.
-  final MapProvider<K,V> map;
+	
+	/// [MapProvider] instance that will provide the map.
+	final MapProvider<K,V> map;
+	
+	/// ValueConsumer initializer
+	const MapConsumer({
+		Key? key, 
+		required this.map, 
+		required Widget Function(BuildContext context, MapProvider<K,V> map) builder
+	}) : super(key: key, provider: map, builder: builder);
 
-  /// Funtion to build the user interface represented by this consumer.
-  final Widget Function(BuildContext context, MapProvider<K,V> map) builder;
-  
-  /// ValueConsumer initializer
-  MapConsumer({
-    Key key, 
-    @required this.map, 
-    @required this.builder}) : super(key: key, provider: map, builder: builder);
-
-  /// Get all items of [Map]
-  @override
-  MapProvider<K,V> getValue(BuildContext context, ConsumerPatternState consumer) {
-    return this.map;
-  }
+	/// Get all items of [Map]
+	@override
+	MapProvider<K,V> getValue(BuildContext context, ConsumerPatternState consumer) {
+		return map;
+	}
 }

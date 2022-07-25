@@ -1,3 +1,8 @@
+## 3.0.0
+
+* Implemented Null Safety
+* Removed the `ValuesProvider` and `ValuesConsumer` classes as they were replaced by `MapProvider` and `MapProvider` respectively.
+
 ## 2.4.0
 
 * Implemented `MapConsumer` and `MapProvider`

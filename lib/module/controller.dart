@@ -21,40 +21,43 @@ import 'package:useful_classes/useful_classes.dart';
 /// [Component].
 class Controller with OnDispose {
 
-  /// Parent module of controller and component
-  final Module module;
+	/// Parent module of controller and component
+	final Module module;
 
-  /// List of [StreamSubscription] performed on the controller, when discarding
-  /// the controller, they are automatically canceled.
-  final List<StreamSubscription> streamsSubscriptions = [];
+	/// List of [StreamSubscription] performed on the controller, when discarding
+	/// the controller, they are automatically canceled.
+	final List<StreamSubscription> streamsSubscriptions = [];
 
-  /// Initialize [Controller]
-  Controller(this.module) {
-    logger.log('Controller ${this.runtimeType} created');
-  }
+	/// Initialize [Controller]
+	Controller(this.module) {
+		logger.log('Controller $runtimeType created');
+	}
 
-  /// Controller initializer.
-  /// 
-  /// This method can be used to initialize something needed for your controller.
-  /// 
-  /// If you need to wait for something asynchronous, add `async` to the method,
-  /// the component will show loading until the future method will be completed. 
-  /// You can modify the loading of the component by overriding the 
-  /// [Component.buildFutureAwaitWidget] method.
-  /// 
-  /// This method is called only once at component startup.
-  initialize(BuildContext context) {}
+	/// Controller initializer.
+	/// 
+	/// This method can be used to initialize something needed for your controller.
+	/// 
+	/// If you need to wait for something asynchronous, add `async` to the method,
+	/// the component will show loading until the future method will be completed. 
+	/// You can modify the loading of the component by overriding the 
+	/// [Component.buildFutureAwaitWidget] method.
+	/// 
+	/// This method is called only once at component startup.
+	initialize(BuildContext context) {}
 
-  /// Called when the [Component] is discarded. All StreamSubscription will also 
-  /// be canceled.
-  @override
-  dispose() {
+	/// Called when the [Component] is discarded. All StreamSubscription will also 
+	/// be canceled.
+	@override
+	dispose() {
 
-    // cancel all streams subscriptions
-    streamsSubscriptions.forEach((subsctiption) => subsctiption.cancel());
+		// cancel all streams subscriptions
+		for (var subsctiption in streamsSubscriptions) {
+			subsctiption.cancel();
+		}
 
-    super.dispose();
-    
-    logger.log('Controller ${this.runtimeType} disposed');
-  }
+		super.dispose();
+		
+		logger.log('Controller $runtimeType disposed');
+	}
+
 }
